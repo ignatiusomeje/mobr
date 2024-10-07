@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.cdnfonts.com/css/square721-bt");
+
+/* :root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+} */
+
+/* @font-face {
+  font-family: "Square721 BT";
+  src: url("./fonts/SQR721B.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+} */
+
+@layer base {
+  /* @font-face {
+    font-family: square721 bt;
+    font-style: normal;
+    font-weight: 700;
+    src: local("Square721 BT"),
+      url(./fonts/SQR721B.woff) format("woff");
+  } */
+
+  /* @font-face {
+  font-family: "Square721 BT";
+  src: url("./fonts/SQR721B.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; */
+  /* } */
+}
+
+.p-icon-field {
+  width: 100%;
+}
+.p-overlaypanel-content {
+  padding: 0 !important;
+}
+
+.noScroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.p-fileupload-content > div:not([data-pc-section="root"]) {
+  @apply flex gap-2 flex-wrap;
+}
+
+.p-progressbar {
+  @apply hidden;
+}

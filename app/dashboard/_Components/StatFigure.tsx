@@ -1,0 +1,53 @@
+import { dashboardType } from "@/types/Dashboard";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import React from "react";
+import Card from "./Card";
+
+const StatFigure = ({ name, box, url, Totalbooking }: dashboardType) => {
+  return (
+    <div
+      className={`p-[12px] rounded-[16px] mt-9 min-w-[597px] w-full bg-[#F1F1F1]`}
+    >
+      <div className={`bg-[#E8E8E8] rounded-[12px] py-[16px] px-[20px] `}>
+        <div className={`flex justify-between items-center`}>
+          <h4
+            className={`font-[700] leading-[22px] tracking-[0.25px] text-[14px]`}
+          >
+            {name}
+          </h4>
+          <Link
+            href={url}
+            className={`no-underline flex gap-2 items-center justify-center font-square text-[14px] font-[400] leading-[22px] tracking-[0.25px]  border-b-[0.4px] border-b-[#E8E8E8] hover:border-b-[#C6C6C6] hover:rounded-b-sm pb-1`}
+          >
+            Detailed view <ArrowRight width={14} />
+          </Link>
+        </div>
+        <div className={`mt-5`}>
+          <p
+            className={`text-[#474747] font-inter text-[12px] font-[400] leading-[20px] tracking-[0.30000001192092896px]`}
+          >
+            Total bookings
+          </p>
+          <p
+            className={`text-[#222B2E] font-square text-[24px] font-[700] leading-[28.91px] tracking-[0.25px]`}
+          >
+            {Totalbooking}
+          </p>
+        </div>
+      </div>
+        <div className={`flex gap-2`}>
+          {box.map((bx) => (
+            <Card
+              color={bx.color}
+              name={bx.name}
+              total={bx.total}
+              key={bx.name}
+            />
+          ))}
+        </div>
+    </div>
+  );
+};
+
+export default StatFigure;
