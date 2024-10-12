@@ -35,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`text-[inter] ${inter.variable} ${square.variable} text-[#474747]`}>
+      <body className={`font-inter ${inter.variable} ${square.variable} text-[#474747]`}>
         <PrimeReactProvider>{children}</PrimeReactProvider>
       </body>
     </html>

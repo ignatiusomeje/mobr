@@ -14,7 +14,7 @@ const NavBar = ({ routeName }: { routeName: string }) => {
         {routeName.toUpperCase()}
       </h3>
       <div className="flex w-full justify-end gap-5  items-center">
-        {routeName !== "Dashboard" && <form action="" onSubmit={(e) => e.preventDefault()}>
+        {routeName !== "Dashboard" && routeName !== "Settings" && <form action="" onSubmit={(e) => e.preventDefault()}>
           <IconField className="border max-w-[300px] border-[#C6C6C6] w-full rounded-[20px] overflow-hidden">
             <InputIcon className="pi pi-search"></InputIcon>
             <InputText

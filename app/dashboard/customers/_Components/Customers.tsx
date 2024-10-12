@@ -1,13 +1,15 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { Button } from "primereact/button";
 import { CustomersType } from "@/types/Customers";
 import { dataSet } from "@/utils/data";
+import CustomerInfo from "./CustomerInfo";
 
 const Customers = () => {
   const options = useRef<OverlayPanel>(null);
+  const [visible, setVisible] = useState<boolean>(false);
   const data = dataSet;
 
   const statusSketch = (value: CustomersType) =>
@@ -42,6 +44,7 @@ const Customers = () => {
       >
         <a
           className={`text-[#222B2E] hover:bg-[#DDE4E6] hover:cursor-pointer block font-square text-[16px] font-[400] py-[10px] px-[12px]`}
+          onClick={()=>setVisible(true)}
         >
           View
         </a>
@@ -59,6 +62,7 @@ const Customers = () => {
       <DataTable
         value={data}
         rowHover={true}
+        onSelectionChange={()=> setVisible(true)}
         paginator
         rows={5}
         rowsPerPageOptions={[5, 10, 25, 50]}
@@ -97,6 +101,7 @@ const Customers = () => {
           body={actionSketch}
         ></Column>
       </DataTable>
+      <CustomerInfo visible={visible} setVisible={setVisible} />
     </div>
   );
 };

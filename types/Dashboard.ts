@@ -8,11 +8,9 @@ export type dashboardType = {
 type Box = {
   name: string;
   total: number;
-  color: string;
 };
 
 export type cardType = {
   name: string;
-  color: string;
   total: number;
 }

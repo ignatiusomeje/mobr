@@ -20,7 +20,7 @@ const VehicleCard = () => {
 
       <div className="flex justify-between">
         <div className={`max-w-[160px] w-full`}>
-          <h3 className={`text-[#303030] text-[inter] text-[14px] font-[600] `}>
+          <h3 className={`text-[#303030] font-inter text-[14px] font-[600] `}>
             HONDA ACCORD 2023
           </h3>
         </div>

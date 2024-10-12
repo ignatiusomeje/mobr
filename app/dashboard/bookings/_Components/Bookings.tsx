@@ -1,12 +1,14 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Booking } from "@/types/Bookings";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { Button } from "primereact/button";
 import { dataSet } from "@/utils/data";
+import BookingHistoryPop from "./BookingHistoryPop";
 
 const Bookings = () => {
+  const [visible, setVisible] = useState<boolean>(false)
   const options = useRef<OverlayPanel>(null);
   const data = dataSet
 
@@ -106,6 +108,7 @@ const Bookings = () => {
           body={actionSketch}
         ></Column>
       </DataTable>
+      <BookingHistoryPop visible={true || visible} setVisible={setVisible} />
     </div>
   );
 };

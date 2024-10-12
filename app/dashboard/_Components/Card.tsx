@@ -1,10 +1,20 @@
 import { cardType } from "@/types/Dashboard";
 import React from "react";
 
-const Card = ({ name, color, total }: cardType) => {
+const Card = ({ name, total }: cardType) => {
   return (
     <div
-      className={`bg-[${color}] w-full mt-4 min-w-[132px] py-[10px] px-[20px] rounded-[8px]`}
+      className={`${
+        name.toLowerCase() === "booked"
+          ? "bg-[#FFD5C9]"
+          : name.toLowerCase() === "pending"
+          ? "bg-[#DDE4E6]"
+          : name.toLowerCase() === "cancelled"
+          ? `bg-[#C6EBD7]`
+          : name.toLowerCase() === "unverified"
+          ? "bg-[#FFD5C9]"
+          : name.toLowerCase() === "verified" && `bg-[#C6EBD7]`
+      } w-full mt-4 min-w-[132px] py-[10px] px-[20px] rounded-[8px]`}
     >
       <p
         className={`text-[12px] font-[400] leading-[20px] tracking-[0.30000001192092896px] ${

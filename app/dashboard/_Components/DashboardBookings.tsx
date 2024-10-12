@@ -1,12 +1,12 @@
-import React, { useRef } from "react";
+import React from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Booking } from "@/types/Bookings";
-import { OverlayPanel } from "primereact/overlaypanel";
-import { Button } from "primereact/button";
+// import { OverlayPanel } from "primereact/overlaypanel";
+// import { Button } from "primereact/button";
 
 const DashboardBookings = () => {
-  const options = useRef<OverlayPanel>(null);
+  // const options = useRef<OverlayPanel>(null);
   const data = [
     {
       id: 1,
@@ -71,32 +71,32 @@ const DashboardBookings = () => {
       </span>
     );
 
-  const actionSketch = () => (
-    <div className="relative">
-      <Button
-        className={`focus:ring-0`}
-        icon="pi pi-ellipsis-v"
-        onClick={(e) => options?.current?.toggle(e)}
-      />
-      <OverlayPanel
-        ref={options}
-        closeOnEscape
-        dismissable={true}
-        className={` bg-[#F1F1F1]v max-w-[131px] w-full`}
-      >
-        <a
-          className={`text-[#222B2E] hover:bg-[#DDE4E6] hover:cursor-pointer block font-square text-[16px] font-[400] py-[10px] px-[12px]`}
-        >
-          View
-        </a>
-        <a
-          className={`text-[#8D1510] block hover:bg-[#DDE4E6] hover:cursor-pointer font-square text-[16px] font-[400] py-[10px] px-[12px]`}
-        >
-          Block
-        </a>
-      </OverlayPanel>
-    </div>
-  );
+  // const actionSketch = () => (
+  //   <div className="relative">
+  //     <Button
+  //       className={`focus:ring-0`}
+  //       icon="pi pi-ellipsis-v"
+  //       onClick={(e) => options?.current?.toggle(e)}
+  //     />
+  //     <OverlayPanel
+  //       ref={options}
+  //       closeOnEscape
+  //       dismissable={true}
+  //       className={` bg-[#F1F1F1]v max-w-[131px] w-full`}
+  //     >
+  //       <a
+  //         className={`text-[#222B2E] hover:bg-[#DDE4E6] hover:cursor-pointer block font-square text-[16px] font-[400] py-[10px] px-[12px]`}
+  //       >
+  //         View
+  //       </a>
+  //       <a
+  //         className={`text-[#8D1510] block hover:bg-[#DDE4E6] hover:cursor-pointer font-square text-[16px] font-[400] py-[10px] px-[12px]`}
+  //       >
+  //         Block
+  //       </a>
+  //     </OverlayPanel>
+  //   </div>
+  // );
 
   return (
     <div className={`gap-[12px]`}>
@@ -139,12 +139,12 @@ const DashboardBookings = () => {
           body={statusSketch}
           style={{ width: "5%" }}
         ></Column>
-        <Column
+        {/* <Column
           // field="representative.name"
           header="ACTION"
           style={{ width: "5%" }}
           body={actionSketch}
-        ></Column>
+        ></Column> */}
       </DataTable>
     </div>
   );

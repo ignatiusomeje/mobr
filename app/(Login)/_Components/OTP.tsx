@@ -6,7 +6,7 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { useRouter } from "next/navigation";
 
-const OTP = ({ visible, setVisible }: indexInput) => {
+const OTP = ({ visible, setVisible, otpFormik }: indexInput) => {
   const route = useRouter();
   return (
     <div className="card flex justify-content-center">
@@ -19,7 +19,6 @@ const OTP = ({ visible, setVisible }: indexInput) => {
           setVisible(false);
         }}
         content={({ hide }) => (
-          
           <div className="bg-white max-w-[520px] w-full p-[32px] rounded-[20px]">
             <h2
               className={`font-square text-[24px] font-[700] tracking-[-0.10000000149011612px]`}
@@ -32,15 +31,29 @@ const OTP = ({ visible, setVisible }: indexInput) => {
               An email containing a code has been sent to your email. Input the
               code in the field below.
             </p>
-            <form action="" onSubmit={(e) => e.preventDefault()}>
+            <form action="" onSubmit={otpFormik?.handleSubmit}>
               <div className="flex flex-col gap-2 mt-5">
                 <label htmlFor="email" className="flex">
                   Enter OTP <Asterisk color="red" width={14} />
                 </label>
                 <InputText
+                  id="otp"
+                  name="otp"
+                  value={otpFormik?.values.otp}
+                  onBlur={otpFormik?.handleBlur}
+                  onChange={otpFormik?.handleChange}
                   type="text"
                   variant="outlined"
-                  className="p-inputtext-sm py-[12px] focus:ring-0 px-[14px] rounded-[20px] border border-[#C6C6C6]"
+                  className={`${
+                    otpFormik?.values.otp &&
+                    otpFormik?.touched.otp &&
+                    !otpFormik?.errors.otp &&
+                    `bg-[#DDE4E6]`
+                  } ${
+                    otpFormik?.touched.otp &&
+                    otpFormik?.errors.otp &&
+                    `bg-[#FFD5C9]`
+                  } hover:border hover:border-[#474747] focus:border focus:border-[#474747] p-inputtext-sm py-[12px] focus:ring-0 px-[14px] rounded-[20px] border border-[#C6C6C6]`}
                   placeholder="Enter code"
                 />
               </div>
@@ -51,7 +64,7 @@ const OTP = ({ visible, setVisible }: indexInput) => {
                   hide(e);
                   route.push("/dashboard");
                 }}
-                className="bg-[#11975D] w-full rounded-[20px] focus:ring-0 mt-5 font-[400] text-[12px] font-square text-white py-[14px] px-[24px] hover:scale-105 flex items-center justify-center gap-2"
+                className="bg-[#11975D] w-full rounded-[20px] focus:ring-0 mt-5 font-[400] text-[12px] font-square text-white py-[14px] px-[24px] hover:bg-[#3A494F] flex items-center justify-center gap-2"
               >
                 VERIFY IT’S YOU <ArrowRight width={14} />
               </Button>

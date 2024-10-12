@@ -1,9 +1,10 @@
 import React from "react";
 import DashboardBookings from "./DashboardBookings";
-import { Button } from "primereact/button";
+// import { Button } from "primereact/button";
 import { ArrowRight } from "lucide-react";
 import StatFigure from "./StatFigure";
 import Chart from "./Chart";
+import Link from "next/link";
 
 const DashboardTemp = () => {
   return (
@@ -18,12 +19,10 @@ const DashboardTemp = () => {
               {
                 name: "verified",
                 total: 100,
-                color: "#C6EBD7",
               },
               {
                 name: "unverified",
                 total: 50,
-                color: "#FFD5C9",
               },
             ],
           },
@@ -35,17 +34,14 @@ const DashboardTemp = () => {
               {
                 name: "Booked",
                 total: 50,
-                color: "#C6EBD7",
               },
               {
                 name: "pending",
                 total: 30,
-                color: "#DDE4E6",
               },
               {
                 name: "cancelled",
                 total: 20,
-                color: "#FFD5C9",
               },
             ],
           },
@@ -73,11 +69,11 @@ const DashboardTemp = () => {
           >
             BOOKINGS
           </h3>
-          <Button
+          <Link href={`/dashboard/bookings`}
             className={`py-[10px] px-[18px] border border-[#11975D] rounded-[20px] font-square text-[12px] font-[400] tracking-[0.30000001192092896px] leading-[16px] text-[#11975D] flex items-center justify-center gap-2`}
           >
             VIEW ALL <ArrowRight width={14} />
-          </Button>
+          </Link>
         </div>
         <DashboardBookings />
       </div>

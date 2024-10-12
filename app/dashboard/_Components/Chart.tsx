@@ -8,7 +8,6 @@ const ChartSec = ({ name }: { name: string }) => {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov","Dec"],
     datasets: [
       {
-        // label: "Sales",
         data: [230, 255, 100, 255, 130,250,350,375,230, 110,150,130],
         backgroundColor: [
           "rgba(198, 235, 215, 1)",
@@ -56,7 +55,7 @@ const ChartSec = ({ name }: { name: string }) => {
           optionLabel="year"
           // showClear
           placeholder="Select year"
-          className={`rounded-[16px] border border-[#C6C6C6] focus:ring-0 .py-[12px] .px-[14px] `}
+          className={`rounded-[16px] hover:border hover:border-[#474747] focus:border focus:border-[#474747] border border-[#C6C6C6] focus-within:ring-0 .py-[12px] .px-[14px] `}
         />
       </div>
 

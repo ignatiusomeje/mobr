@@ -23,13 +23,13 @@ const VehicleCard = () => {
 
       <div className="flex justify-between">
         <div className={`max-w-[160px] w-full`}>
-          <h3 className={`text-[#303030] text-[inter] text-[14px] font-[600] `}>
+          <h3 className={`text-[#303030] font-inter text-[14px] font-[600] `}>
             HONDA ACCORD 2023
           </h3>
           <p className={`flex items-center gap-2`}>
             <CircleGauge width={14} />{" "}
             <span
-              className={`text-[#303030] text-[inter] text-[12px] font-[400]`}
+              className={`text-[#303030] font-inter text-[12px] font-[400]`}
             >
               Auto
             </span>
@@ -45,7 +45,7 @@ const VehicleCard = () => {
         </p>
       </div>
 
-      <div className={`flex gap-2 w-full justify-between`}>
+      <div className={`flex gap-2 mt-[16px] w-full justify-between`}>
         <Button
           outlined
           className={`border border-[#8D1510] text-[#8D1510] py-[8px] px-[14px] rounded-[12px] text-[10px] font-[400] font-square w-[125px] flex justify-center items-center gap-3`}

@@ -73,3 +73,9 @@ body {
 .p-progressbar {
   @apply hidden;
 }
+/* [data-p-highlight="true"]{
+
+} */
+ .p-galleria-indicator.p-highlight{
+  @apply bg-[#C6EBD7]
+ }

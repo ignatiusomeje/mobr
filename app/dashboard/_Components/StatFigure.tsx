@@ -18,7 +18,7 @@ const StatFigure = ({ name, box, url, Totalbooking }: dashboardType) => {
           </h4>
           <Link
             href={url}
-            className={`no-underline flex gap-2 items-center justify-center font-square text-[14px] font-[400] leading-[22px] tracking-[0.25px]  border-b-[0.4px] border-b-[#E8E8E8] hover:border-b-[#C6C6C6] hover:rounded-b-sm pb-1`}
+            className={`no-underline flex gap-2 items-center justify-center font-square text-[14px] font-[400] leading-[22px] tracking-[0.25px]  border-b border-b-[#E8E8E8] hover:border-b-[#222B2E] hover:rounded-b-sm pb-[0.4px]`}
           >
             Detailed view <ArrowRight width={14} />
           </Link>
@@ -39,7 +39,6 @@ const StatFigure = ({ name, box, url, Totalbooking }: dashboardType) => {
         <div className={`flex gap-2`}>
           {box.map((bx) => (
             <Card
-              color={bx.color}
               name={bx.name}
               total={bx.total}
               key={bx.name}
