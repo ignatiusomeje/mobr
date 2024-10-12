@@ -8,7 +8,7 @@ const VehicleCard = () => {
     <div
       className={`max-w-[300px] bg-[#F9F9F9] border border-[#E2E2E2] rounded-[12px] w-full py-[16px] px-[18px]`}
     >
-      <div className="h-[140px] max-w-[260px] w-full rounded-[8px] relative mb-2">
+      <div className="h-[140px] max-w-[260px] overflow-hidden w-full rounded-[8px] relative mb-2">
         <Image
           src="/images/acura.svg"
           alt="vehicle name"
