@@ -1,11 +1,17 @@
-import { indexInput } from "@/types/indexPage";
+// import { indexInput } from "@/types/indexPage";
 import { X } from "lucide-react";
 import { Dialog } from "primereact/dialog";
 import React from "react";
 import UserInfo from "./UserInfo";
 import CarInfo from "./CarInfo";
 
-const BookingHistoryPop = ({ visible, setVisible }: indexInput) => {
+const BookingHistoryPop = ({
+  visible,
+  setVisible,
+}: {
+  visible: boolean;
+  setVisible: (e: boolean) => void;
+}) => {
   return (
     <Dialog
       visible={false}
@@ -33,7 +39,9 @@ const BookingHistoryPop = ({ visible, setVisible }: indexInput) => {
               onClick={(e) => hide(e)}
             />
           </div>
-          <div className={`flex gap-[40px] flex-grow flex-1 overflow-y-scroll noScroll`}>
+          <div
+            className={`flex gap-[40px] flex-grow flex-1 overflow-y-scroll noScroll`}
+          >
             <CarInfo />
             <UserInfo />
           </div>

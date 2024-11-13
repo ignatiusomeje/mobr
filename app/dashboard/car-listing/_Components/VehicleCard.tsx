@@ -6,9 +6,9 @@ import React from "react";
 const VehicleCard = () => {
   return (
     <div
-      className={`max-w-[300px] bg-[#F9F9F9] border border-[#E2E2E2] rounded-[12px] w-full py-[16px] px-[18px]`}
+      className={`.max-w-[300px] hover:border-2 hover:border-[#C6C6C6] bg-[#F9F9F9] border-2 border-[#E2E2E2] rounded-[12px] w-full py-[16px] px-[18px] vehicleCard`}
     >
-      <div className="h-[140px] max-w-[260px] overflow-hidden w-full rounded-[8px] relative mb-2">
+      <div className="h-[140px] .max-w-[260px] overflow-hidden w-full rounded-[8px] relative mb-2">
         <Image
           src="/images/acura.svg"
           alt="vehicle name"
@@ -22,7 +22,7 @@ const VehicleCard = () => {
       </div>
 
       <div className="flex justify-between">
-        <div className={`max-w-[160px] w-full`}>
+        <div className={`.max-w-[160px] w-full`}>
           <h3 className={`text-[#303030] font-inter text-[14px] font-[600] `}>
             HONDA ACCORD 2023
           </h3>
@@ -48,12 +48,12 @@ const VehicleCard = () => {
       <div className={`flex gap-2 mt-[16px] w-full justify-between`}>
         <Button
           outlined
-          className={`border border-[#8D1510] text-[#8D1510] py-[8px] px-[14px] rounded-[12px] text-[10px] font-[400] font-square w-[125px] flex justify-center items-center gap-3`}
+          className={`border border-[#8D1510] text-[#8D1510] py-[8px] px-[14px] rounded-[12px] text-[10px] font-[400] font-square w-full .w-[125px] flex justify-center items-center gap-3`}
         >
           DELETE <X width={14} />
         </Button>
         <Button
-          className={`border bg-[#11975D] text-white w-[125px] py-[8px] px-[14px] rounded-[12px] text-[10px] font-[400] font-square flex justify-center items-center gap-3`}
+          className={`btnChange border bg-[#11975D] text-white w-full .w-[125px] py-[8px] px-[14px] rounded-[12px] text-[10px] font-[400] font-square flex justify-center items-center gap-3`}
         >
           EDIT
           <PencilLine width={14} />

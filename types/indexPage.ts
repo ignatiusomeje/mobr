@@ -1,12 +1,15 @@
-import { FormikProps } from "formik"
-import { Dispatch, SetStateAction } from "react"
+import { FormikProps } from "formik";
+// import { Dispatch, SetStateAction } from "react";
 
-type otp = {
-  otp:string
-}
+export type otp = {
+  email: string;
+  otp: number;
+};
 
 export type indexInput = {
-  visible: boolean,
-  setVisible:Dispatch<SetStateAction<boolean>>,
-  otpFormik?: FormikProps<otp>
-}
+  visible: boolean;
+  setVisible: (e: boolean) => void;
+  otpFormik: FormikProps<otp>;
+  loginOtpLoading: boolean;
+  loginOtpError: string;
+};

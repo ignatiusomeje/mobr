@@ -47,7 +47,7 @@ const ChartSec = ({ name }: { name: string }) => {
   return (
     <div className={` flex flex-col gap-[20px] p-[12px] min-w-[559px] w-full bg-[#F1F1F1]`}>
       <div className="flex justify-between items-center gap-[12px]">
-        <h4 className={`font-inter font-[700] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B2E35]`}>{name.toUpperCase()}</h4>
+        <h4 className={`font-inter uppercase font-[700] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B2E35]`}>{name}</h4>
         <Dropdown
           value={""}
           // onChange={(e) => ""}

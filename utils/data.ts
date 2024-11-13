@@ -160,3 +160,41 @@ export const dataSet = [
     status: "cancelled",
   },
 ];
+
+
+export const dashboardTempData = [
+  {
+    name: "CUSTOMERS STATISTIC",
+    url: "/dashboard/customers",
+    Totalbooking: 150,
+    box: [
+      {
+        name: "verified",
+        total: 100,
+      },
+      {
+        name: "unverified",
+        total: 50,
+      },
+    ],
+  },
+  {
+    name: "CAR BOOKINGS STATISTIC",
+    url: "/dashboard/bookings",
+    Totalbooking: 100,
+    box: [
+      {
+        name: "Booked",
+        total: 50,
+      },
+      {
+        name: "pending",
+        total: 30,
+      },
+      {
+        name: "cancelled",
+        total: 20,
+      },
+    ],
+  },
+]

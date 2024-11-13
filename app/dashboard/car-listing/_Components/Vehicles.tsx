@@ -1,10 +1,11 @@
 import React from "react";
 import VehicleCard from "./VehicleCard";
+import { VehiclesData } from "@/types/carlisting";
 
-const Vehicles = () => {
+const Vehicles = ({ vehicles }: VehiclesData) => {
   return (
-    <div className={`grid grid-cols-4 gap-[12px]`}>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((vehicle) => (
+    <div className={`grid grid-cols-4 xl:grid-cols-5 gap-[12px]`}>
+      {vehicles.map((vehicle) => (
         <VehicleCard key={vehicle} />
       ))}
     </div>

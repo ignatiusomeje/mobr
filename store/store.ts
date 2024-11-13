@@ -1,0 +1,51 @@
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query";
+import {
+  persistReducer,
+  persistStore,
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from "redux-persist";
+import { AccountAPI } from "./AccountAPI";
+import { CarAPI } from "./CarAPI";
+import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
+import storage from "redux-persist/lib/storage";
+import LoginAdminSlice from "./../app/(Login)/_Data/LoginSlice";
+
+const persistConfig = {
+  key: "MOBR",
+  storage,
+  autoMergeLevel2,
+  blacklist: [AccountAPI.reducerPath, CarAPI.reducerPath],
+};
+
+const rootReducer = combineReducers({
+  login: LoginAdminSlice,
+  [AccountAPI.reducerPath]: AccountAPI.reducer,
+  [CarAPI.reducerPath]: CarAPI.reducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(AccountAPI.middleware, CarAPI.middleware),
+});
+
+setupListeners(store.dispatch);
+
+export const persistor = persistStore(store);
+console.log(persistor, "persist");
+
+export type AppStore = typeof store;
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];

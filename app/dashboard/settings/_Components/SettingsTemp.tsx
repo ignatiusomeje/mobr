@@ -3,9 +3,10 @@ import Tab from "./Tab";
 import AccountTab from "./AccountTab";
 import BenefitsTab from "./BenefitsTab";
 
-const SettingsTemp = () => {
+const SettingsTemp = ({email}:{email:string}) => {
   const [value, setValue] = useState<string>("");
   const [selected, setSelected] = useState<string>("Account");
+
   return (
     <div
       className={`h-full flex-grow flex-1 gap-[28px] flex flex-col overflow-y-scroll noScroll py-[18px] px-[20px]`}
@@ -17,7 +18,7 @@ const SettingsTemp = () => {
           
         )}
       </div>
-      {selected === "Account" ? <AccountTab setValue={setValue} value={value} /> : <BenefitsTab /> }
+      {selected === "Account" ? <AccountTab email={email} setValue={setValue} value={value} /> : <BenefitsTab /> }
     </div>
   );
 };

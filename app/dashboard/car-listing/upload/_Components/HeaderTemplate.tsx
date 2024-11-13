@@ -2,11 +2,10 @@ import { ArrowLeft } from "lucide-react";
 import React, { useState } from "react";
 import BackDialog from "./BackDialog";
 
-const HeaderTemplate = () => {
+const HeaderTemplate = ({total}:{total:number}) => {
   const [visible, setVisible] = useState<boolean>(false)
-  const num =14;
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-5">
       <p
         className={`text-[#11975D] flex items-center gap-3 font-square text-[14px] font-[700] leading-[22px] tracking-[0.25px]`}
       >
@@ -15,7 +14,7 @@ const HeaderTemplate = () => {
       <p
         className={`text-[#777777] font-inter text-[14px] font-[600] leading-[22px] tracking-[0.25px]`}
       >
-        ADD VEHICLE IMAGES (<span>{num} images</span>)
+        ADD VEHICLE IMAGES {total !== 0 && (<span>{total} images added</span>)}
       </p>
       <BackDialog visible={visible} setVisible={setVisible} />
     </div>

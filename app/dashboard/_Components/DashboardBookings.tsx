@@ -2,53 +2,10 @@ import React from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Booking } from "@/types/Bookings";
-// import { OverlayPanel } from "primereact/overlaypanel";
-// import { Button } from "primereact/button";
+import { dataSet } from "@/utils/data";
 
 const DashboardBookings = () => {
-  // const options = useRef<OverlayPanel>(null);
-  const data = [
-    {
-      id: 1,
-      start: Date.now().toString(),
-      return: Date.now().toString(),
-      vehicleId: "MB3456788",
-      customer: "Ogechi Helen",
-      phone: `(+234) 7065432953`,
-      email: `sample@gmail.com`,
-      status: "booked",
-    },
-    {
-      id: 2,
-      start: Date.now().toString(),
-      return: Date.now().toString(),
-      vehicleId: "MB3456788",
-      customer: "Ogechi Helen",
-      phone: `(+234) 7065432953`,
-      email: `sample@gmail.com`,
-      status: "abandoned",
-    },
-    {
-      id: 3,
-      start: Date.now().toString(),
-      return: Date.now().toString(),
-      vehicleId: "MB3456788",
-      customer: "Ogechi Helen",
-      phone: `(+234) 7065432953`,
-      email: `sample@gmail.com`,
-      status: "booked",
-    },
-    {
-      id: 4,
-      start: Date.now().toString(),
-      return: Date.now().toString(),
-      vehicleId: "MB3456788",
-      customer: "Ogechi Helen",
-      phone: `(+234) 7065432953`,
-      email: `sample@gmail.com`,
-      status: "cancelled",
-    },
-  ];
+  const data = dataSet
 
   const statusSketch = (value: Booking) =>
     value.status === "booked" ? (
@@ -71,43 +28,13 @@ const DashboardBookings = () => {
       </span>
     );
 
-  // const actionSketch = () => (
-  //   <div className="relative">
-  //     <Button
-  //       className={`focus:ring-0`}
-  //       icon="pi pi-ellipsis-v"
-  //       onClick={(e) => options?.current?.toggle(e)}
-  //     />
-  //     <OverlayPanel
-  //       ref={options}
-  //       closeOnEscape
-  //       dismissable={true}
-  //       className={` bg-[#F1F1F1]v max-w-[131px] w-full`}
-  //     >
-  //       <a
-  //         className={`text-[#222B2E] hover:bg-[#DDE4E6] hover:cursor-pointer block font-square text-[16px] font-[400] py-[10px] px-[12px]`}
-  //       >
-  //         View
-  //       </a>
-  //       <a
-  //         className={`text-[#8D1510] block hover:bg-[#DDE4E6] hover:cursor-pointer font-square text-[16px] font-[400] py-[10px] px-[12px]`}
-  //       >
-  //         Block
-  //       </a>
-  //     </OverlayPanel>
-  //   </div>
-  // );
-
   return (
     <div className={`gap-[12px]`}>
       <DataTable
         value={data}
-        // rowHover={true}
-        // paginator
         rows={5}
-        rowsPerPageOptions={[5, 10, 25, 50]}
+        rowsPerPageOptions={[10]}
         tableStyle={{ minWidth: "50rem" }}
-        // selectionMode="single"
       >
         <Column field="id" header="#" style={{ width: "5%" }}></Column>
         <Column

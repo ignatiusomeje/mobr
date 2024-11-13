@@ -21,9 +21,9 @@ const Card = ({ name, total }: cardType) => {
           (name.toLowerCase() === "unverified" ||
             name.toLowerCase() === "cancelled") &&
           `text-[#8D1510]`
-        } font-inter`}
+        } font-inter uppercase`}
       >
-        {name.toUpperCase()}
+        {name}
       </p>
       <p
         className={`text-[16px] mt-3 font-[700] leading-[24px] tracking-[0.25px] font-square ${

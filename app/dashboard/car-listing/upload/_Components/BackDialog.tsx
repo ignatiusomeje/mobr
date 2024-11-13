@@ -1,10 +1,11 @@
-import { indexInput } from "@/types/indexPage";
+// import { indexInput } from "@/types/indexPage";
 import { Button } from "primereact/button";
 // import { Button } from 'primereact/button';
 import { Dialog } from "primereact/dialog";
 import React from "react";
 
-const BackDialog = ({ visible, setVisible }: indexInput) => {
+const BackDialog = ({ visible, setVisible }: {visible: boolean;
+  setVisible: (e: boolean) => void;}) => {
   return (
     // <div className=".card .flex .justify-content-center">
     <Dialog

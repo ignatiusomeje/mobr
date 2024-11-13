@@ -3,14 +3,36 @@ import { ArrowRight, Asterisk } from "lucide-react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import OTP from "./_Components/OTP";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useLoginAdminMutation, useLoginOtpMutation } from "./_Data/LoginApi";
+import { Toast } from "primereact/toast";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { clearLoginError, setEmail } from "./_Data/LoginSlice";
+import { useRouter } from "next/navigation";
+// import { otp } from "@/types/indexPage";
 
 export default function Home() {
   // const [value, setValue] = useState<string>("");
+  const router = useRouter();
+  const toast = useRef<Toast>(null);
   const [visible, setVisible] = useState(false);
+  const [loginAdminMutation] = useLoginAdminMutation();
+  const [loginOtpMutation] = useLoginOtpMutation();
+  const dispatch = useAppDispatch();
+  const loginAdminError = useAppSelector(
+    (state) => state.login.loginAdminError
+  );
+  const loginEmail = useAppSelector((state) => state.login.loginEmail);
+  const loginAdminLoading = useAppSelector(
+    (state) => state.login.loginAdminLoading
+  );
+  const loginOtpError = useAppSelector((state) => state.login.loginOtpError);
+  const loginOtpLoading = useAppSelector(
+    (state) => state.login.loginOtpLoading
+  );
 
   const loginSchema = yup.object().shape({
     email: yup.string().email().trim().required(),
@@ -25,23 +47,72 @@ export default function Home() {
     initialValues: {
       email: "",
       password: "",
+      isAdmin: true,
     },
     validationSchema: loginSchema,
     enableReinitialize: true,
-    onSubmit: () => {},
+    onSubmit: (values) => {
+      loginAdminMutation(values)
+        .unwrap()
+        .then(() => {
+          dispatch(setEmail(values.email));
+          setVisible(true);
+        });
+      console.log(values);
+    },
   });
 
   const otpFormik = useFormik({
     initialValues: {
-      otp: "",
+      email: loginEmail,
+      otp: 0,
     },
     validationSchema: otpSchema,
     enableReinitialize: true,
-    onSubmit: () => {},
+    onSubmit: (values) => {
+      // const { email, otp } = values;
+
+      // const newOtp = otp;
+      // console.log({ email, otp: newOtp });
+      loginOtpMutation(values)
+        .unwrap()
+        .then(() => {
+          setVisible(false);
+          showSuccess();
+          router.push("/dashboard");
+        });
+    },
   });
+
+  const showError = (message: string) => {
+    toast.current?.show({
+      severity: "error",
+      summary: "Error",
+      detail: message,
+      life: 3000,
+    });
+  };
+
+  const showSuccess = () => {
+    toast.current?.show({
+      severity: "success",
+      summary: "Success",
+      detail: "Welcome Admin",
+      life: 3000,
+    });
+  };
+
+  if (loginOtpError) {
+    showError(loginOtpError);
+    dispatch(clearLoginError());
+  } else if (loginAdminError) {
+    showError(loginAdminError);
+    dispatch(clearLoginError());
+  }
 
   return (
     <div className="w-100 h-screen flex justify-center items-center">
+      <Toast ref={toast} />
       <div className="max-w-[540Px] flex flex-col gap-[22px] w-full text-center">
         <h1 className="font-square text-[32px] font-[700] leading-8 text-[#11975D]">
           MOBR
@@ -80,9 +151,10 @@ export default function Home() {
                 !loginFormik.errors.email &&
                 `bg-[#DDE4E6]`
               } ${
-                loginFormik.touched.email &&
-                loginFormik.errors.email &&
-                `bg-[#FFD5C9]`
+                (loginFormik.touched.email && loginFormik.errors.email) ||
+                loginAdminError !== ""
+                  ? `bg-[#FFD5C9]`
+                  : ``
               } hover:border hover:border-[#474747] focus:border focus:border-[#474747] focus:ring-0 px-[14px] rounded-[20px] border border-[#C6C6C6]`}
               placeholder="Enter your email"
             />
@@ -107,8 +179,9 @@ export default function Home() {
                 !loginFormik.errors.password &&
                 `bg-[#DDE4E6]`
               } ${
-                loginFormik.touched.password &&
-                loginFormik.errors.password &&
+                ((loginFormik.touched.password &&
+                  loginFormik.errors.password) ||
+                  loginAdminError !== "") &&
                 `bg-[#FFD5C9]`
               } px-[14px] rounded-[20px]`}
               toggleMask
@@ -123,8 +196,8 @@ export default function Home() {
           </div>
 
           <Button
-            // loading={true}
-            onClick={() => setVisible(true)}
+            loading={loginAdminLoading}
+            // onClick={() => setVisible(true)}
             className="bg-[#11975D] rounded-[20px] focus:ring-0 mt-4 font-[400] text-[12px] font-square text-white py-[14px] px-[24px] hover:bg-[#3A494F] flex items-center justify-center gap-2"
           >
             LOG INTO YOUR ACCOUNT <ArrowRight width={14} />
@@ -132,7 +205,9 @@ export default function Home() {
           <OTP
             otpFormik={otpFormik}
             visible={visible}
-            setVisible={setVisible}
+            loginOtpError={loginOtpError}
+            loginOtpLoading={loginOtpLoading}
+            setVisible={(e) => setVisible(e)}
           />
         </form>
       </div>

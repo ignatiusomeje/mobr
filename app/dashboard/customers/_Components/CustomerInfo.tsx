@@ -1,10 +1,16 @@
-import { indexInput } from "@/types/indexPage";
+// import { indexInput } from "@/types/indexPage";
 import { X } from "lucide-react";
 import Image from "next/image";
 import { Dialog } from "primereact/dialog";
 import React from "react";
 
-const CustomerInfo = ({ visible, setVisible }: indexInput) => {
+const CustomerInfo = ({
+  visible,
+  setVisible,
+}: {
+  visible: boolean;
+  setVisible: (e: boolean) => void;
+}) => {
   return (
     <Dialog
       visible={visible}
