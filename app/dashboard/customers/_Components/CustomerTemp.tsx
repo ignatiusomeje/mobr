@@ -3,13 +3,23 @@ import Tab from "./Tab";
 import Customers from "./Customers";
 import CustomersLoader from "./CustomersLoader";
 import { Skeleton } from "primereact/skeleton";
+import { customerType } from "../_types/CustomerTypes";
 
-const CustomerTemp = () => {
+const CustomerTemp = ({
+  customers,
+  customer,
+  getAllCustomersLoading,
+  tab,
+  setTab,
+  showOneCustomer,
+  closeShowOneCustomer,
+  showPopUp
+}: customerType) => {
   return (
     <div
       className={`h-full flex-grow flex-1 overflow-y-scroll noScroll py-[18px] px-[20px]`}
     >
-      {true ? (
+      {getAllCustomersLoading ? (
         <div className="flex gap-5">
           {[1, 2, 3].map((btn) => (
             <Skeleton width="100px" height="37px" key={btn} />
@@ -21,22 +31,23 @@ const CustomerTemp = () => {
             { name: "All" },
             { name: "Verified", number: 100 },
             { name: "Unverified", number: 50 },
-          ].map((btn, index) =>
-            index === 0 ? (
-              <Tab key={btn.name} name={btn.name} selected={true} />
-            ) : (
-              <Tab
-                key={btn.name}
-                name={btn.name}
-                number={btn.number}
-                selected={false}
-              />
-            )
-          )}
+          ].map((btn) => (
+            <Tab tab={tab} key={btn.name} name={btn.name} setTab={setTab} />
+          ))}
         </div>
       )}
       <div className={`flex flex-col gap-[24px] mt-5`}>
-        {true ? <CustomersLoader /> : <Customers />}
+        {getAllCustomersLoading ? (
+          <CustomersLoader />
+        ) : (
+          <Customers
+            showOneCustomer={showOneCustomer}
+            closeShowOneCustomer={closeShowOneCustomer}
+            customers={customers}
+            customer={customer}
+            showPopUp={showPopUp}
+          />
+        )}
       </div>
     </div>
   );

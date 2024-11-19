@@ -1,13 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { loginAdmin, loginOtp } from "./LoginApi";
-import { adminInitialState, otpResponseType } from "../_types/loginTypes";
+import { changePassword, loginAdmin, loginOtp } from "./LoginApi";
+import {
+  adminInitialState,
+  loginResponseType,
+  otpResponseType,
+} from "../_types/loginTypes";
 import { returnError } from "@/store/ErrorHandler";
 
 const initialState: adminInitialState = {
   loginAdminLoading: false,
   loginAdminError: "",
   loginOtpLoading: false,
+  changePasswordError: "",
+  changePasswordLoading: false,
   loginOtpError: "",
   loginEmail: "",
   admin: {
@@ -19,6 +25,7 @@ const initialState: adminInitialState = {
     updated: undefined,
     isVerified: false,
     jwtToken: "",
+    refreshToken: "",
   },
 };
 const LoginAdminSlice = createSlice({
@@ -28,6 +35,17 @@ const LoginAdminSlice = createSlice({
     clearLoginError: (state) => {
       state.loginAdminError = "";
       state.loginOtpError = "";
+      state.changePasswordError = "";
+    },
+
+    setToken: (state, action: PayloadAction<loginResponseType>) => {
+      if (state.admin) {
+        state.admin.jwtToken = action.payload.jwtToken;
+      }
+    },
+
+    clearToken: (state) => {
+      state.admin.jwtToken = "";
     },
 
     setEmail: (state, action: PayloadAction<string>) => {
@@ -76,6 +94,7 @@ const LoginAdminSlice = createSlice({
         state.admin.jwtToken = action.payload.jwtToken;
         state.admin.role = action.payload.role;
         state.admin.updated = action.payload.updated;
+        state.admin.refreshToken = action.payload.refreshToken;
       }
     );
 
@@ -91,10 +110,31 @@ const LoginAdminSlice = createSlice({
         state.loginOtpError = returnError(action);
       }
     );
+
+    builder.addMatcher(changePassword.matchPending, (state) => {
+      state.changePasswordLoading = true;
+    });
+
+    builder.addMatcher(changePassword.matchFulfilled, (state) => {
+      state.changePasswordLoading = false;
+    });
+
+    builder.addMatcher(
+      changePassword.matchRejected,
+      (
+        state,
+        action: PayloadAction<
+          (FetchBaseQueryError & { data?: unknown }) | undefined
+        >
+      ) => {
+        state.changePasswordLoading = false;
+        state.changePasswordError = returnError(action);
+      }
+    );
   },
 });
 
-export const { clearLoginError, setEmail, clearEmail } =
+export const { clearLoginError, setEmail, clearEmail, setToken, clearToken } =
   LoginAdminSlice.actions;
 
 export default LoginAdminSlice.reducer;

@@ -1,12 +1,13 @@
 import React from "react";
 import VehicleCard from "./VehicleCard";
+import { carResponseType } from "../../car-listing/_types/CarType";
 
-const Vehicles = () => {
+const Vehicles = ({cars}:{cars:carResponseType[]}) => {
   return (
-    <div className={`grid grid-cols-4 gap-[12px]`}>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((vehicle) => (
-        <VehicleCard key={vehicle} />
-      ))}
+    <div className={`${ cars.length > 0 && `grid grid-cols-4 xl:grid-cols-5`} gap-[12px]`}>
+      {cars.length > 0 ? cars.map((vehicle) => (
+        <VehicleCard key={vehicle.vehicleId} vehicle={vehicle} />
+      )): <p className={`flex justify-center items-center`}>No Car Found</p>}
     </div>
   );
 };

@@ -15,18 +15,30 @@ import { CarAPI } from "./CarAPI";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import storage from "redux-persist/lib/storage";
 import LoginAdminSlice from "./../app/(Login)/_Data/LoginSlice";
+import BenefitSlice from "../app/dashboard/settings/_Data/BenefitSlice";
+import { AccountProtectedAPI } from "./AccountProtected";
+import CustomerSlice from "@/app/dashboard/customers/_Data/customerSlice";
+import CarSlice from "@/app/dashboard/car-listing/_Data/CarSlice";
 
 const persistConfig = {
   key: "MOBR",
   storage,
   autoMergeLevel2,
-  blacklist: [AccountAPI.reducerPath, CarAPI.reducerPath],
+  blacklist: [
+    AccountAPI.reducerPath,
+    CarAPI.reducerPath,
+    AccountProtectedAPI.reducerPath,
+  ],
 };
 
 const rootReducer = combineReducers({
   login: LoginAdminSlice,
+  benefits: BenefitSlice,
+  customers: CustomerSlice,
+  cars: CarSlice,
   [AccountAPI.reducerPath]: AccountAPI.reducer,
   [CarAPI.reducerPath]: CarAPI.reducer,
+  [AccountProtectedAPI.reducerPath]: AccountProtectedAPI.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -38,7 +50,11 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(AccountAPI.middleware, CarAPI.middleware),
+    }).concat(
+      AccountAPI.middleware,
+      CarAPI.middleware,
+      AccountProtectedAPI.middleware
+    ),
 });
 
 setupListeners(store.dispatch);

@@ -1,10 +1,18 @@
+import { FormikProps } from "formik";
 import { Asterisk } from "lucide-react";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import React from "react";
+import { updateCarFormikInputType } from "../../_types/CarType";
+import { InputNumber } from "primereact/inputnumber";
+import { Calendar } from "primereact/calendar";
 
-const VehicleInformation = () => {
+const VehicleInformation = ({
+  newCarFormik,
+}: {
+  newCarFormik: FormikProps<updateCarFormikInputType>;
+}) => {
   return (
     <div className={`w-full flex flex-col gap-[20px]`}>
       <h3
@@ -22,12 +30,11 @@ const VehicleInformation = () => {
               type="text"
               name="vehicleName"
               id="vehicleName"
-              // value={loginFormik.values.email}
-              // onChange={loginFormik.handleChange}
-              // onBlur={loginFormik.handleBlur}
+              value={newCarFormik.values.vehicleName}
+              onChange={newCarFormik.handleChange}
+              onBlur={newCarFormik.handleBlur}
               variant="outlined"
               className={`p-inputtext-sm py-[12px] 
-               
               hover:border hover:border-[#474747] focus:border focus:border-[#474747] focus:ring-0 px-[14px] rounded-[20px] border border-[#C6C6C6]`}
               placeholder="Enter vehicle name"
             />
@@ -50,13 +57,13 @@ const VehicleInformation = () => {
             <div
               className={`p-inputgroup flex-1 rounded-[20px] overflow-hidden hover:border hover:border-[#474747] border border-[#C6C6C6] focus-within:border focus-within:border-[#474747]`}
             >
-              <InputText
-                type="text"
-                name="vehiclePrice"
-                id="vehiclePrice"
-                // value={loginFormik.values.email}
-                // onChange={loginFormik.handleChange}
-                // onBlur={loginFormik.handleBlur}
+              <InputNumber
+                inputClassName={`w-full py-[5px] focus:ring-0 px-[14px] rounded-[20px]`}
+                name="vehicleRentalPrice"
+                id="vehicleRentalPrice"
+                value={newCarFormik.values.vehicleRentalPrice}
+                onChange={newCarFormik.handleChange}
+                onBlur={newCarFormik.handleBlur}
                 variant="outlined"
                 className={`p-inputtext-sm py-[12px] 
               .hover:border .hover:border-[#474747] .focus:border .focus:border-[#474747] focus:ring-0 px-[14px] .rounded-[20px] .border .border-[#C6C6C6]`}
@@ -76,9 +83,9 @@ const VehicleInformation = () => {
               type="text"
               name="vehicleLocation"
               id="vehicleLocation"
-              // value={loginFormik.values.email}
-              // onChange={loginFormik.handleChange}
-              // onBlur={loginFormik.handleBlur}
+              value={newCarFormik.values.vehicleLocation}
+              onChange={newCarFormik.handleChange}
+              onBlur={newCarFormik.handleBlur}
               variant="outlined"
               className={`p-inputtext-sm py-[12px] 
                
@@ -105,10 +112,11 @@ const VehicleInformation = () => {
               type="text"
               name="vehicleID"
               id="vehicleID"
-              // value={loginFormik.values.email}
-              // onChange={loginFormik.handleChange}
-              // onBlur={loginFormik.handleBlur}
+              value={newCarFormik.values.vehicleId}
+              onChange={newCarFormik.handleChange}
+              onBlur={newCarFormik.handleBlur}
               variant="outlined"
+              disabled
               className={`p-inputtext-sm py-[12px] 
                
               hover:border hover:border-[#474747] focus:border focus:border-[#474747] focus:ring-0 px-[14px] rounded-[20px] border border-[#C6C6C6]`}
@@ -121,11 +129,14 @@ const VehicleInformation = () => {
             <label htmlFor="vehicleName" className="flex">
               Select vehicle year <Asterisk color="red" width={8} />
             </label>
-            <Dropdown
-              value={""}
-              onChange={() => ""}
-              options={["1999", "2000", "2030", "1450"]}
-              optionLabel="Select vehicle year"
+            <Calendar
+              view="year"
+              dateFormat="yy"
+              value={new Date(2022)}
+              inputClassName={`w-full py-[5px] focus:ring-0 px-[14px] rounded-[20px]`}
+              // newCarFormik.values.vehicleYear
+              onChange={newCarFormik.handleChange}
+              onBlur={newCarFormik.handleBlur}
               placeholder="Select vehicle year"
               name="vehicleYear"
               id="vehicleYear"
@@ -149,9 +160,10 @@ const VehicleInformation = () => {
               Select vehicle condition
             </label>
             <Dropdown
-              value={""}
-              onChange={() => ""}
-              options={["1999", "2000", "2030", "1450"]}
+              value={newCarFormik.values.vehicleCondition}
+              onChange={newCarFormik.handleChange}
+              onBlur={newCarFormik.handleBlur}
+              options={["Good", "Bad"]}
               optionLabel="Select vehicle condition"
               placeholder="Select vehicle condition"
               name="vehicleCondition"
@@ -164,15 +176,15 @@ const VehicleInformation = () => {
         <div className={`flex gap-[12px] items-center`}>
           <div className="flex flex-col w-full gap-[10px]">
             <label htmlFor="vehicleDescription" className="flex">
-            Enter vehicle description <Asterisk color="red" width={8} />
+              Enter vehicle description <Asterisk color="red" width={8} />
             </label>
             <InputTextarea
               name="vehicleDescription"
               id="vehicleDescription"
               rows={8}
-              // value={loginFormik.values.email}
-              // onChange={loginFormik.handleChange}
-              // onBlur={loginFormik.handleBlur}
+              value={newCarFormik.values.vehicleDescription}
+              onChange={newCarFormik.handleChange}
+              onBlur={newCarFormik.handleBlur}
               variant="outlined"
               className={`p-inputtext-sm py-[12px] 
               hover:border hover:border-[#474747] resize-none focus:border focus:border-[#474747] focus:ring-0 px-[14px] rounded-[20px] border border-[#C6C6C6]`}

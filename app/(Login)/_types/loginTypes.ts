@@ -29,13 +29,39 @@ export type otpResponseType = {
   updated: Date | undefined;
   isVerified: boolean;
   jwtToken: string;
+  refreshToken: string;
+};
+
+export type changePasswordInputType = {
+  id: number;
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+};
+
+export type ResponseType = {
+  id: number;
+  fullName: string;
+  email: string;
+  role: string;
+  created: Date | undefined;
+  updated: Date | undefined;
+  isVerified: boolean;
+  jwtToken: string;
+  refreshToken: string;
 };
 
 export type adminInitialState = {
   loginAdminLoading: boolean;
   loginAdminError: string;
+  changePasswordLoading: boolean;
+  changePasswordError: string;
   loginOtpLoading: boolean;
   loginOtpError: string;
   loginEmail: string;
   admin: otpResponseType;
+};
+
+export type customerIDInputType = {
+  id: number;
 };

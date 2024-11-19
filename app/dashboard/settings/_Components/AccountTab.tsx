@@ -4,7 +4,11 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import React from "react";
 
-const AccountTab = ({ value, setValue, email }: SettingsTabType) => {
+const AccountTab = ({
+  email,
+  changePasswordFormik,
+  changePasswordLoading,
+}: SettingsTabType) => {
   return (
     <div className={`flex flex-col gap-[32px] max-w-[740px] w-full`}>
       <div className={`flex flex-col gap-[20px]`}>
@@ -36,7 +40,11 @@ const AccountTab = ({ value, setValue, email }: SettingsTabType) => {
         >
           PASSWORD INFORMATION
         </h3>
-        <form action="" className={`flex flex-col gap-[18px]`}>
+        <form
+          action=""
+          onSubmit={changePasswordFormik.handleSubmit}
+          className={`flex flex-col gap-[18px]`}
+        >
           <div className="flex flex-col gap-[10px]">
             <label
               htmlFor="password"
@@ -46,10 +54,22 @@ const AccountTab = ({ value, setValue, email }: SettingsTabType) => {
             </label>
 
             <Password
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
+              value={changePasswordFormik.values.oldPassword}
+              onChange={changePasswordFormik.handleChange}
+              onBlur={changePasswordFormik.handleBlur}
+              id="oldPassword"
+              name="oldPassword"
               className="w-full rounded-[20px]  border border-[#C6C6C6]"
-              inputClassName={`w-full py-[12px] focus:ring-0 px-[14px] rounded-[20px]`}
+              inputClassName={`w-full py-[12px] focus:ring-0 px-[14px] rounded-[20px] ${
+                changePasswordFormik.values.oldPassword &&
+                changePasswordFormik.touched.oldPassword &&
+                !changePasswordFormik.errors.oldPassword &&
+                `bg-[#DDE4E6]`
+              } ${
+                changePasswordFormik.touched.oldPassword &&
+                changePasswordFormik.errors.oldPassword &&
+                `bg-[#FFD5C9]`
+              }`}
               toggleMask
               placeholder="Current password"
               promptLabel="Enter current password"
@@ -70,10 +90,22 @@ const AccountTab = ({ value, setValue, email }: SettingsTabType) => {
             </label>
 
             <Password
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
+              value={changePasswordFormik.values.newPassword}
+              onChange={changePasswordFormik.handleChange}
+              onBlur={changePasswordFormik.handleBlur}
+              id="newPassword"
+              name="newPassword"
               className="w-full rounded-[20px]  border border-[#C6C6C6]"
-              inputClassName={`w-full py-[12px] focus:ring-0 px-[14px] rounded-[20px]`}
+              inputClassName={`w-full py-[12px] focus:ring-0 px-[14px] rounded-[20px] ${
+                changePasswordFormik.values.newPassword &&
+                changePasswordFormik.touched.newPassword &&
+                !changePasswordFormik.errors.newPassword &&
+                `bg-[#DDE4E6]`
+              } ${
+                changePasswordFormik.touched.newPassword &&
+                changePasswordFormik.errors.newPassword &&
+                `bg-[#FFD5C9]`
+              }`}
               toggleMask
               placeholder="Enter new password"
               promptLabel="Enter a new password"
@@ -94,10 +126,22 @@ const AccountTab = ({ value, setValue, email }: SettingsTabType) => {
             </label>
 
             <Password
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
+              value={changePasswordFormik.values.confirmPassword}
+              onChange={changePasswordFormik.handleChange}
+              onBlur={changePasswordFormik.handleBlur}
+              id="confirmPassword"
+              name="confirmPassword"
               className="w-full rounded-[20px]  border border-[#C6C6C6]"
-              inputClassName={`w-full py-[12px] focus:ring-0 px-[14px] rounded-[20px]`}
+              inputClassName={`w-full py-[12px] focus:ring-0 px-[14px] rounded-[20px] ${
+                changePasswordFormik.values.confirmPassword &&
+                changePasswordFormik.touched.confirmPassword &&
+                !changePasswordFormik.errors.confirmPassword &&
+                `bg-[#DDE4E6]`
+              } ${
+                changePasswordFormik.touched.confirmPassword &&
+                changePasswordFormik.errors.confirmPassword &&
+                `bg-[#FFD5C9]`
+              }`}
               toggleMask
               placeholder="Confirm new password"
               promptLabel="Confirm new password"
@@ -109,9 +153,10 @@ const AccountTab = ({ value, setValue, email }: SettingsTabType) => {
             />
           </div>
           <Button
-            // loading={true}
-            // onClick={() => setVisible(true)}
-            className="bg-[#11975D] w-full rounded-[20px] focus:ring-0 mt-4 font-[400] text-[12px] font-square text-white py-[14px] px-[24px] hover:scale-105 flex items-center justify-center leading-[16px] tracking-[0.3px]"
+            type="submit"
+            loading={changePasswordLoading}
+            // onClick={() => changePasswordFormik.submitForm()}
+            className="bg-[#11975D] gap-2 w-full rounded-[20px] focus:ring-0 mt-4 font-[400] text-[12px] font-square text-white py-[14px] px-[24px] hover:scale-105 flex items-center justify-center leading-[16px] tracking-[0.3px]"
           >
             CHANGE PASSWORD
           </Button>

@@ -14,7 +14,7 @@ const DamageReportCard = () => {
         <div className={`gap-[4px] flex`}>
           {[1, 2, 3, 4, 5].map((index) => (
             <Image
-              src={`/images/acura.svg`}
+              src={`/images/acura.jpg`}
               alt="Image of a car"
               width={128}
               height={108}

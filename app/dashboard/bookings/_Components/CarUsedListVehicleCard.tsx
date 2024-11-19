@@ -10,7 +10,7 @@ const CarUsedListVehicleCard = () => {
     >
       <div className="h-[140px] w-[180px] relative rounded-[6px] mb-2">
         <Image
-          src="/images/acura.svg"
+          src="/images/acura.jpg"
           alt="vehicle name"
           height={140}
           width={180}

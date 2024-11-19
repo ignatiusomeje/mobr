@@ -6,10 +6,10 @@ import { ArrowRight } from "lucide-react";
 
 const CarInfo = () => {
   const slides = [
-    "/images/acura.svg",
+    "/images/acura.jpg",
     "/images/customer.jpg",
-    "/images/acura.svg",
-    "/images/acura.svg",
+    "/images/acura.jpg",
+    "/images/acura.jpg",
   ];
   return (
     <div className={`max-w-[430px] w-full`}>

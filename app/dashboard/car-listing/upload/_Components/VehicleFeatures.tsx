@@ -1,117 +1,85 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Feature from "./Feature";
+// import { updateCarFormikInputType } from "../../_types/CarType";
+// import { FormikProps } from "formik";
+import { Button } from "primereact/button";
+import { Loader2, Plus } from "lucide-react";
+import { useGetAllCarFeatureQuery } from "../../_Data/CarAPI";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import NewFeaturePop from "./NewFeaturePop";
+import { Toast } from "primereact/toast";
+import { clearCarError } from "../../_Data/CarSlice";
 
 const VehicleFeatures = () => {
-  const data = [
-    {
-      name: "Availability",
-      items: [],
-    },
-    {
-      name: "Make",
-      items: [
-        "acura",
-        "Audi",
-        "BMW",
-        "Cadillac",
-        "Cadillac",
-        "Cadillac",
-        "Cadillac",
-        "Cadillac",
-        "Cadillac",
-        "Chevrolet",
-        "Cadillac",
-      ],
-    },
-    {
-      name: "Model",
-      items: [
-        "1 series",
-        "1 series M",
-        "2 Series",
-        "2 series Gran Coupe",
-        "2 series Gran Coupe",
-        "2 series Gran Coupe",
-        "2002",
-      ],
-    },
-    {
-      name: "Type",
-      items: [
-        "COmpact",
-        "car",
-        "Mini van",
-        "SUV",
-        "Truck",
-        "Truck",
-        "Truck",
-        "Truck",
-        "Truck",
-        "Truck",
-        "Truck",
-      ],
-    },
-    {
-      name: "Seats",
-      items: [
-        "4 or more",
-        "5 or more",
-        "6 or more",
-        "7 or more",
-        "8 or more",
-        "9 or more",
-        "10 or more",
-        "11 or more",
-      ],
-    },
-    {
-      name: "Transmission",
-      items: ["Manual", "Automatic"],
-    },
-    {
-      name: "Fuel Tank Capacity",
-      items: [
-        "30-60L",
-        "60-90L",
-        "90-120L",
-        "120-150L",
-        "1150-180L",
-        "180-210L",
-      ],
-    },
-    {
-      name: "Energy",
-      items: ["Electric", "Hybrid", "Petrol", "Diesel"],
-    },
-    {
-      name: "Other Features",
-      items: [
-        "Apple CarPlay",
-        "Backup Camera",
-        "Blid spot warning",
-        "bluetooth",
-        "GPS",
-        "heated seats",
-        "Sunroof",
-      ],
-    },
-  ];
+  const dispatch = useAppDispatch();
+  const toast = useRef<Toast>(null);
+  const vehicleId = useAppSelector((state) => state.cars.vehicle.vehicleId);
+  const createdFeatures = useAppSelector((state) => state.cars.createdFeatures);
+  const getAllCarFeatureLoading = useAppSelector(
+    (state) => state.cars.getAllCarFeatureLoading
+  );
+  const getAllCarFeatureError = useAppSelector(
+    (state) => state.cars.getAllCarFeatureError
+  );
+  // const getAllCarFeatureError = useAppSelector(
+  //   (state) => state.cars.getAllCarFeatureError
+  // );
+  const [createFeature, setCreateFeature] = useState<boolean>(false);
+  useGetAllCarFeatureQuery({ vehicleId });
+
+  const showError = (message: string) => {
+    toast.current?.show({
+      severity: "error",
+      summary: "Error",
+      detail: message,
+      life: 3000,
+    });
+  };
+
+  if (getAllCarFeatureError) {
+    showError(getAllCarFeatureError);
+    dispatch(clearCarError());
+  }
+
   return (
     <div>
-      <h3
-        className={`font-inter font-[600] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
-      >
-        ADD VEHICLE FEATURES
-      </h3>
-      <div className={`flex flex-col gap-[16px]`}>
-        {data.map((datum) => (
-          <Feature
-            key={datum.name}
-            name={datum.name}
-            popupItems={datum.items}
-          />
-        ))}
+      <Toast ref={toast} />
+      <div className={`flex justify-between items-center py-10`}>
+        <h3
+          className={`font-inter font-[600] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
+        >
+          ADD VEHICLE FEATURES
+        </h3>
+        <Button
+          disabled={getAllCarFeatureLoading}
+          className={`flex rounded-[10px] capitalize text-[#11975D] px-[20px] py-2 hover:bg-[#11975D] hover:text-white items-center focus:ring-0 gap-2`}
+          onClick={() => setCreateFeature(true)}
+        >
+          create Features <Plus width={14} />
+        </Button>
       </div>
+      {getAllCarFeatureLoading ? (
+        <div
+          className={`w-full flex items-center justify-center h-[50px] pb-[20px] `}
+        >
+          <Loader2 className={`animate-spin`} width={24} />
+        </div>
+      ) : (
+        <div className={`flex flex-col gap-[16px]`}>
+          {createdFeatures?.length > 0 &&
+            createdFeatures?.map((carFeature) => (
+              <Feature
+                key={carFeature.featureId}
+                title={carFeature.featureTitle}
+                value={carFeature.featureName}
+              />
+            ))}
+        </div>
+      )}
+      <NewFeaturePop
+        createFeature={createFeature}
+        setCreateFeature={(e) => setCreateFeature(e)}
+      />
     </div>
   );
 };

@@ -1,7 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
+import { changePasswordInputType } from "@/app/(Login)/_types/loginTypes";
+import { FormikProps } from "formik";
 
 export type SettingsTabType = {
-  value: string;
-  setValue: Dispatch<SetStateAction<string>>;
-  email:string
+  email: string;
+  changePasswordFormik: FormikProps<changePasswordInputType>;
+  changePasswordLoading: boolean;
 };

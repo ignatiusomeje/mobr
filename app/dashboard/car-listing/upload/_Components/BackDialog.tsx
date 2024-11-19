@@ -4,8 +4,15 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import React from "react";
 
-const BackDialog = ({ visible, setVisible }: {visible: boolean;
-  setVisible: (e: boolean) => void;}) => {
+const BackDialog = ({
+  visible,
+  setVisible,
+  router,
+}: {
+  visible: boolean;
+  setVisible: (e: boolean) => void;
+  router: () => void;
+}) => {
   return (
     // <div className=".card .flex .justify-content-center">
     <Dialog
@@ -26,8 +33,8 @@ const BackDialog = ({ visible, setVisible }: {visible: boolean;
           <p
             className={`font-inter text-center text-[#1B1B1B] text-[14px] font-[400] tracking-[0.25px] leading-[22px]`}
           >
-            Your progress/changes won’t be saved. Click on ‘cancel’ to go back
-            and save your progress/changes.
+            Your progress/changes will be saved as draft. Click on ‘cancel’ to
+            go back and publish your progress/changes.
           </p>
           <div className={`flex mt-5 gap-[8px] items-center text-center`}>
             <Button
@@ -37,7 +44,10 @@ const BackDialog = ({ visible, setVisible }: {visible: boolean;
               Cancel
             </Button>
             <Button
-              onClick={(e) => hide(e)}
+              onClick={(e) => {
+                hide(e);
+                router();
+              }}
               className={`font-square flex items-center justify-center text-[12px] font-[400] leading-[16px] tracking-[0.30000001192092896px] text-[#FFFFFF] max-w-[224px] w-full bg-[#8D1510] py-[8px] px-[14px] focus:ring-0 rounded-[20px]`}
             >
               Yes, Exit

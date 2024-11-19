@@ -13,13 +13,3 @@ export type FeaturePopType = {
   setVisible: Dispatch<SetStateAction<{ name: string; active: boolean }>>;
 };
 
-export type carListingTempType = {
-  activeTab: string;
-  setActiveTab: (e: string) => void;
-  loading: boolean;
-  vehicles: number[];
-};
-
-export type VehiclesData = {
-  vehicles: number[];
-};

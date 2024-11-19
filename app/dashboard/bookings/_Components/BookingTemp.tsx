@@ -9,7 +9,7 @@ const BookingTemp = () => {
     <div
       className={`h-full flex-grow flex-1 overflow-y-scroll noScroll py-[18px] px-[20px]`}
     >
-      {true ? (
+      {false ? (
         <div className="flex gap-5">
           {[1, 2, 3, 4].map((btn) => (
             <Skeleton width="100px" height="37px" key={btn} />
@@ -37,7 +37,7 @@ const BookingTemp = () => {
         </div>
       )}
       <div className={`flex flex-col gap-[24px] mt-5`}>
-        {true ? <BookingsLoader /> : <Bookings />}
+        {false ? <BookingsLoader /> : <Bookings />}
       </div>
     </div>
   );

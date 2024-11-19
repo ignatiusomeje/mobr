@@ -11,9 +11,9 @@ const DamageImageShow = () => {
   const [nextEnd, setNextEnd] = useState<boolean>(false);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const images = [
-    `/images/acura.svg`,
+    `/images/acura.jpg`,
     `/images/customer.jpg`,
-    `/images/acura.svg`,
+    `/images/acura.jpg`,
     `/images/customer.jpg`,
   ];
 

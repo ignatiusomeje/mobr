@@ -2,15 +2,17 @@ import { CircleGauge, PencilLine, X } from "lucide-react";
 import Image from "next/image";
 import { Button } from "primereact/button";
 import React from "react";
+import { VehiclesCardType } from "../_types/CarType";
 
-const VehicleCard = () => {
+const VehicleCard = ({vehicle}:VehiclesCardType) => {
   return (
     <div
       className={`.max-w-[300px] hover:border-2 hover:border-[#C6C6C6] bg-[#F9F9F9] border-2 border-[#E2E2E2] rounded-[12px] w-full py-[16px] px-[18px] vehicleCard`}
     >
       <div className="h-[140px] .max-w-[260px] overflow-hidden w-full rounded-[8px] relative mb-2">
         <Image
-          src="/images/acura.svg"
+          src={`${
+                vehicle.vehicleImages[0].vehicleImageUrl || `/images/acura.jpg`}`}
           alt="vehicle name"
           height={260}
           width={140}
@@ -24,24 +26,24 @@ const VehicleCard = () => {
       <div className="flex justify-between">
         <div className={`.max-w-[160px] w-full`}>
           <h3 className={`text-[#303030] font-inter text-[14px] font-[600] `}>
-            HONDA ACCORD 2023
+            {vehicle.vehicleName}
           </h3>
           <p className={`flex items-center gap-2`}>
             <CircleGauge width={14} />{" "}
             <span
               className={`text-[#303030] font-inter text-[12px] font-[400]`}
             >
-              Auto
+              {vehicle.transmissionType}
             </span>
           </p>
           <p className="text-[#777777] text-[14px] font-[400] font-inter">
-            Available from Aug 20, 2024
+            Available from {vehicle.vehicleAvaliableDate?.toString()}
           </p>
         </div>
         <p
           className={`font-square text-[12px] font-[400] text-[#222B2E]`}
         >
-          <span className={`font-bold`}>$45</span>/day
+          <span className={`font-bold`}>${vehicle.vehicleRentalPrice}</span>/day
         </p>
       </div>
 

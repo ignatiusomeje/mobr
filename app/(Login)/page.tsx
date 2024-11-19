@@ -10,7 +10,7 @@ import * as yup from "yup";
 import { useLoginAdminMutation, useLoginOtpMutation } from "./_Data/LoginApi";
 import { Toast } from "primereact/toast";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { clearLoginError, setEmail } from "./_Data/LoginSlice";
+import { clearEmail, clearLoginError, setEmail } from "./_Data/LoginSlice";
 import { useRouter } from "next/navigation";
 // import { otp } from "@/types/indexPage";
 
@@ -70,15 +70,12 @@ export default function Home() {
     validationSchema: otpSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-      // const { email, otp } = values;
-
-      // const newOtp = otp;
-      // console.log({ email, otp: newOtp });
       loginOtpMutation(values)
         .unwrap()
         .then(() => {
           setVisible(false);
           showSuccess();
+          dispatch(clearEmail());
           router.push("/dashboard");
         });
     },

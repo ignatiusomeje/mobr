@@ -10,7 +10,7 @@ const VehicleCard = () => {
     >
       <div className="h-[140px] w-[260px] rounded-[8px] relative mb-2">
         <Image
-          src="/images/acura.svg"
+          src="/images/acura.jpg"
           alt="vehicle name"
           height={260}
           width={140}

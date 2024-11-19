@@ -3,22 +3,21 @@ import { X } from "lucide-react";
 import Image from "next/image";
 import { Dialog } from "primereact/dialog";
 import React from "react";
+import { CustomerInfoTypes } from "../_types/CustomerTypes";
 
 const CustomerInfo = ({
-  visible,
-  setVisible,
-}: {
-  visible: boolean;
-  setVisible: (e: boolean) => void;
-}) => {
+  customer,
+  closeShowOneCustomer,
+  showPopUp
+}: CustomerInfoTypes) => {
   return (
     <Dialog
-      visible={visible}
+      visible={showPopUp}
       className={`rounded-[20px] max-w-[600px] w-full`}
       modal
       onHide={() => {
-        if (!visible) return;
-        setVisible(false);
+        if (!showPopUp) return;
+        closeShowOneCustomer()
       }}
       content={({ hide }) => (
         <div
@@ -42,8 +41,8 @@ const CustomerInfo = ({
               className={`w-[100px] h-[100px] border border-[#1B2E35] overflow-hidden shadow-md rounded-full`}
             >
               <Image
-                src={`/images/customer.jpg`}
-                alt="customer's picture"
+                src={customer.profileImageUrl || `/images/customer.png`}
+                alt={`${customer.fullName} picture"`}
                 width={500}
                 height={500}
               />
@@ -59,15 +58,16 @@ const CustomerInfo = ({
                   <p
                     className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
                   >
-                    First name:
+                    Full name:
+                    {/* First name: */}
                   </p>
                   <p
                     className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                   >
-                    Sample
+                    {customer.fullName}
                   </p>
                 </div>
-                <div>
+                {/* <div>
                   <p
                     className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
                   >
@@ -90,7 +90,7 @@ const CustomerInfo = ({
                   >
                     Sample
                   </p>
-                </div>
+                </div> */}
                 <div>
                   <p
                     className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
@@ -100,7 +100,8 @@ const CustomerInfo = ({
                   <p
                     className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                   >
-                    Nigeria (+234)
+                    {customer.countryCode}
+                    {/* Nigeria (+234) */}
                   </p>
                 </div>
                 <div>
@@ -112,7 +113,7 @@ const CustomerInfo = ({
                   <p
                     className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                   >
-                    7035829240
+                    {customer.phoneNumber}
                   </p>
                 </div>
                 <div>
@@ -124,7 +125,7 @@ const CustomerInfo = ({
                   <p
                     className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                   >
-                    sample@gmail.com
+                    {customer.email}
                   </p>
                 </div>
               </div>
@@ -135,7 +136,7 @@ const CustomerInfo = ({
               >
                 LICENSE DETAILS:
               </h5>
-              <div className={`grid grid-cols-3 gap-[18px]`}>
+              {false && <div className={`grid grid-cols-3 gap-[18px]`}>
                 <div>
                   <p
                     className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
@@ -145,7 +146,7 @@ const CustomerInfo = ({
                   <p
                     className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                   >
-                    12-02-2000
+                    {customer.dob?.toDateString()}
                   </p>
                 </div>
                 <div>
@@ -157,6 +158,7 @@ const CustomerInfo = ({
                   <p
                     className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                   >
+                    {/* {customer.} */}
                     3456789831243678
                   </p>
                 </div>
@@ -172,7 +174,7 @@ const CustomerInfo = ({
                     12-02-2028
                   </p>
                 </div>
-              </div>
+              </div>}
             </div>
             <div className={`flex flex-col gap-[16px]`}>
               <h5
@@ -180,7 +182,7 @@ const CustomerInfo = ({
               >
                 BILLING ADDRESS:
               </h5>
-              <div className={`grid grid-cols-3 gap-[18px]`}>
+              {false && <div className={`grid grid-cols-3 gap-[18px]`}>
                 <div>
                   <p
                     className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
@@ -190,7 +192,7 @@ const CustomerInfo = ({
                   <p
                     className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                   >
-                    No. 12 Gare
+                    {customer.streetAddress}
                   </p>
                 </div>
                 <div>
@@ -202,6 +204,7 @@ const CustomerInfo = ({
                   <p
                     className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                   >
+                    {/* {customer.re} */}
                     Lyons
                   </p>
                 </div>
@@ -229,7 +232,7 @@ const CustomerInfo = ({
                     098031
                   </p>
                 </div>
-              </div>
+              </div>}
             </div>
           </div>
         </div>
