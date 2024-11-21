@@ -136,21 +136,21 @@ const Page = () => {
 
   const newCarFormik = useFormik({
     initialValues: {
-      vehicleId: carFetchedById.vehicleId,
-      vehicleName: carFetchedById.vehicleName,
-      vehicleLocation: carFetchedById.vehicleLocation,
-      vehicleCondition: carFetchedById.vehicleCondition,
-      vehicleYear: carFetchedById.vehicleYear,
-      transmissionType: carFetchedById.transmissionType,
-      energyType: carFetchedById.energyType,
-      vehicleDescription: carFetchedById.vehicleDescription,
-      vehicleRentalPrice: carFetchedById.vehicleRentalPrice,
+      vehicleId: carFetchedById?.vehicleId,
+      vehicleName: carFetchedById?.vehicleName,
+      vehicleLocation: carFetchedById?.vehicleLocation,
+      vehicleCondition: carFetchedById?.vehicleCondition,
+      vehicleYear: carFetchedById?.vehicleYear,
+      transmissionType: carFetchedById?.transmissionType,
+      energyType: carFetchedById?.energyType,
+      vehicleDescription: carFetchedById?.vehicleDescription,
+      vehicleRentalPrice: carFetchedById?.vehicleRentalPrice,
       savedState:
-        carFetchedById.savedState || isDraft
+        carFetchedById?.savedState || isDraft
           ? savedState.Draft
           : savedState.Active,
-      vehicleAvaliableDate: carFetchedById.vehicleAvaliableDate,
-      vehicleFeatures: carFeatures.map((feature) => feature.featureId),
+      vehicleAvaliableDate: carFetchedById?.vehicleAvaliableDate,
+      vehicleFeatures: carFeatures?.map((feature) => feature.featureId),
     },
     enableReinitialize: true,
     // validationSchema: validate,
