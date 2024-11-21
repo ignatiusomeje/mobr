@@ -59,14 +59,14 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
           disabled={deleteACar.isLoading}
           loading={deleteACar.isLoading}
           outlined
-          className={`border border-[#8D1510] text-[#8D1510] py-[8px] px-[14px] rounded-[12px] text-[10px] font-[400] font-square w-full .w-[125px] flex justify-center items-center gap-3`}
+          className={`border border-[#8D1510] text-[#8D1510] py-[8px] px-[14px] rounded-[12px] text-[10px] font-[400] focus:ring-0 font-square w-full .w-[125px] flex justify-center items-center gap-3`}
           onClick={() => deleteACarMutation({ vehicleId: vehicle.vehicleId })}
         >
           DELETE <X width={14} />
         </Button>
         <Button
         disabled={deleteACar.isLoading}
-          className={`btnChange border bg-[#11975D] text-white w-full .w-[125px] py-[8px] px-[14px] rounded-[12px] text-[10px] font-[400] font-square flex justify-center items-center gap-3`}
+          className={`btnChange border bg-[#11975D] text-white w-full .w-[125px] py-[8px] px-[14px] rounded-[12px] focus:ring-0 text-[10px] font-[400] font-square flex justify-center items-center gap-3`}
           onClick={()=> router.push(`/dashboard/car-listing/${vehicle?.vehicleId}/`)}
         >
           EDIT
