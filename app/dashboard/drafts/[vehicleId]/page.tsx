@@ -202,7 +202,7 @@ const Page = () => {
     initialValues: {
       vehicleImages: [],
       preview: [],
-      vehicleId: carFetchedById.vehicleId || "",
+      vehicleId: carFetchedById?.vehicleId || "",
     },
     enableReinitialize: true,
     // validationSchema: validate,
@@ -355,16 +355,16 @@ const Page = () => {
             className: `flex-grow flex-1 overflow-y-scroll pb-7 noScroll`,
           })}
         >
-          {carFetchedById.vehicleImages.length === 0 &&
+          {carFetchedById?.vehicleImages.length === 0 &&
           vehicleImages.length === 0 &&
           carImageFormik.values.preview.length === 0 ? (
             <EmptyTemplate btnUpload={getInputProps} />
           ) : (
             <div className={`flex flex-wrap items-center gap-[16px] mt-3`}>
-              {carFetchedById.vehicleImages.length > 0 &&
-                carFetchedById.vehicleImages.map((vehicle) => (
+              {carFetchedById?.vehicleImages.length > 0 &&
+                carFetchedById?.vehicleImages.map((vehicle) => (
                   <SingleImage
-                    id={vehicle.vehicleImageId}
+                    id={vehicle?.vehicleImageId}
                     deleteACarImageMutation={(id) =>
                       deleteACarImageMutation({ vehicleImageId: id })
                         .unwrap()
@@ -372,8 +372,8 @@ const Page = () => {
                           dispatch(removeImage(id));
                         })
                     }
-                    key={vehicle.vehicleImageId}
-                    src={vehicle.vehicleImageUrl}
+                    key={vehicle?.vehicleImageId}
+                    src={vehicle?.vehicleImageUrl}
                   />
                 ))}
               {vehicleImages && vehicleImages.length > 0

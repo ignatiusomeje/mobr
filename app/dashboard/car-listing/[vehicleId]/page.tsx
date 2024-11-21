@@ -199,7 +199,7 @@ console.log("you see the error now" ,vehicleId, vehicleId.vehicleId)
     initialValues: {
       vehicleImages: [],
       preview: [],
-      vehicleId: carFetchedById.vehicleId || "",
+      vehicleId: carFetchedById?.vehicleId || "",
     },
     enableReinitialize: true,
     // validationSchema: validate,
@@ -215,7 +215,7 @@ console.log("you see the error now" ,vehicleId, vehicleId.vehicleId)
       })
         .unwrap()
         .then(() => {
-          carImageTrigger({ id: carFetchedById.vehicleId });
+          carImageTrigger({ id: carFetchedById?.vehicleId });
           carImageFormik.resetForm();
           dispatch(setFetched());
         });
@@ -352,14 +352,14 @@ console.log("you see the error now" ,vehicleId, vehicleId.vehicleId)
             className: `flex-grow flex-1 overflow-y-scroll pb-7 noScroll`,
           })}
         >
-          {carFetchedById.vehicleImages.length === 0 &&
+          {carFetchedById?.vehicleImages.length === 0 &&
           vehicleImages.length === 0 &&
           carImageFormik.values.preview.length === 0 ? (
             <EmptyTemplate btnUpload={getInputProps} />
           ) : (
             <div className={`flex flex-wrap items-center gap-[16px] mt-3`}>
-              {carFetchedById.vehicleImages.length > 0 &&
-                carFetchedById.vehicleImages.map((vehicle) => (
+              {carFetchedById?.vehicleImages.length > 0 &&
+                carFetchedById?.vehicleImages.map((vehicle) => (
                   <SingleImage
                     id={vehicle.vehicleImageId}
                     deleteACarImageMutation={(id) =>
