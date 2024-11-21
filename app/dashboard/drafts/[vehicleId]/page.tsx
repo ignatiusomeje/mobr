@@ -343,7 +343,7 @@ const Page = () => {
       <Toast ref={toast} />
       <HeaderTemplate
         router={() => router.back()}
-        total={vehicleImages.length || carFetchedById.vehicleImages.length}
+        total={vehicleImages.length || carFetchedById?.vehicleImages.length}
       />
       {createACarImageLoading || deleteACarLoading || getACarByIdLoading ? (
         <div className={`h-full w-full flex justify-center items-center`}>
