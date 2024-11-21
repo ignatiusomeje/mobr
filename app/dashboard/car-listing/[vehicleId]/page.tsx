@@ -48,12 +48,12 @@ const Page = () => {
   });
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { vehicleId } = useParams<{ vehicleId: string }>();
+  const vehicleId = useParams<{ vehicleId: string }>();
 
   // const [filesToUpload, setFilesToUpload] = useState<FileWithPreview[]>([]);
   // const [createCarImagesMutation] = useCreateCarImagesMutation();
-
-  useGetACarByIdQuery({ vehicleId: vehicleId });
+console.log("you see the error now" ,vehicleId, vehicleId.vehicleId)
+  useGetACarByIdQuery({ vehicleId: vehicleId?.vehicleId });
   const [updateCreateCarImagesMutation] = useUpdateCreateCarImagesMutation();
   const [deleteACarImageMutation] = useDeleteACarImageMutation();
   const [addCarFeatureToVehicleMutation, addCarFeature] =
