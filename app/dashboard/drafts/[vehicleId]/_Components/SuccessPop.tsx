@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import React from "react";
-import { clearLoading } from "../../_Data/CarSlice";
+// import { clearLoading } from "../../_Data/CarSlice";
 import { useAppDispatch } from "@/store/hooks";
+import { clearLoading } from "@/app/dashboard/car-listing/_Data/CarSlice";
 
 const SuccessPop = ({ visible, setVisible }: successPopType) => {
   const router = useRouter();

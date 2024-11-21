@@ -4,16 +4,19 @@ import Feature from "./Feature";
 // import { FormikProps } from "formik";
 import { Button } from "primereact/button";
 import { Loader2, Plus } from "lucide-react";
-import {
-  // useGetAllCarFeatureQuery,
-  useLazyGetAllCarFeatureQuery,
-} from "../../_Data/CarAPI";
+// import {
+//   // useGetAllCarFeatureQuery,
+//   useLazyGetAllCarFeatureQuery,
+// } from "../../_Data/CarAPI";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import NewFeaturePop from "./NewFeaturePop";
 import { Toast } from "primereact/toast";
-import { clearCarError } from "../../_Data/CarSlice";
+// import { clearCarError } from "../../_Data/CarSlice";
 import { FormikProps } from "formik";
-import { updateCarFormikInputType } from "../../_types/CarType";
+import { updateCarFormikInputType } from "@/app/dashboard/car-listing/_types/CarType";
+import { useLazyGetAllCarFeatureQuery } from "@/app/dashboard/car-listing/_Data/CarAPI";
+import { clearCarError } from "@/app/dashboard/car-listing/_Data/CarSlice";
+// import { updateCarFormikInputType } from "../../_types/CarType";
 
 const VehicleFeatures = ({
   newCarFormik,

@@ -4,8 +4,9 @@ import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import React from "react";
-import { updateCarFormikInputType } from "../../_types/CarType";
+// import { updateCarFormikInputType } from "../../_types/CarType";
 import { InputNumber } from "primereact/inputnumber";
+import { updateCarFormikInputType } from "@/app/dashboard/car-listing/_types/CarType";
 // import { Calendar } from "primereact/calendar";
 
 const VehicleInformation = ({

@@ -28,6 +28,7 @@ const persistConfig = {
     AccountAPI.reducerPath,
     CarAPI.reducerPath,
     AccountProtectedAPI.reducerPath,
+    // "cars"
   ],
 };
 

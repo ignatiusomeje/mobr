@@ -17,7 +17,19 @@ export type initialStateCar = {
   getAllCarFeatureLoading: boolean;
   carFeatures: createACarFeatureResponseTypes[];
   featureTitle: string;
-  createdFeatures:createACarFeatureResponseTypes[]
+  fetchedFeatures: getAllCarFeatureResonseTypes[];
+  updateCarFeatureLoading: boolean;
+  updateCarFeatureError: string;
+  fetched: boolean;
+  carFeaturesForDisplay: getAllCarFeatureResonseTypes[];
+  carFeaturesForDisplayLoading: boolean;
+  carFeaturesForDisplayError: string;
+  moreInfoPop: boolean;
+  deleteACarObjectError: string;
+  deleteACarObjectLoading: boolean;
+  carFetchedById: getByIdFormik;
+  getACarByIdLoading: boolean;
+  getACarByIdError: string;
 };
 
 export type updateCarInputType = {
@@ -33,19 +45,57 @@ export type updateCarInputType = {
   vehicleAvaliableDate: Date | undefined;
   vehicleFeatures: vehicleFeaturesTypes[];
 };
+export type getByIdResponse = {
+  vehicleId: string;
+  vehicleCondition: string;
+  transmissionType: TransmissionType;
+  energyType: EnergyType;
+  savedState: savedState;
+  vehicleYear: number;
+  reviewCount: number;
+  vehicleName: string;
+  vehicleLocation: string;
+  vehicleDescription: string;
+  carBookingState: carBookingState;
+  vehicleRentalPrice: number;
+  vehicleAvaliableDate: Date;
+  averageVehicleRating: number;
+  vehicleImages: vehicleImagesType[];
+  created: Date;
+  updated: Date;
+};
+
+export type getByIdFormik = {
+  vehicleId: string;
+  vehicleCondition: string;
+  transmissionType: TransmissionType;
+  energyType: EnergyType;
+  savedState: savedState;
+  vehicleYear: number;
+  reviewCount: number;
+  vehicleName: string;
+  vehicleLocation: string;
+  vehicleDescription: string;
+  carBookingState: carBookingState;
+  vehicleRentalPrice: number;
+  vehicleAvaliableDate: Date;
+  averageVehicleRating: number;
+  vehicleImages: vehicleImagesType[];
+};
 
 export type updateCarFormikInputType = {
   vehicleId: string;
   vehicleName: string;
   vehicleLocation: string;
   vehicleCondition: string;
-  vehicleYear: Date;
+  vehicleYear: number;
   transmissionType: TransmissionType;
   energyType: EnergyType;
   vehicleDescription: string;
   vehicleRentalPrice: number;
   vehicleAvaliableDate: Date;
-  vehicleFeatures: vehicleFeaturesTypes[];
+  savedState: savedState;
+  vehicleFeatures: number[];
 };
 
 export type createCarImageInputType = {
@@ -90,6 +140,10 @@ export type deleteCarImageInputType = {
   benefitWriteUp: string;
 };
 
+export type deleteCarInputType = {
+  vehicleId: string;
+};
+
 export type deleteCarResponseImageType = {
   benefitTitle: string;
   benefitWriteUp: string;
@@ -107,7 +161,7 @@ export type carResponseType = {
   vehicleDescription: string;
   carBookingState: carBookingState;
   vehicleRentalPrice: number;
-  vehicleAvaliableDate: Date | undefined;
+  vehicleAvaliableDate: Date;
   created: Date | undefined;
   updated: Date | undefined;
   vehicleImages: vehicleImagesType[];
@@ -137,8 +191,6 @@ export type getAllCarFeatureInputTypes = {
   vehicleId?: string;
 };
 
-export type getAllCarFeatureResonseTypes = createACarFeatureResponseTypes[];
-
 export type addCarFeatureToVehicleInputTypes = {
   carId: string;
   featuresIds: number[];
@@ -148,6 +200,11 @@ export type createACarFeatureResponseTypes = {
   featureId: number;
   featureTitle: string;
   featureName: string;
+};
+
+export type getAllCarFeatureResonseTypes = {
+  featureTitle: string;
+  features: createACarFeatureResponseTypes[];
 };
 
 export type getACarImagesResponseTypes = vehicleImagesType[];
@@ -176,7 +233,7 @@ export enum EnergyType {
 }
 
 export enum TransmissionType {
-  Manuel = "Manuel",
+  Manual = "Manual",
   Auto = "Auto",
 }
 
@@ -186,7 +243,10 @@ export type HeaderTemplateType = {
 };
 
 export type uploadDetailsPopType = {
-  visible: boolean;
   setVisible: (e: boolean) => void;
   newCarFormik: FormikProps<updateCarFormikInputType>;
+  submit: () => void;
+  publishLoading: boolean;
+  addFeatureLoading: boolean;
+  visible: boolean;
 };

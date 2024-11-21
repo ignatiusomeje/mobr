@@ -8,11 +8,14 @@ import { SelectButton } from "primereact/selectbutton";
 import { Calendar } from "primereact/calendar";
 // import { Nullable } from "primereact/ts-helpers";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { addCarFeature, updateCarFeature } from "../../_Data/CarSlice";
+// import { addCarFeature, updateCarFeature } from "../../_Data/CarSlice";
 import { useFormik } from "formik";
-import { EnergyType, TransmissionType } from "../../_types/CarType";
-import { useUpdateACarFeatureMutation } from "../../_Data/CarAPI";
+// import { EnergyType, TransmissionType } from "../../_types/CarType";
+// import { useUpdateACarFeatureMutation } from "../../_Data/CarAPI";
 import { Nullable } from "primereact/ts-helpers";
+import { useUpdateACarFeatureMutation } from "@/app/dashboard/car-listing/_Data/CarAPI";
+import { EnergyType, TransmissionType } from "@/app/dashboard/car-listing/_types/CarType";
+import { addCarFeature, updateCarFeature } from "@/app/dashboard/car-listing/_Data/CarSlice";
 
 const FeaturePop = ({
   name,

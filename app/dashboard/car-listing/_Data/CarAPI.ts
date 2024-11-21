@@ -8,10 +8,13 @@ import {
   createCarInputImageType,
   createCarResponseImageType,
   deleteACarImageType,
+  deleteCarInputType,
   getACarImagesInputTypes,
   getACarImagesResponseTypes,
   getAllCarFeatureInputTypes,
   getAllCarFeatureResonseTypes,
+  getByIdResponse,
+  updateCarFormikInputType,
   updateCreateCarImagesType,
 } from "../_types/CarType";
 // {
@@ -66,7 +69,7 @@ const CarApi = CarAPI.injectEndpoints({
     >({
       query: ({ ...images }) => ({
         url: `/vehicle/vehicle_images`,
-        method: "Put",
+        method: "get",
         params: images,
       }),
       providesTags: ["carImages"],
@@ -85,7 +88,7 @@ const CarApi = CarAPI.injectEndpoints({
     }),
 
     updateACarFeature: build.mutation<
-      createCarResponseImageType,
+      createACarFeatureResponseTypes,
       createACarFeatureInputTypes
     >({
       query: ({ ...feature }) => ({
@@ -101,14 +104,14 @@ const CarApi = CarAPI.injectEndpoints({
       addCarFeatureToVehicleInputTypes
     >({
       query: ({ ...feature }) => ({
-        url: `/vehicleFeature`,
+        url: `/vehicleFeature/add-vehicle-feature-to-car`,
         method: "Put",
         body: feature,
       }),
     }),
     /* get all features needed */
     getAllCarFeature: build.query<
-      getAllCarFeatureResonseTypes,
+      getAllCarFeatureResonseTypes[],
       getAllCarFeatureInputTypes
     >({
       query: ({ ...feature }) => ({
@@ -116,7 +119,20 @@ const CarApi = CarAPI.injectEndpoints({
         method: "Get",
         params: feature,
       }),
-      providesTags:["carFeature"]
+      providesTags: ["carFeature"],
+    }),
+
+    /* get all features for display */
+    getAllCarFeatureForDisplay: build.query<
+      getAllCarFeatureResonseTypes[],
+      getAllCarFeatureInputTypes
+    >({
+      query: ({ ...feature }) => ({
+        url: `/vehicleFeature/get-all-vehicleFeature`,
+        method: "Get",
+        params: feature,
+      }),
+      providesTags: ["carFeature"],
     }),
 
     getAllCars: build.query<carResponseType[], allCarInputType>({
@@ -126,6 +142,35 @@ const CarApi = CarAPI.injectEndpoints({
         params: cars,
       }),
       providesTags: ["cars"],
+    }),
+
+    /* update the car  */
+    publishACar: build.mutation<carResponseType, updateCarFormikInputType>({
+      query: ({ ...cars }) => ({
+        url: `/vehicle/publish-vehicles`,
+        method: "Put",
+        body: cars,
+      }),
+      invalidatesTags: ["cars"],
+    }),
+
+    /* delete the car  */
+    deleteACar: build.mutation<void, deleteCarInputType>({
+      query: ({ ...cars }) => ({
+        url: `/vehicle/`,
+        method: "Delete",
+        params: cars,
+      }),
+      invalidatesTags: ["cars"],
+    }),
+
+    /* get the car by ID  */
+    getACarById: build.query<getByIdResponse, deleteCarInputType>({
+      query: ({ ...cars }) => ({
+        url: `/vehicle/`,
+        method: "Get",
+        params: cars,
+      }),
     }),
   }),
 });
@@ -139,8 +184,12 @@ export const {
   useAddCarFeatureToVehicleMutation,
   useCreateACarFeatureMutation,
   useGetACarImagesQuery,
-  useGetAllCarFeatureQuery,
-  useUpdateACarFeatureMutation
+  usePublishACarMutation,
+  useGetAllCarFeatureForDisplayQuery,
+  useLazyGetAllCarFeatureQuery,
+  useUpdateACarFeatureMutation,
+  useDeleteACarMutation,
+  useGetACarByIdQuery
 } = CarApi;
 export const {
   createCarImages,
@@ -152,4 +201,8 @@ export const {
   addCarFeatureToVehicle,
   getAllCarFeature,
   getAllCars,
+  getAllCarFeatureForDisplay,
+  publishACar,
+  deleteACar,
+  getACarById
 } = CarApi.endpoints;

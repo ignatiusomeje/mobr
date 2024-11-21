@@ -6,7 +6,7 @@ import { Button } from "primereact/button";
 import { ArrowRight, Loader, PlusCircle } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 import SingleImage from "./_Components/SingleImage";
-import UploadDetailsPop from "./_Components/UploadDetailsPop";
+// import UploadDetailsPop from "./_Components/UploadDetailsPop";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Toast } from "primereact/toast";
 import {
@@ -14,20 +14,23 @@ import {
   // clearLoading,
   removeImage,
   setFetched,
+  // setFetched,
 } from "../_Data/CarSlice";
 import {
   useAddCarFeatureToVehicleMutation,
-  useCreateCarImagesMutation,
+  // useCreateCarImagesMutation,
   useDeleteACarImageMutation,
+  useGetACarByIdQuery,
   useLazyGetACarImagesQuery,
   usePublishACarMutation,
-  // useUpdateCreateCarImagesMutation,
+  useUpdateCreateCarImagesMutation,
 } from "../_Data/CarAPI";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useFormik } from "formik";
 // import * as yup from "yup";
-import { EnergyType, savedState, TransmissionType } from "../_types/CarType";
+import { savedState } from "../_types/CarType";
 import SuccessPop from "./_Components/SuccessPop";
+import UploadDetailsPop from "./_Components/UploadDetailsPop";
 
 type FileWithPreview = File & {
   preview: string;
@@ -45,9 +48,13 @@ const Page = () => {
   });
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { vehicleId } = useParams<{ vehicleId: string }>();
+
   // const [filesToUpload, setFilesToUpload] = useState<FileWithPreview[]>([]);
-  const [createCarImagesMutation] = useCreateCarImagesMutation();
-  // const [updateCreateCarImagesMutation] = useUpdateCreateCarImagesMutation();
+  // const [createCarImagesMutation] = useCreateCarImagesMutation();
+
+  useGetACarByIdQuery({ vehicleId: vehicleId });
+  const [updateCreateCarImagesMutation] = useUpdateCreateCarImagesMutation();
   const [deleteACarImageMutation] = useDeleteACarImageMutation();
   const [addCarFeatureToVehicleMutation, addCarFeature] =
     useAddCarFeatureToVehicleMutation();
@@ -61,6 +68,14 @@ const Page = () => {
 
   const createACarImageError = useAppSelector(
     (state) => state.cars.createACarImageError
+  );
+
+  const getACarByIdLoading = useAppSelector(
+    (state) => state.cars.getACarByIdLoading
+  );
+  const carFetchedById = useAppSelector((state) => state.cars.carFetchedById);
+  const getACarByIdError = useAppSelector(
+    (state) => state.cars.getACarByIdError
   );
 
   const deleteACarError = useAppSelector((state) => state.cars.deleteACarError);
@@ -94,7 +109,7 @@ const Page = () => {
     (state) => state.cars.vehicle.vehicleImages
   );
 
-  const vehicleId = useAppSelector((state) => state.cars.vehicle.vehicleId);
+  // const vehicleId = useAppSelector((state) => state.cars.vehicle.vehicleId);
   // const fetched = useAppSelector((state) => state.cars.fetched);
 
   // const onDrop = useCallback((acceptedFiles) => {
@@ -118,17 +133,20 @@ const Page = () => {
 
   const newCarFormik = useFormik({
     initialValues: {
-      vehicleId: vehicleId,
-      vehicleName: "",
-      vehicleLocation: "",
-      vehicleCondition: "",
-      vehicleYear: 0,
-      transmissionType: TransmissionType.Manual,
-      energyType: EnergyType.Petrol,
-      vehicleDescription: "",
-      vehicleRentalPrice: 0,
-      savedState: isDraft ? savedState.Draft : savedState.Active,
-      vehicleAvaliableDate: new Date(0),
+      vehicleId: carFetchedById.vehicleId,
+      vehicleName: carFetchedById.vehicleName,
+      vehicleLocation: carFetchedById.vehicleLocation,
+      vehicleCondition: carFetchedById.vehicleCondition,
+      vehicleYear: carFetchedById.vehicleYear,
+      transmissionType: carFetchedById.transmissionType,
+      energyType: carFetchedById.energyType,
+      vehicleDescription: carFetchedById.vehicleDescription,
+      vehicleRentalPrice: carFetchedById.vehicleRentalPrice,
+      savedState:
+        carFetchedById.savedState || isDraft
+          ? savedState.Draft
+          : savedState.Active,
+      vehicleAvaliableDate: carFetchedById.vehicleAvaliableDate,
       vehicleFeatures: carFeatures.map((feature) => feature.featureId),
     },
     enableReinitialize: true,
@@ -181,7 +199,7 @@ const Page = () => {
     initialValues: {
       vehicleImages: [],
       preview: [],
-      vehicleId: vehicleId || "",
+      vehicleId: carFetchedById.vehicleId || "",
     },
     enableReinitialize: true,
     // validationSchema: validate,
@@ -191,22 +209,24 @@ const Page = () => {
         form.append("VehicleImages", image)
       );
       // if (fetched) {
-      //   await updateCreateCarImagesMutation({
-      //     vehicleImages: form,
-      //     vehicleId: vehicleId,
-      //   })
-      //     .unwrap()
-      //     .then(() => {
-      //       carImageTrigger({ id: vehicleId });
-      //     });
-      // } else {
-      await createCarImagesMutation({ vehicleImages: form })
+      await updateCreateCarImagesMutation({
+        vehicleImages: form,
+        vehicleId: carFetchedById.vehicleId,
+      })
         .unwrap()
-        .then((resolved) => {
-          carImageTrigger({ id: resolved.id });
+        .then(() => {
+          carImageTrigger({ id: carFetchedById.vehicleId });
           carImageFormik.resetForm();
           dispatch(setFetched());
         });
+      // } else {
+      // await createCarImagesMutation({ vehicleImages: form })
+      //   .unwrap()
+      //   .then((resolved) => {
+      //     carImageTrigger({ id: resolved.id });
+      //     carImageFormik.resetForm();
+      //     dispatch(setFetched());
+      //   });
       // }
     },
   });
@@ -249,6 +269,9 @@ const Page = () => {
     dispatch(clearCarError());
   } else if (deleteACarObjectError) {
     showError(deleteACarObjectError);
+    dispatch(clearCarError());
+  } else if (getACarByIdError) {
+    showError(getACarByIdError);
     dispatch(clearCarError());
   }
 
@@ -311,15 +334,15 @@ const Page = () => {
     noClick: true,
   });
   // dispatch(clearLoading());
-
+  console.log(carFetchedById, "here");
   return (
     <div className={`flex flex-col h-screen p-[20px]`}>
       <Toast ref={toast} />
       <HeaderTemplate
         router={() => router.back()}
-        total={vehicleImages.length}
+        total={vehicleImages.length || carFetchedById.vehicleImages.length}
       />
-      {createACarImageLoading || deleteACarLoading ? (
+      {createACarImageLoading || deleteACarLoading || getACarByIdLoading ? (
         <div className={`h-full w-full flex justify-center items-center`}>
           <Loader width={50} height={50} className={`animate-spin`} />
         </div>
@@ -329,11 +352,27 @@ const Page = () => {
             className: `flex-grow flex-1 overflow-y-scroll pb-7 noScroll`,
           })}
         >
-          {vehicleImages.length === 0 &&
+          {carFetchedById.vehicleImages.length === 0 &&
+          vehicleImages.length === 0 &&
           carImageFormik.values.preview.length === 0 ? (
             <EmptyTemplate btnUpload={getInputProps} />
           ) : (
             <div className={`flex flex-wrap items-center gap-[16px] mt-3`}>
+              {carFetchedById.vehicleImages.length > 0 &&
+                carFetchedById.vehicleImages.map((vehicle) => (
+                  <SingleImage
+                    id={vehicle.vehicleImageId}
+                    deleteACarImageMutation={(id) =>
+                      deleteACarImageMutation({ vehicleImageId: id })
+                        .unwrap()
+                        .then(() => {
+                          dispatch(removeImage(id));
+                        })
+                    }
+                    key={vehicle.vehicleImageId}
+                    src={vehicle.vehicleImageUrl}
+                  />
+                ))}
               {vehicleImages && vehicleImages.length > 0
                 ? vehicleImages.map((vehicle) => (
                     <SingleImage
@@ -403,9 +442,7 @@ const Page = () => {
 
       <Button
         disabled={
-          createACarImageLoading ||
-          deleteACarLoading ||
-          carImageFormik.values.preview.length === 0
+          createACarImageLoading || deleteACarLoading || getACarByIdLoading
             ? true
             : false
         }

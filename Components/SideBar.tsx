@@ -79,7 +79,7 @@ const SideBar = () => {
               className="flex gap-3 py-[16px] px-[20px]"
             >
               {link.icon}
-              <p className={`font-[400] text-[16px] font-square`}>
+              <p className={`font-[400] text-nowrap text-[16px] font-square`}>
                 {link.name}
               </p>
             </a>

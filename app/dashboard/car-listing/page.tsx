@@ -20,9 +20,9 @@ const Page = () => {
   const [activeTab, setActiveTab] = useState<string>("available");
   useGetAllCarsQuery({
     carBookingState:
-      activeTab === "available"
+      activeTab.toLowerCase() === "available"
         ? carBookingState.Available
-        : activeTab === "booked"
+        : activeTab.toLowerCase() === "booked"
         ? carBookingState.Booked
         : carBookingState.Cancelled,
     savedState: savedState.Active,

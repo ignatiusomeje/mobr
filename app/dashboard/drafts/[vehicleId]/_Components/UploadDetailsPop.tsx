@@ -4,13 +4,16 @@ import React, { useState } from "react";
 import VehicleInformation from "./VehicleInformation";
 import VehicleFeatures from "./VehicleFeatures";
 // import SuccessPop from "./SuccessPop";
-import { uploadDetailsPopType } from "../../_types/CarType";
+// import { uploadDetailsPopType } from "../../_types/CarType";
 import { Button } from "primereact/button";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { clearLoading, clearMoreInfoPop } from "../../_Data/CarSlice";
+// import { clearLoading, clearMoreInfoPop } from "../../_Data/CarSlice";
 import BackDialog from "./BackDialog";
 import { useRouter } from "next/navigation";
-import { useGetAllCarFeatureForDisplayQuery } from "../../_Data/CarAPI";
+import { uploadDetailsPopType } from "@/app/dashboard/car-listing/_types/CarType";
+import { useGetAllCarFeatureForDisplayQuery } from "@/app/dashboard/car-listing/_Data/CarAPI";
+import { clearLoading, clearMoreInfoPop } from "@/app/dashboard/car-listing/_Data/CarSlice";
+// import { useGetAllCarFeatureForDisplayQuery } from "../../_Data/CarAPI";
 
 const UploadDetailsPop = ({
   setVisible,

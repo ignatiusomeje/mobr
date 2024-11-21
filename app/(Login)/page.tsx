@@ -55,6 +55,7 @@ export default function Home() {
       loginAdminMutation(values)
         .unwrap()
         .then(() => {
+          loginFormik.resetForm();
           dispatch(setEmail(values.email));
           setVisible(true);
         });
@@ -73,6 +74,7 @@ export default function Home() {
       loginOtpMutation(values)
         .unwrap()
         .then(() => {
+          otpFormik.resetForm();
           setVisible(false);
           showSuccess();
           dispatch(clearEmail());

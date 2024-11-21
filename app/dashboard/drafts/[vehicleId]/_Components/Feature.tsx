@@ -2,7 +2,8 @@ import { Button } from "primereact/button";
 import React, { useState } from "react";
 import FeaturePop from "./FeaturePop";
 import { FormikProps } from "formik";
-import { updateCarFormikInputType } from "../../_types/CarType";
+import { updateCarFormikInputType } from "@/app/dashboard/car-listing/_types/CarType";
+// import { updateCarFormikInputType } from "../../_types/CarType";
 
 const Feature = ({
   title,
