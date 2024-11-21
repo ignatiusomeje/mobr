@@ -3,15 +3,14 @@ import Image from "next/image";
 import { Button } from "primereact/button";
 import React, { useState } from "react";
 import CarImageShow from "./CarImageShow";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { VehiclesCardType } from "../../car-listing/_types/CarType";
 import { useDeleteACarMutation } from "../../car-listing/_Data/CarAPI";
-import Link from "next/link";
 
 const VehicleCard = ({ vehicle }: VehiclesCardType) => {
   const [visible, setVisible] = useState<boolean>(false);
   const [deleteACarMutation, deleteACar] = useDeleteACarMutation();
-  // const router = useRouter();
+  const router = useRouter();
   return (
     <div
       className={`.max-w-[300px] hover:border-2 hover:border-[#C6C6C6] bg-[#F9F9F9] border-2 border-[#E2E2E2] rounded-[12px] flex flex-col w-full py-[16px] px-[18px] vehicleCard`}
@@ -60,18 +59,21 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
           disabled={deleteACar.isLoading}
           loading={deleteACar.isLoading}
           outlined
-          className={`border border-[#8D1510] text-[#8D1510] py-[8px] px-[14px] rounded-[12px] text-[10px] font-[400] focus::ring-0 font-square w-full .w-[125px] flex justify-center items-center gap-3`}
+          className={`border border-[#8D1510] text-[#8D1510] py-[8px] px-[14px] rounded-[12px] text-[10px] font-[400] focus:ring-0 font-square w-full .w-[125px] flex justify-center items-center gap-3`}
           onClick={() => deleteACarMutation({ vehicleId: vehicle.vehicleId })}
         >
           DELETE <X width={14} />
         </Button>
-        <Link href={`/dashboard/car-listing/${vehicle.vehicleId}/`}
+        <Button
+          disabled={deleteACar.isLoading}
           className={`btnChange border bg-[#11975D] text-white w-full .w-[125px] py-[8px] px-[14px] rounded-[12px] focus:ring-0 text-[10px] font-[400] font-square flex justify-center items-center gap-3`}
-          // onClick={()=> router.push(`/dashboard/car-listing/${vehicle.vehicleId}/`)}
+          onClick={() =>
+            router.push(`/dashboard/car-listing/${vehicle?.vehicleId}/`)
+          }
         >
           EDIT
           <PencilLine width={14} />
-        </Link>
+        </Button>
       </div>
       <CarImageShow
         visible={visible}

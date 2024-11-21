@@ -8,6 +8,7 @@ import { useDeleteACarMutation } from "../_Data/CarAPI";
 import { useRouter } from "next/navigation";
 
 const VehicleCard = ({ vehicle }: VehiclesCardType) => {
+  console.log(vehicle, "here is the issue")
   const [visible, setVisible] = useState<boolean>(false);
   const [deleteACarMutation, deleteACar] = useDeleteACarMutation();
   const router = useRouter()
@@ -66,7 +67,7 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
         <Button
         disabled={deleteACar.isLoading}
           className={`btnChange border bg-[#11975D] text-white w-full .w-[125px] py-[8px] px-[14px] rounded-[12px] text-[10px] font-[400] font-square flex justify-center items-center gap-3`}
-          onClick={()=> router.push(`/dashboard/car-listing/${vehicle.vehicleId}/`)}
+          onClick={()=> router.push(`/dashboard/car-listing/${vehicle?.vehicleId}/`)}
         >
           EDIT
           <PencilLine width={14} />
