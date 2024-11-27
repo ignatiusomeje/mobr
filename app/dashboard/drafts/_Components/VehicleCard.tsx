@@ -6,6 +6,7 @@ import CarImageShow from "./CarImageShow";
 import { useRouter } from "next/navigation";
 import { VehiclesCardType } from "../../car-listing/_types/CarType";
 import { useDeleteACarMutation } from "../../car-listing/_Data/CarAPI";
+import moment from "moment";
 
 const VehicleCard = ({ vehicle }: VehiclesCardType) => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -23,7 +24,7 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
           alt="vehicle name"
           height={260}
           width={140}
-          className="w-full cursor-pointer"
+          className={`w-full cursor-pointer aspect-[16/11]`}
           onClick={() => setVisible(true)}
         />
         <span className="absolute flex items-center justify-center m-2 h-[22px] w-[49px] top-0 right-0 bg-[#E8E8E8] border border-[#C6C6C6] rounded-[16px] p-[6px] text-[8px] font-[400] font-inter">
@@ -46,7 +47,8 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
           </p>
           <p className="text-[#777777] text-[14px] font-[400] font-inter">
             Available from{" "}
-            {new Date(vehicle.vehicleAvaliableDate).toLocaleDateString()}
+            {moment(vehicle.vehicleAvaliableDate).format("MMM D, YYYY")}
+            {/* {new Date(vehicle.vehicleAvaliableDate).toLocaleDateString()} */}
           </p>
         </div>
         <p className={`font-square text-[12px] font-[400] text-[#222B2E]`}>

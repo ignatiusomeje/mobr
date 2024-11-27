@@ -27,7 +27,7 @@ export type initialStateCar = {
   moreInfoPop: boolean;
   deleteACarObjectError: string;
   deleteACarObjectLoading: boolean;
-  carFetchedById: getByIdFormik;
+  carFetchedById: getByIdFormikFormat;
   getACarByIdLoading: boolean;
   getACarByIdError: string;
 };
@@ -79,6 +79,24 @@ export type getByIdFormik = {
   carBookingState: carBookingState;
   vehicleRentalPrice: number;
   vehicleAvaliableDate: Date;
+  averageVehicleRating: number;
+  vehicleImages: vehicleImagesType[];
+};
+
+export type getByIdFormikFormat = {
+  vehicleId: string;
+  vehicleCondition: string;
+  transmissionType: TransmissionType;
+  energyType: EnergyType;
+  savedState: savedState;
+  vehicleYear: number;
+  reviewCount: number;
+  vehicleName: string;
+  vehicleLocation: string;
+  vehicleDescription: string;
+  carBookingState: carBookingState;
+  vehicleRentalPrice: number;
+  vehicleAvaliableDate: string;
   averageVehicleRating: number;
   vehicleImages: vehicleImagesType[];
 };
@@ -243,9 +261,9 @@ export type HeaderTemplateType = {
 };
 
 export type uploadDetailsPopType = {
-  setVisible: (e: boolean) => void;
+  // setVisible: (e: boolean) => void;
   newCarFormik: FormikProps<updateCarFormikInputType>;
-  submit: () => void;
+  submit: (draft:boolean) => void;
   publishLoading: boolean;
   addFeatureLoading: boolean;
   visible: boolean;

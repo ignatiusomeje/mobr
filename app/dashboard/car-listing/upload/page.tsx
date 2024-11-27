@@ -26,8 +26,9 @@ import {
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 // import * as yup from "yup";
-import { EnergyType, savedState, TransmissionType } from "../_types/CarType";
+import { savedState } from "../_types/CarType";
 import SuccessPop from "./_Components/SuccessPop";
+import { clearFormikValue } from "@/store/FormikSlice";
 
 type FileWithPreview = File & {
   preview: string;
@@ -77,6 +78,7 @@ const Page = () => {
   const getAllCarFeatureError = useAppSelector(
     (state) => state.cars.getAllCarFeatureError
   );
+  const FormikValues = useAppSelector((state) => state.Formik.vehicle);
   const createACarFeatureError = useAppSelector(
     (state) => state.cars.createACarFeatureError
   );
@@ -119,22 +121,51 @@ const Page = () => {
   const newCarFormik = useFormik({
     initialValues: {
       vehicleId: vehicleId,
-      vehicleName: "",
-      vehicleLocation: "",
-      vehicleCondition: "",
-      vehicleYear: 0,
-      transmissionType: TransmissionType.Manual,
-      energyType: EnergyType.Petrol,
-      vehicleDescription: "",
-      vehicleRentalPrice: 0,
+      vehicleName: FormikValues.vehicleName,
+      vehicleLocation: FormikValues.vehicleLocation,
+      vehicleCondition: FormikValues.vehicleCondition,
+      vehicleYear: FormikValues.vehicleYear,
+      transmissionType: FormikValues.transmissionType,
+      energyType: FormikValues.energyType,
+      vehicleDescription: FormikValues.vehicleDescription,
+      vehicleRentalPrice: FormikValues.vehicleRentalPrice,
       savedState: isDraft ? savedState.Draft : savedState.Active,
-      vehicleAvaliableDate: new Date(0),
+      vehicleAvaliableDate: new Date(FormikValues.vehicleAvaliableDate),
       vehicleFeatures: carFeatures.map((feature) => feature.featureId),
     },
     enableReinitialize: true,
     // validationSchema: validate,
     onSubmit: (values) => {
-      console.log(values);
+      const allFilled = Object.values(values).some(
+        (value) => value === "" || value === 0
+      );
+      if (allFilled && values.savedState === savedState.Active) {
+        values.savedState = savedState.Draft;
+        if (values.vehicleFeatures.length > 0) {
+          return addCarFeatureToVehicleMutation({
+            carId: values.vehicleId,
+            featuresIds: values.vehicleFeatures,
+          })
+            .unwrap()
+            .then(() => {
+              publishACarMutation(values)
+                .unwrap()
+                .then(() =>
+                  isDraft
+                    ? setSuccess({ isDraft: true, visible: true })
+                    : setSuccess({ isDraft: false, visible: true })
+                );
+            })
+            .catch((err) => showError(err));
+        }
+        publishACarMutation(values)
+          .unwrap()
+          .then(() =>
+            isDraft
+              ? setSuccess({ isDraft: true, visible: true })
+              : setSuccess({ isDraft: false, visible: true })
+          );
+      }
       if (values.vehicleFeatures.length > 0) {
         return addCarFeatureToVehicleMutation({
           carId: values.vehicleId,
@@ -144,32 +175,28 @@ const Page = () => {
           .then(() => {
             publishACarMutation(values)
               .unwrap()
-              .then(() =>
-                isDraft
-                  ? setSuccess({ isDraft: true, visible: true })
-                  : setSuccess({ isDraft: false, visible: true })
-              );
+              .then(() => {
+                if (isDraft) {
+                  setSuccess({ isDraft: true, visible: true });
+                } else {
+                  setSuccess({ isDraft: false, visible: true });
+                }
+                dispatch(clearFormikValue());
+              });
           })
           .catch((err) => showError(err));
       }
       publishACarMutation(values)
         .unwrap()
-        .then(() =>
-          isDraft
-            ? setSuccess({ isDraft: true, visible: true })
-            : setSuccess({ isDraft: false, visible: true })
-        )
+        .then(() => {
+          if (isDraft) {
+            setSuccess({ isDraft: true, visible: true });
+          } else {
+            setSuccess({ isDraft: false, visible: true });
+          }
+          dispatch(clearFormikValue());
+        })
         .catch((err) => showError(err));
-
-      // console.log(values, "see me here");
-      // console.log(values);
-      // createBenefitMutation(values)
-      //   .unwrap()
-      //   .then(() => {
-      //     showSuccess("Benefit created successfully");
-      //     benefitFormik.resetForm();
-      //     setNewBenefit(false);
-      //   });
     },
   });
 
@@ -416,10 +443,13 @@ const Page = () => {
       </Button>
       <UploadDetailsPop
         newCarFormik={newCarFormik}
-        submit={() => newCarFormik.submitForm()}
+        submit={(draft) => {
+          setIsDraft(draft);
+          newCarFormik.submitForm();
+        }}
         publishLoading={publishCar.isLoading}
         addFeatureLoading={addCarFeature.isLoading}
-        setVisible={(e) => setIsDraft(e)}
+        // setVisible={(e) => setIsDraft(e)}
         visible={isDraft}
       />
       <SuccessPop visible={success} setVisible={setSuccess} />

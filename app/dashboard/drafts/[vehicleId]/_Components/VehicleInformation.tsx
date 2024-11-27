@@ -7,6 +7,7 @@ import React from "react";
 // import { updateCarFormikInputType } from "../../_types/CarType";
 import { InputNumber } from "primereact/inputnumber";
 import { updateCarFormikInputType } from "@/app/dashboard/car-listing/_types/CarType";
+import titleCase from "@/utils/MakeTitleCase";
 // import { Calendar } from "primereact/calendar";
 
 const VehicleInformation = ({
@@ -31,7 +32,7 @@ const VehicleInformation = ({
               type="text"
               name="vehicleName"
               id="vehicleName"
-              value={newCarFormik.values.vehicleName}
+              value={newCarFormik.values.vehicleName?.toUpperCase()}
               onChange={newCarFormik.handleChange}
               onBlur={newCarFormik.handleBlur}
               variant="outlined"
@@ -86,7 +87,7 @@ const VehicleInformation = ({
               type="text"
               name="vehicleLocation"
               id="vehicleLocation"
-              value={newCarFormik.values.vehicleLocation}
+              value={titleCase(newCarFormik.values.vehicleLocation)}
               onChange={newCarFormik.handleChange}
               onBlur={newCarFormik.handleBlur}
               variant="outlined"
@@ -200,7 +201,7 @@ const VehicleInformation = ({
               name="vehicleDescription"
               id="vehicleDescription"
               rows={8}
-              value={newCarFormik.values.vehicleDescription}
+              value={titleCase(newCarFormik.values.vehicleDescription)}
               onChange={newCarFormik.handleChange}
               onBlur={newCarFormik.handleBlur}
               variant="outlined"

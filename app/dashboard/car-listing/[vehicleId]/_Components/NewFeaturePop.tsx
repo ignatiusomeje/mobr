@@ -12,6 +12,7 @@ import { useCreateACarFeatureMutation } from "../../_Data/CarAPI";
 import { Toast } from "primereact/toast";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { clearLoginError } from "@/app/(Login)/_Data/LoginSlice";
+import titleCase from "@/utils/MakeTitleCase";
 // import { setFeatureTitle } from "../../_Data/CarSlice";
 
 const NewFeaturePop = ({
@@ -43,6 +44,7 @@ const NewFeaturePop = ({
     validationSchema: newFeatureSchema,
     // enableReinitialize: true,
     onSubmit: (values) => {
+      values.featureTitle.toUpperCase();
       createACarFeatureMutation(values)
         .unwrap()
         .then(() => {
@@ -111,7 +113,7 @@ const NewFeaturePop = ({
                   id="featureTitle"
                   name="featureTitle"
                   type="text"
-                  value={newFeatureFormik.values.featureTitle}
+                  value={newFeatureFormik.values.featureTitle?.toUpperCase()}
                   onChange={newFeatureFormik.handleChange}
                   onBlur={newFeatureFormik.handleBlur}
                   variant="outlined"
@@ -137,7 +139,7 @@ const NewFeaturePop = ({
                   id="featureName"
                   name="featureName"
                   type="text"
-                  value={newFeatureFormik.values.featureName}
+                  value={titleCase(newFeatureFormik.values.featureName)}
                   onChange={newFeatureFormik.handleChange}
                   onBlur={newFeatureFormik.handleBlur}
                   variant="outlined"

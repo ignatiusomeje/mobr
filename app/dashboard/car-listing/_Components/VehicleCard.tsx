@@ -6,12 +6,13 @@ import { VehiclesCardType } from "../_types/CarType";
 import CarImageShow from "./CarImageShow";
 import { useDeleteACarMutation } from "../_Data/CarAPI";
 import { useRouter } from "next/navigation";
+import moment from "moment";
 
 const VehicleCard = ({ vehicle }: VehiclesCardType) => {
-  console.log(vehicle, "here is the issue")
+  console.log(vehicle, "here is the issue");
   const [visible, setVisible] = useState<boolean>(false);
   const [deleteACarMutation, deleteACar] = useDeleteACarMutation();
-  const router = useRouter()
+  const router = useRouter();
   return (
     <div
       className={`.max-w-[300px] hover:border-2 hover:border-[#C6C6C6] bg-[#F9F9F9] border-2 border-[#E2E2E2] rounded-[12px] flex flex-col w-full py-[16px] px-[18px] vehicleCard`}
@@ -24,7 +25,7 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
           alt="vehicle name"
           height={260}
           width={140}
-          className="w-full cursor-pointer"
+          className={`w-full cursor-pointer aspect-[16/11]`}
           onClick={() => setVisible(true)}
         />
         <span className="absolute flex items-center justify-center m-2 h-[22px] w-[49px] top-0 right-0 bg-[#E8E8E8] border border-[#C6C6C6] rounded-[16px] p-[6px] text-[8px] font-[400] font-inter">
@@ -46,7 +47,8 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
             </span>
           </p>
           <p className="text-[#777777] text-[14px] font-[400] font-inter">
-            Available from {new Date(vehicle.vehicleAvaliableDate).toLocaleDateString()}
+            Available from{" "}
+            {moment(vehicle.vehicleAvaliableDate).format("MMM D, YYYY")}
           </p>
         </div>
         <p className={`font-square text-[12px] font-[400] text-[#222B2E]`}>
@@ -65,9 +67,11 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
           DELETE <X width={14} />
         </Button>
         <Button
-        disabled={deleteACar.isLoading}
+          disabled={deleteACar.isLoading}
           className={`btnChange border bg-[#11975D] text-white w-full .w-[125px] py-[8px] px-[14px] rounded-[12px] focus:ring-0 text-[10px] font-[400] font-square flex justify-center items-center gap-3`}
-          onClick={()=> router.push(`/dashboard/car-listing/${vehicle?.vehicleId}/`)}
+          onClick={() =>
+            router.push(`/dashboard/car-listing/${vehicle?.vehicleId}/`)
+          }
         >
           EDIT
           <PencilLine width={14} />

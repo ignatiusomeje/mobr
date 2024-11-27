@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { useGetAllCarFeatureForDisplayQuery } from "../../_Data/CarAPI";
 
 const UploadDetailsPop = ({
-  setVisible,
+  // setVisible,
   newCarFormik,
   submit,
   publishLoading,
@@ -92,8 +92,9 @@ const UploadDetailsPop = ({
                 disabled={publishLoading || addFeatureLoading}
                 onClick={
                   async () => {
-                    await setVisible(true);
-                    await newCarFormik.submitForm();
+                    // await setVisible(true);
+                    // await newCarFormik.submitForm();
+                    await submit(true)
                   }
                   // setSuccess((prev) => ({
                   //   ...prev,
@@ -105,13 +106,14 @@ const UploadDetailsPop = ({
                 SAVE TO DRAFT <Bookmark width={14} />
               </Button>
               <Button
+              type="button"
                 loading={(publishLoading || addFeatureLoading) && !visible}
                 disabled={publishLoading || addFeatureLoading}
                 className={`w-full flex justify-center items-center focus:ring-0 gap-[8px] py-[8px] px-[14px] rounded-[20px] bg-[#11975D] hover:bg-[#3A494F] text-[#FFFFFF] font-[400] font-square text-[10px] leading-[18px] tracking-[0.4px]`}
                 onClick={
                   async () => {
-                    await setVisible(false);
-                    await submit();
+                    // await setVisible(false);
+                    await submit(false);
                   }
                   // setSuccess((prev) => ({
                   //   ...prev,

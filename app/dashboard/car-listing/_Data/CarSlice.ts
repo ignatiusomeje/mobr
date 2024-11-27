@@ -75,7 +75,7 @@ const initialState: initialStateCar = {
     reviewCount: 0,
     savedState: savedState.Active,
     transmissionType: TransmissionType.Auto,
-    vehicleAvaliableDate: new Date(),
+    vehicleAvaliableDate: new Date().toISOString(),
     vehicleCondition: "",
     vehicleDescription: "",
     vehicleId: "",
@@ -92,6 +92,9 @@ const CarSlice = createSlice({
   name: "cars",
   initialState,
   reducers: {
+    setMoreInfoPop:(state)=>{
+      state.moreInfoPop = true
+    },
     clearCarError: (state) => {
       state.createACarImageError = "";
       state.getACarImageError = "";
@@ -124,10 +127,10 @@ const CarSlice = createSlice({
       state,
       action: PayloadAction<createACarFeatureResponseTypes>
     ) => {
-      state.carFeatures = [...state.carFeatures, action.payload];
       state.carFeaturesForDisplay = state.carFeaturesForDisplay.filter(
         (feat) => feat.featureTitle !== action.payload.featureTitle
       );
+      state.carFeatures = [...state.carFeatures, action.payload];
       // const index = state.carFeaturesForDisplay.findIndex((feat) =>
       //   feat.features.find((car) => car.featureId === action.payload.featureId)
       // );
@@ -192,7 +195,7 @@ const CarSlice = createSlice({
         reviewCount: 0,
         savedState: savedState.Active,
         transmissionType: TransmissionType.Auto,
-        vehicleAvaliableDate: new Date(),
+        vehicleAvaliableDate: new Date().toISOString(),
         vehicleCondition: "",
         vehicleDescription: "",
         vehicleId: "",
@@ -282,13 +285,10 @@ const CarSlice = createSlice({
       state.createACarImageLoading = true;
     });
 
-    builder.addMatcher(
-      updateCreateCarImages.matchFulfilled,
-      (state) => {
-        state.createACarImageLoading = false;
-        state.moreInfoPop = true;
-      }
-    );
+    builder.addMatcher(updateCreateCarImages.matchFulfilled, (state) => {
+      state.createACarImageLoading = false;
+      state.moreInfoPop = true;
+    });
 
     builder.addMatcher(
       updateCreateCarImages.matchRejected,
@@ -474,7 +474,11 @@ const CarSlice = createSlice({
       getACarById.matchFulfilled,
       (state, action: PayloadAction<getByIdResponse>) => {
         state.getACarByIdLoading = false;
-        state.carFetchedById = action.payload;
+        state.carFetchedById = {
+          ...action.payload,
+          vehicleAvaliableDate:
+            new Date(action.payload.vehicleAvaliableDate).toISOString(),
+        };
       }
     );
 
@@ -501,6 +505,7 @@ export const {
   setFetched,
   clearMoreInfoPop,
   addCarFeature,
+  setMoreInfoPop
 } = CarSlice.actions;
 
 export default CarSlice.reducer;

@@ -31,9 +31,21 @@ import { useFormik } from "formik";
 // import { savedState } from "../_types/CarType";
 import SuccessPop from "./_Components/SuccessPop";
 import UploadDetailsPop from "./_Components/UploadDetailsPop";
-import { useAddCarFeatureToVehicleMutation, useDeleteACarImageMutation, useGetACarByIdQuery, useLazyGetACarImagesQuery, usePublishACarMutation, useUpdateCreateCarImagesMutation } from "../../car-listing/_Data/CarAPI";
+import {
+  useAddCarFeatureToVehicleMutation,
+  useDeleteACarImageMutation,
+  useGetACarByIdQuery,
+  useLazyGetACarImagesQuery,
+  usePublishACarMutation,
+  useUpdateCreateCarImagesMutation,
+} from "../../car-listing/_Data/CarAPI";
 import { savedState } from "../../car-listing/_types/CarType";
-import { clearCarError, removeImage, setFetched } from "../../car-listing/_Data/CarSlice";
+import {
+  clearCarError,
+  removeImage,
+  setFetched,
+  setMoreInfoPop,
+} from "../../car-listing/_Data/CarSlice";
 
 type FileWithPreview = File & {
   preview: string;
@@ -145,11 +157,8 @@ const Page = () => {
       energyType: carFetchedById?.energyType,
       vehicleDescription: carFetchedById?.vehicleDescription,
       vehicleRentalPrice: carFetchedById?.vehicleRentalPrice,
-      savedState:
-        carFetchedById?.savedState || isDraft
-          ? savedState.Draft
-          : savedState.Active,
-      vehicleAvaliableDate: carFetchedById?.vehicleAvaliableDate,
+      savedState: isDraft ? savedState.Draft : savedState.Active,
+      vehicleAvaliableDate: new Date(carFetchedById?.vehicleAvaliableDate),
       vehicleFeatures: carFeatures?.map((feature) => feature.featureId),
     },
     enableReinitialize: true,
@@ -343,9 +352,13 @@ const Page = () => {
       <Toast ref={toast} />
       <HeaderTemplate
         router={() => router.back()}
-        total={vehicleImages.length || carFetchedById?.vehicleImages.length}
+        total={
+          carImageFormik.values.vehicleImages.length +
+          vehicleImages?.length +
+          carFetchedById?.vehicleImages.length
+        }
       />
-      {createACarImageLoading || deleteACarLoading || getACarByIdLoading ? (
+      {createACarImageLoading || getACarByIdLoading ? (
         <div className={`h-full w-full flex justify-center items-center`}>
           <Loader width={50} height={50} className={`animate-spin`} />
         </div>
@@ -449,17 +462,24 @@ const Page = () => {
             ? true
             : false
         }
-        onClick={() => carImageFormik.submitForm()}
+        onClick={() =>
+          carImageFormik.values.vehicleImages.length > 0
+            ? carImageFormik.submitForm()
+            : dispatch(setMoreInfoPop())
+        }
         className={`disabled:bg-[#C6C6C6] bg-[#11975D] rounded-[20px] py-[8px] flex items-center justify-center w-full gap-[8px] focus:ring-0 px-[14px] font-square font-[400] text-[10px] leading-[18px] tracking-[0.4px] text-[#FFFFFF]`}
       >
         Continue <ArrowRight width={14} />
       </Button>
       <UploadDetailsPop
         newCarFormik={newCarFormik}
-        submit={() => newCarFormik.submitForm()}
+        submit={(draft) => {
+          setIsDraft(draft);
+          newCarFormik.submitForm();
+        }}
         publishLoading={publishCar.isLoading}
         addFeatureLoading={addCarFeature.isLoading}
-        setVisible={(e) => setIsDraft(e)}
+        // setVisible={(e) => setIsDraft(e)}
         visible={isDraft}
       />
       <SuccessPop visible={success} setVisible={setSuccess} />

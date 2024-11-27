@@ -13,6 +13,8 @@ import { useFormik } from "formik";
 import { EnergyType, TransmissionType } from "../../_types/CarType";
 import { useUpdateACarFeatureMutation } from "../../_Data/CarAPI";
 import { Nullable } from "primereact/ts-helpers";
+import titleCase from "@/utils/MakeTitleCase";
+import { setFormikValue } from "@/store/FormikSlice";
 
 const FeaturePop = ({
   name,
@@ -34,6 +36,7 @@ const FeaturePop = ({
   ) => {
     console.log("see me here", inputValue);
     newCarFormik.setFieldValue(inputName, inputValue);
+    dispatch(setFormikValue({ [inputName]: inputValue }));
     setVisible({ name: "", active: false });
   };
 
@@ -168,6 +171,10 @@ const FeaturePop = ({
                 }
                 onChange={(e) => dispatch(addCarFeature(e.value))}
               />
+            ) : getAllCar ? (
+              <div className="flex justify-center items-center">
+                <Loader2 className={`animate-spin`} width={24} />
+              </div>
             ) : (
               <SelectButton
                 // multiple={name.toLowerCase() === "other features" && true}
@@ -218,7 +225,9 @@ const FeaturePop = ({
                         type="text"
                         name="featureName"
                         id="featureName"
-                        value={updateFeatureFormik.values.featureName}
+                        value={titleCase(
+                          updateFeatureFormik.values.featureName
+                        )}
                         onChange={updateFeatureFormik.handleChange}
                         onBlur={updateFeatureFormik.handleBlur}
                         variant="outlined"

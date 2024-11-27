@@ -14,6 +14,7 @@ import {
   // clearLoading,
   removeImage,
   setFetched,
+  setMoreInfoPop,
   // setFetched,
 } from "../_Data/CarSlice";
 import {
@@ -52,7 +53,7 @@ const Page = () => {
 
   // const [filesToUpload, setFilesToUpload] = useState<FileWithPreview[]>([]);
   // const [createCarImagesMutation] = useCreateCarImagesMutation();
-console.log("you see the error now" ,vehicleId, vehicleId.vehicleId)
+  console.log("you see the error now", vehicleId, vehicleId.vehicleId);
   useGetACarByIdQuery({ vehicleId: vehicleId?.vehicleId });
   const [updateCreateCarImagesMutation] = useUpdateCreateCarImagesMutation();
   const [deleteACarImageMutation] = useDeleteACarImageMutation();
@@ -142,11 +143,8 @@ console.log("you see the error now" ,vehicleId, vehicleId.vehicleId)
       energyType: carFetchedById?.energyType,
       vehicleDescription: carFetchedById?.vehicleDescription,
       vehicleRentalPrice: carFetchedById?.vehicleRentalPrice,
-      savedState:
-        carFetchedById?.savedState || isDraft
-          ? savedState.Draft
-          : savedState.Active,
-      vehicleAvaliableDate: carFetchedById?.vehicleAvaliableDate,
+      savedState: isDraft ? savedState.Draft : savedState.Active,
+      vehicleAvaliableDate: new Date(carFetchedById?.vehicleAvaliableDate),
       vehicleFeatures: carFeatures?.map((feature) => feature.featureId),
     },
     enableReinitialize: true,
@@ -340,9 +338,13 @@ console.log("you see the error now" ,vehicleId, vehicleId.vehicleId)
       <Toast ref={toast} />
       <HeaderTemplate
         router={() => router.back()}
-        total={vehicleImages.length || carFetchedById?.vehicleImages.length}
+        total={
+          carImageFormik.values.vehicleImages.length +
+          vehicleImages?.length +
+          carFetchedById?.vehicleImages.length
+        }
       />
-      {createACarImageLoading || deleteACarLoading || getACarByIdLoading ? (
+      {createACarImageLoading || getACarByIdLoading ? (
         <div className={`h-full w-full flex justify-center items-center`}>
           <Loader width={50} height={50} className={`animate-spin`} />
         </div>
@@ -446,17 +448,24 @@ console.log("you see the error now" ,vehicleId, vehicleId.vehicleId)
             ? true
             : false
         }
-        onClick={() => carImageFormik.submitForm()}
+        onClick={() =>
+          carImageFormik.values.vehicleImages.length > 0
+            ? carImageFormik.submitForm()
+            : dispatch(setMoreInfoPop())
+        }
         className={`disabled:bg-[#C6C6C6] bg-[#11975D] rounded-[20px] py-[8px] flex items-center justify-center w-full gap-[8px] focus:ring-0 px-[14px] font-square font-[400] text-[10px] leading-[18px] tracking-[0.4px] text-[#FFFFFF]`}
       >
         Continue <ArrowRight width={14} />
       </Button>
       <UploadDetailsPop
         newCarFormik={newCarFormik}
-        submit={() => newCarFormik.submitForm()}
+        submit={(draft) => {
+          setIsDraft(draft);
+          newCarFormik.submitForm();
+        }}
         publishLoading={publishCar.isLoading}
         addFeatureLoading={addCarFeature.isLoading}
-        setVisible={(e) => setIsDraft(e)}
+        // setVisible={(e) => setIsDraft(e)}
         visible={isDraft}
       />
       <SuccessPop visible={success} setVisible={setSuccess} />

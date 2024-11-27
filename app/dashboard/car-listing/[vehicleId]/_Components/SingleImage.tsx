@@ -12,7 +12,7 @@ const SingleImage = ({
   deleteACarImageMutation: (id: number) => void;
 }) => {
   return (
-    <div className={`flex flex-col gap-[10px]`}>
+    <div className={`flex relative flex-col gap-[10px]`}>
       <Image
         src={src}
         alt="car Image"

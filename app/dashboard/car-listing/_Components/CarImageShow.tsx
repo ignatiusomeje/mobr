@@ -58,7 +58,7 @@ const CarImageShow = ({
     });
   };
 
-  console.log(images, "see me here")
+  console.log(images, "see me here");
 
   const ItemTemplate = (item: string) => (
     <div
@@ -70,7 +70,7 @@ const CarImageShow = ({
         alt="car name"
         width={600}
         height={360}
-        className={`object-cover w-full aspect-video`}
+        className={`.object-cover w-full aspect-video`}
       />
     </div>
   );
@@ -108,19 +108,23 @@ const CarImageShow = ({
               className={`bg-[#FFFFFF] py-[12px] mt-[20px] flex items-center justify-center gap-[11px]`}
             >
               <Button
-                disabled={prevEnd}
+                disabled={prevEnd || images.length === 1}
                 onClick={prev}
                 className={`py-[10px] focus:ring-0 px-[16px] rounded-[20px] ${
-                  prevEnd ? `bg-[#C6C6C6]` : `bg-[#11975D]`
+                  prevEnd || images.length === 1
+                    ? `bg-[#C6C6C6]`
+                    : `bg-[#11975D]`
                 }`}
               >
                 <ArrowLeft color="#FFFFFF" width={14} />
               </Button>
               <Button
                 onClick={next}
-                disabled={nextEnd}
+                disabled={nextEnd || images.length === 1}
                 className={`py-[10px] focus:ring-0 px-[16px] rounded-[20px] ${
-                  nextEnd ? `bg-[#C6C6C6]` : `bg-[#11975D]`
+                  nextEnd || images.length === 1
+                    ? `bg-[#C6C6C6]`
+                    : `bg-[#11975D]`
                 }`}
               >
                 <ArrowRight color="#FFFFFF" width={14} />
