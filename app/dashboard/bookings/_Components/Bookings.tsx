@@ -56,7 +56,7 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
     </span>
   );
 
-  const actionSketch = () => (
+  const actionSketch = (value:bookingResponseType) => (
     <div className="relative">
       <Button
         className={`focus:ring-0`}
@@ -69,16 +69,23 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
         dismissable={true}
         className={` bg-[#F1F1F1]v max-w-[131px] w-full`}
       >
-        <a
-          className={`text-[#222B2E] hover:bg-[#DDE4E6] hover:cursor-pointer block font-square text-[16px] font-[400] py-[10px] px-[12px]`}
+        <Button
+        onClick={()=>{
+          dispatch(showBookingPop({ show: true }));
+          dispatch(setCurrentBooking(value));
+          GetACarByIdTrigger({ vehicleId: value.vehichleId });
+          GetOneCustomerTrigger({ id: value.customerId });
+          GetAllCarFeatureTrigger({ vehicleId: value.vehichleId });
+        }}
+          className={`text-[#222B2E] w-full hover:bg-[#DDE4E6] hover:cursor-pointer block font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
         >
           View
-        </a>
-        <a
-          className={`text-[#8D1510] block hover:bg-[#DDE4E6] hover:cursor-pointer font-square text-[16px] font-[400] py-[10px] px-[12px]`}
+        </Button>
+        <Button
+          className={`text-[#8D1510] w-full block hover:bg-[#DDE4E6] hover:cursor-pointer font-square text-[16px] font-[400] py-[10px] px-[12px]`}
         >
           Block
-        </a>
+        </Button>
       </OverlayPanel>
     </div>
   );
@@ -100,6 +107,11 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
         rowsPerPageOptions={[5, 10, 25, 50]}
         tableStyle={{ minWidth: "50rem" }}
         selectionMode="single"
+        emptyMessage={
+          <p className="w-full flex justify-center items-center">
+            No Booking found
+          </p>
+        }
       >
         <Column field="bookingId" header="#" style={{ width: "5%" }}></Column>
         <Column
@@ -124,7 +136,7 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
           header="CUSTOMERS"
           style={{ width: "11%" }}
         ></Column>
-        <Column field="phone" header="PHONE" style={{ width: "11%" }}></Column>
+        <Column field="phoneNumber" header="PHONE" style={{ width: "11%" }}></Column>
         <Column field="email" header="EMAIL" style={{ width: "11%" }}></Column>
         <Column
           field="bookingState"

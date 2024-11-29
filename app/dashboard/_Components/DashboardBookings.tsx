@@ -1,30 +1,45 @@
 import React from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { Booking } from "@/types/Bookings";
-import { dataSet } from "@/utils/data";
+import { useAppSelector } from "@/store/hooks";
+import { bookingResponseType, bookingState } from "../bookings/_Types/BookingTypes";
+import moment from "moment";
 
 const DashboardBookings = () => {
-  const data = dataSet
+  const bookings = useAppSelector(
+    (state) => state.bookings.bookings
+  )
+  const data = bookings
 
-  const statusSketch = (value: Booking) =>
-    value.status === "booked" ? (
+  const returnDateSketch = (value: bookingResponseType) => (
+    <span className={`font-inter font-[400] capitalize text-[12px] `}>
+      {moment(value.returnDate).format("MMM D, YYYY")}
+    </span>
+  );
+  const startDateSketch = (value: bookingResponseType) => (
+    <span className={`font-inter font-[400] capitalize text-[12px] `}>
+      {moment(value.startDate).format("MMM D, YYYY")}
+    </span>
+  );
+
+  const statusSketch = (value: bookingResponseType) =>
+    value.bookingState === bookingState.Booked ? (
       <span
         className={`bg-[#C6EBD7] flex items-center justify-center w-[100px] text-[#00552E] rounded-[20px] p-[6px] font-inter font-[400] capitalize text-[12px] `}
       >
-        {value.status}
+        {value.bookingState}
       </span>
-    ) : value.status === "cancelled" ? (
+    ) : value.bookingState === bookingState.Cancelled ? (
       <span
         className={`bg-[#FFD5C9] flex items-center justify-center w-[100px] text-[#8D1510] rounded-[20px] p-[6px] font-inter font-[400] capitalize text-[12px]`}
       >
-        {value.status}
+        {value.bookingState}
       </span>
     ) : (
       <span
         className={`bg-[#E2E2E2] flex items-center justify-center w-[100px] text-[#475960] rounded-[20px] p-[6px] font-inter font-[400]- capitalize text-[12px]`}
       >
-        {value.status}
+        {value.bookingState}
       </span>
     );
 
@@ -35,43 +50,44 @@ const DashboardBookings = () => {
         rows={5}
         rowsPerPageOptions={[10]}
         tableStyle={{ minWidth: "50rem" }}
+        emptyMessage={
+          <p className="w-full flex justify-center items-center">
+            No Booking found
+          </p>
+        }
       >
-        <Column field="id" header="#" style={{ width: "5%" }}></Column>
+        <Column field="bookingId" header="#" style={{ width: "5%" }}></Column>
         <Column
-          field="start"
+          field="startDate"
           header="START DATE"
+          body={startDateSketch}
           style={{ width: "11%" }}
         ></Column>
         <Column
-          field="return"
+          field="returnDate"
           header="RETURN DATE"
+          body={returnDateSketch}
           style={{ width: "11%" }}
         ></Column>
         <Column
-          field="vehicleId"
+          field="vehichleId"
           header="VEHICLE ID"
           style={{ width: "11%" }}
         ></Column>
         <Column
-          field="customer"
+          field="customerName"
           header="CUSTOMERS"
           style={{ width: "11%" }}
         ></Column>
-        <Column field="phone" header="PHONE" style={{ width: "11%" }}></Column>
+        <Column field="phoneNumber" header="PHONE" style={{ width: "11%" }}></Column>
         <Column field="email" header="EMAIL" style={{ width: "11%" }}></Column>
         <Column
-          field="status"
+          field="bookingState"
           header="STATUS"
           dataType="string"
           body={statusSketch}
           style={{ width: "5%" }}
         ></Column>
-        {/* <Column
-          // field="representative.name"
-          header="ACTION"
-          style={{ width: "5%" }}
-          body={actionSketch}
-        ></Column> */}
       </DataTable>
     </div>
   );

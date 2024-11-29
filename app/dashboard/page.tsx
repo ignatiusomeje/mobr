@@ -4,8 +4,10 @@ import NavBar from "@/Components/NavBar";
 import React from "react";
 import DashboardTemp from "./_Components/DashboardTemp";
 import { dashboardTempData } from "@/utils/data";
+import { useGetAllBookingsQuery } from "./bookings/_Data/BookingAPI";
 
-const page = () => {
+const Page = () => {
+  useGetAllBookingsQuery({});
   return (
     <DashboardWrapper>
       <NavBar routeName="Dashboard" />
@@ -16,4 +18,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
