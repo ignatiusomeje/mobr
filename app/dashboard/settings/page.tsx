@@ -57,7 +57,6 @@ const Page = () => {
     },
     validationSchema: validate,
     onSubmit: (values) => {
-      // console.log(values);
       createBenefitMutation(values)
         .unwrap()
         .then(() => {
@@ -77,7 +76,6 @@ const Page = () => {
     },
     validationSchema: validateChangePassword,
     onSubmit: (values) => {
-      // console.log(values);
       changePasswordMutation(values)
         .unwrap()
         .then(() => {

@@ -13,20 +13,19 @@ const initialState: initialStateCustomers = {
   getOneCustomerLoading: false,
   showPopUp: false,
   customer: {
-    created: undefined,
+    created: new Date().toISOString(),
     email: "",
     fullName: "",
     id: 0,
     isVerified: false,
     countryCode: "",
-    dateValidated: undefined,
-    dob: undefined,
+    dateValidated: new Date().toISOString(),
+    dob: new Date().toISOString(),
     isValidated: false,
     phoneNumber: 0,
     streetAddress: "",
     title: "",
     role: "",
-    updated: undefined,
     backDriverLisenceImagePublicId: "",
     backDriverLisenceImageUrl: "",
     frontDriverLisenceImageUrl: "",
@@ -56,20 +55,19 @@ const CustomerSlice = createSlice({
     },
     closeShowOneCustomer: (state) => {
       state.customer = {
-        created: undefined,
+        created: new Date().toISOString(),
         email: "",
         fullName: "",
         id: 0,
         isVerified: false,
         countryCode: "",
-        dateValidated: undefined,
-        dob: undefined,
+        dateValidated: new Date().toISOString(),
+        dob: new Date().toISOString(),
         isValidated: false,
         phoneNumber: 0,
         streetAddress: "",
         title: "",
         role: "",
-        updated: undefined,
         backDriverLisenceImagePublicId: "",
         backDriverLisenceImageUrl: "",
         frontDriverLisenceImageUrl: "",
@@ -133,6 +131,7 @@ const CustomerSlice = createSlice({
   },
 });
 
-export const { clearCustomerError, closeShowOneCustomer, showOneCustomer } = CustomerSlice.actions;
+export const { clearCustomerError, closeShowOneCustomer, showOneCustomer } =
+  CustomerSlice.actions;
 
 export default CustomerSlice.reducer;

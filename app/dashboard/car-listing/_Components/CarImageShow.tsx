@@ -58,8 +58,6 @@ const CarImageShow = ({
     });
   };
 
-  console.log(images, "see me here");
-
   const ItemTemplate = (item: string) => (
     <div
       className={`.max-h-[360px] .max-w-[600px] overflow-hidden h-full w-full`}

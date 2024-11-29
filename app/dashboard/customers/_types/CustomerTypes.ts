@@ -14,12 +14,10 @@ export type customerResponse = {
   fullName: string;
   email: string;
   role: string;
-  created: Date | undefined;
-  updated: Date | undefined;
   isVerified: boolean;
-  dob: Date | undefined;
+  dob: string ;
   isValidated: boolean;
-  dateValidated: Date | undefined;
+  dateValidated: string ;
   streetAddress: string;
   // verificationToken: string;
   countryCode: string;
@@ -30,6 +28,7 @@ export type customerResponse = {
   frontDriverLisencePublicId: string;
   backDriverLisenceImageUrl: string;
   backDriverLisenceImagePublicId: string;
+  created:string
 };
 
 export type customerInput = {

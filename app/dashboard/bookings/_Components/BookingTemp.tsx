@@ -3,13 +3,24 @@ import Tab from "./Tab";
 import Bookings from "./Bookings";
 import BookingsLoader from "./BookingsLoader";
 import { Skeleton } from "primereact/skeleton";
+import { useAppSelector } from "@/store/hooks";
 
-const BookingTemp = () => {
+const BookingTemp = ({
+  selected,
+  setSelected,
+}: {
+  selected: string;
+  setSelected: (text: string) => void;
+}) => {
+  const getAllBookingLoading = useAppSelector(
+    (state) => state.bookings.getAllBookingsLoading
+  );
+  const getAllBookings = useAppSelector((state) => state.bookings.bookings);
   return (
     <div
       className={`h-full flex-grow flex-1 overflow-y-scroll noScroll py-[18px] px-[20px]`}
     >
-      {false ? (
+      {getAllBookingLoading ? (
         <div className="flex gap-5">
           {[1, 2, 3, 4].map((btn) => (
             <Skeleton width="100px" height="37px" key={btn} />
@@ -18,26 +29,24 @@ const BookingTemp = () => {
       ) : (
         <div className="flex gap-5">
           {[
-            { name: "all" },
-            { name: "Booked", number: 50 },
-            { name: "Pending", number: 30 },
-            { name: "Cancelled", number: 20 },
-          ].map((btn, index) =>
-            index === 0 ? (
-              <Tab key={btn.name} name={btn.name} selected={true} />
-            ) : (
-              <Tab
-                key={btn.name}
-                name={btn.name}
-                number={btn.number}
-                selected={false}
-              />
-            )
-          )}
+            { name: "All" },
+            { name: "Booked" },
+            { name: "Pending" },
+            { name: "Cancelled" },
+            // { name: "Booked", number: 50 },
+            // { name: "Pending", number: 30 },
+            // { name: "Cancelled", number: 20 },
+          ].map((btn) => (
+            <Tab key={btn.name} name={btn.name} setSelected={setSelected} selected={selected === btn.name} />
+          ))}
         </div>
       )}
       <div className={`flex flex-col gap-[24px] mt-5`}>
-        {false ? <BookingsLoader /> : <Bookings />}
+        {getAllBookingLoading ? (
+          <BookingsLoader />
+        ) : (
+          <Bookings bookings={getAllBookings} />
+        )}
       </div>
     </div>
   );

@@ -1,9 +1,26 @@
-import { CalendarDays, CarFront, MapPin, Timer } from "lucide-react";
+import { CalendarDays, CarFront, Loader, MapPin, Timer } from "lucide-react";
 import { Button } from "primereact/button";
-import React from "react";
+import React, { useState } from "react";
 import StatusCard from "./StatusCard";
+import { getByIdFormikFormat } from "../../car-listing/_types/CarType";
+import { useAppSelector } from "@/store/hooks";
+import moment from "moment";
+import { bookingState } from "../_Types/BookingTypes";
+import Feature from "./Feature";
 
-const VehicleInfo = () => {
+const VehicleInfo = ({
+  carFetched,
+  GetAllCarFeature,
+}: {
+  carFetched: getByIdFormikFormat;
+  GetAllCarFeature: boolean;
+}) => {
+  const selectedBooking = useAppSelector(
+    (state) => state.bookings.currentBooking
+  );
+  const [showFeatures, setShowFeatures] = useState<boolean>(false);
+  const features = useAppSelector((state) => state.bookings.features);
+  const [showMore, setShowMore] = useState<boolean>(false);
   return (
     <div>
       <div
@@ -17,7 +34,7 @@ const VehicleInfo = () => {
         <p
           className={`text-[#777777] font-inter text-[10px] font-[400] leading-[14px] tracking-[0.4px] `}
         >
-          MB567876545
+          {carFetched?.vehicleId}
         </p>
       </div>
       <div
@@ -31,7 +48,7 @@ const VehicleInfo = () => {
         <p
           className={`text-[#777777] font-inter text-[10px] font-[400] leading-[14px] tracking-[0.4px] `}
         >
-          2022
+          {carFetched?.vehicleYear}
         </p>
       </div>
       <div
@@ -45,7 +62,7 @@ const VehicleInfo = () => {
         <p
           className={`text-[#777777] font-inter text-[10px] font-[400] leading-[14px] tracking-[0.4px] `}
         >
-          Must be 18+
+          {carFetched?.vehicleCondition}
         </p>
       </div>
       <div
@@ -57,18 +74,27 @@ const VehicleInfo = () => {
           DESCRIPTION
         </h5>
         <p
-          className={`text-[#777777] text-ellipsis line-clamp-4 font-inter text-[10px] font-[400] leading-[14px] tracking-[0.4px] `}
+          className={`text-[#777777]  ${
+            !showMore && `text-ellipsis line-clamp-4`
+          } font-inter text-[10px] font-[400] leading-[14px] tracking-[0.4px] `}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam labore
-          consequatur corporis voluptas delectus odio, fuga, sint itaque totam
-          eligendi culpa perspiciatis sed explicabo aliquid, quibusdam nihil
-          velit illo exercitationem!
+          {carFetched?.vehicleDescription}
         </p>
-        <Button
-          className={`text-[#11975D] focus:ring-0 max-w-[65px] w-full font-inter text-[10px] font-[500] leading-[16px] tracking-[0.4px]`}
-        >
-          Read more
-        </Button>
+        {showMore ? (
+          <Button
+            onClick={() => setShowMore(false)}
+            className={`text-[#11975D] focus:ring-0 max-w-[65px] w-full font-inter text-[10px] font-[500] leading-[16px] tracking-[0.4px]`}
+          >
+            Read less
+          </Button>
+        ) : (
+          <Button
+            onClick={() => setShowMore(true)}
+            className={`text-[#11975D] focus:ring-0 max-w-[65px] w-full font-inter text-[10px] font-[500] leading-[16px] tracking-[0.4px]`}
+          >
+            Read more
+          </Button>
+        )}
       </div>
       <div
         className={`py-[16px] border-b border-b-[#E2E2E2] flex flex-col gap-[8px]`}
@@ -84,13 +110,13 @@ const VehicleInfo = () => {
             <div className={`flex gap-[12px] items-center`}>
               <div className={`font-inter font-[400]`}>
                 <p className={`text-[14px] tracking-[0.25px] leading-[22px]`}>
-                  19th Aug
+                  {moment(selectedBooking?.startDate).format("MMM D, YYYY")}
                 </p>
-                <p
+                {/* <p
                   className={`text-[12px] tracking-[0.3px] leading-[20px] text-center`}
                 >
                   7:00am
-                </p>
+                </p> */}
               </div>
               <span
                 className={`font-inter text-[12px] font-[600] leading-[20px] tracking-[0.3px]`}
@@ -99,13 +125,13 @@ const VehicleInfo = () => {
               </span>
               <div className={`font-inter font-[400]`}>
                 <p className={`text-[14px] tracking-[0.25px] leading-[22px]`}>
-                  23rd Aug
+                  {moment(selectedBooking?.returnDate).format("MMM D, YYYY")}
                 </p>
-                <p
+                {/* <p
                   className={`text-[12px] tracking-[0.3px] leading-[20px] text-center`}
                 >
                   9:00am
-                </p>
+                </p> */}
               </div>
             </div>
             <p className={`flex items-center gap-1`}>
@@ -113,7 +139,10 @@ const VehicleInfo = () => {
               <span
                 className={`font-inter font-[400] text-[12px] tracking-[0.3px] leading-[20px]`}
               >
-                5days
+                {moment(selectedBooking?.startDate).to(
+                  moment(selectedBooking?.returnDate, true)
+                )}
+                {/* 5days */}
               </span>
             </p>
           </div>
@@ -140,25 +169,64 @@ const VehicleInfo = () => {
               <span
                 className={`font-inter font-[400] text-[12px] tracking-[0.3px] leading-[20px]`}
               >
-                30000km
+                {selectedBooking.totalDistance}km
               </span>
             </p>
           </div>
         </div>
       </div>
       <div
-        className={`py-[16px] text-[#303030] border-b border-b-[#E2E2E2] flex items-center justify-between gap-[8px]`}
+        className={`py-[16px] text-[#303030] border-b border-b-[#E2E2E2] flex flex-col gap-[8px]`}
       >
+        <div className={`py-[16px] text-[#303030] border-b-[#E2E2E2] flex items-center justify-between gap-[8px]`}>
+
         <h5
           className={`font-inter text-[12px] font-[600] leading-[20px] tracking-[0.3px]`}
         >
           CAR FEATURES
         </h5>
-        <Button
-          className={`text-[#3A494F] font-inter focus:ring-0 text-[12px] font-[500] leading-[20px] tracking-[0.3px] `}
-        >
-          View all
-        </Button>
+        {!showFeatures ? (
+          <Button
+            onClick={() => setShowFeatures(true)}
+            className={`text-[#3A494F] font-inter focus:ring-0 text-[12px] font-[500] leading-[20px] tracking-[0.3px] `}
+          >
+            View all
+          </Button>
+        ) : (
+          <Button
+            onClick={() => setShowFeatures(false)}
+            className={`text-[#3A494F] font-inter focus:ring-0 text-[12px] font-[500] leading-[20px] tracking-[0.3px] `}
+          >
+            View less
+          </Button>
+        )}
+        </div>
+        {GetAllCarFeature ? (
+          <div>
+            <Loader className={`animate-spin h-[20px] w-[20px]`} />
+          </div>
+        ) : (
+          showFeatures && (
+            <div>
+              {features?.length > 0 ? (
+                features?.map((feat) => (
+                  <Feature
+                    title={feat.featureTitle}
+                    value={feat.features[0].featureName}
+                    key={feat.featureTitle}
+                  />
+                ))
+              ) : (
+                <div
+                  className={`font-inter font-[400] text-[12px] leading-[20px] tracking-[0.3px] text-[#3A494F]`}
+                >
+                  No Feature Added to this Vehicle
+                </div>
+              )}
+            </div>
+          )
+        )}
+        
       </div>
       <div
         className={`py-[16px] border-b border-b-[#E2E2E2] text-[#303030] flex flex-col gap-[8px]`}
@@ -170,21 +238,24 @@ const VehicleInfo = () => {
         </h5>
         <div className={`flex justify-between items-center gap-[8px]`}>
           <div>
-            <h3 className={`font-square font-[700] text-[16px] leading-[24px] tracking-[0.25px]`}>$450</h3>
-            <p className={`font-inter font-[400] text-[12px] leading-[20px] tracking-[0.3px] text-[#3A494F]`}>Paid with card</p>
+            <h3
+              className={`font-square font-[700] text-[16px] leading-[24px] tracking-[0.25px]`}
+            >
+              ${selectedBooking.amountToPay}
+              {/* $450 */}
+            </h3>
+            {selectedBooking.bookingState === bookingState.Booked && (
+              <p
+                className={`font-inter font-[400] text-[12px] leading-[20px] tracking-[0.3px] text-[#3A494F]`}
+              >
+                Paid with card
+              </p>
+            )}
           </div>
-          
-          <StatusCard name="Booked" />
+
+          <StatusCard name={selectedBooking.bookingState} />
         </div>
       </div>
-
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
     </div>
   );
 };

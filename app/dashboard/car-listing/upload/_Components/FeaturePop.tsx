@@ -34,7 +34,6 @@ const FeaturePop = ({
     inputValue: Date | Nullable<Date> | TransmissionType | EnergyType,
     inputName: string
   ) => {
-    console.log("see me here", inputValue);
     newCarFormik.setFieldValue(inputName, inputValue);
     dispatch(setFormikValue({ [inputName]: inputValue }));
     setVisible({ name: "", active: false });

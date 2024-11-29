@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import "./globals.css";
 import { PrimeReactProvider } from "primereact/api";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
@@ -44,11 +44,11 @@ export default function RootLayout({
       <body
         className={`font-inter ${inter.variable} ${square.variable} text-[#474747]`}
       >
-        <Suspense fallback={<Loading />}>
-          <PrimeReactProvider>
-            <StoreProvider>{children}</StoreProvider>
-          </PrimeReactProvider>
-        </Suspense>
+        <PrimeReactProvider>
+          <StoreProvider>
+            <Suspense fallback={<Loading />}>{children}</Suspense>
+          </StoreProvider>
+        </PrimeReactProvider>
       </body>
     </html>
   );

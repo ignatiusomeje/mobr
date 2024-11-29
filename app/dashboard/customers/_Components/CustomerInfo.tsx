@@ -4,12 +4,18 @@ import Image from "next/image";
 import { Dialog } from "primereact/dialog";
 import React from "react";
 import { CustomerInfoTypes } from "../_types/CustomerTypes";
+import moment from "moment";
+import { Button } from "primereact/button";
+import { showLicense } from "../../bookings/_Data/BookingSlice";
+import { useAppDispatch } from "@/store/hooks";
+import LicensePop from "../../bookings/_Components/LicensePop";
 
 const CustomerInfo = ({
   customer,
   closeShowOneCustomer,
-  showPopUp
+  showPopUp,
 }: CustomerInfoTypes) => {
+  const dispatch = useAppDispatch();
   return (
     <Dialog
       visible={showPopUp}
@@ -17,7 +23,7 @@ const CustomerInfo = ({
       modal
       onHide={() => {
         if (!showPopUp) return;
-        closeShowOneCustomer()
+        closeShowOneCustomer();
       }}
       content={({ hide }) => (
         <div
@@ -45,6 +51,7 @@ const CustomerInfo = ({
                 alt={`${customer.fullName} picture"`}
                 width={500}
                 height={500}
+                priority
               />
             </div>
             <div className={`flex flex-col gap-[16px]`}>
@@ -136,7 +143,7 @@ const CustomerInfo = ({
               >
                 LICENSE DETAILS:
               </h5>
-              {false && <div className={`grid grid-cols-3 gap-[18px]`}>
+              <div className={`grid grid-cols-3 gap-[18px]`}>
                 <div>
                   <p
                     className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
@@ -146,35 +153,68 @@ const CustomerInfo = ({
                   <p
                     className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                   >
-                    {customer.dob?.toDateString()}
+                    {customer.dob !== null &&
+                      moment(customer.dob).format("MMM D, YYYY")}
+                    {/* {customer.dob?} */}
                   </p>
                 </div>
                 <div>
                   <p
                     className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
                   >
-                    License number:
+                    License Front:
                   </p>
-                  <p
-                    className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
-                  >
-                    {/* {customer.} */}
-                    3456789831243678
-                  </p>
+                  {customer.frontDriverLisenceImageUrl && (
+                    <p
+                      className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
+                    >
+                      {customer.frontDriverLisenceImageUrl && (
+                        <Button
+                          onClick={() =>
+                            dispatch(
+                              showLicense({
+                                show: true,
+                                url: customer.frontDriverLisenceImageUrl,
+                              })
+                            )
+                          }
+                          className={`font-square focus:ring-0  mt-2 text-[14px] font-[400] leading-[22px] tracking-[0.25px]`}
+                        >
+                          view front License
+                        </Button>
+                      )}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <p
                     className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
                   >
-                    License expiry date:
+                    License Back:
                   </p>
-                  <p
-                    className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
-                  >
-                    12-02-2028
-                  </p>
+                  {customer.backDriverLisenceImageUrl  && (
+                    <p
+                      className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
+                    >
+                      {customer.backDriverLisenceImageUrl && (
+                        <Button
+                          onClick={() =>
+                            dispatch(
+                              showLicense({
+                                show: true,
+                                url: customer.backDriverLisenceImageUrl,
+                              })
+                            )
+                          }
+                          className={`font-square focus:ring-0 mt-2 text-[14px] font-[400] leading-[22px] tracking-[0.25px]`}
+                        >
+                          view back License
+                        </Button>
+                      )}
+                    </p>
+                  )}
                 </div>
-              </div>}
+              </div>
             </div>
             <div className={`flex flex-col gap-[16px]`}>
               <h5
@@ -182,59 +222,62 @@ const CustomerInfo = ({
               >
                 BILLING ADDRESS:
               </h5>
-              {false && <div className={`grid grid-cols-3 gap-[18px]`}>
-                <div>
-                  <p
-                    className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
-                  >
-                    Street address:
-                  </p>
-                  <p
-                    className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
-                  >
-                    {customer.streetAddress}
-                  </p>
+              {false && (
+                <div className={`grid grid-cols-3 gap-[18px]`}>
+                  <div>
+                    <p
+                      className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
+                    >
+                      Street address:
+                    </p>
+                    <p
+                      className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
+                    >
+                      {customer.streetAddress}
+                    </p>
+                  </div>
+                  <div>
+                    <p
+                      className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
+                    >
+                      Region:
+                    </p>
+                    {/* <p
+                      className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
+                    >
+                     
+                      Lyons
+                    </p> */}
+                  </div>
+                  <div>
+                    <p
+                      className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
+                    >
+                      City:
+                    </p>
+                    {/* <p
+                      className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
+                    >
+                      Paris
+                    </p> */}
+                  </div>
+                  <div>
+                    <p
+                      className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
+                    >
+                      Postal code:
+                    </p>
+                    {/* <p
+                      className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
+                    >
+                      098031
+                    </p> */}
+                  </div>
                 </div>
-                <div>
-                  <p
-                    className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
-                  >
-                    Region:
-                  </p>
-                  <p
-                    className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
-                  >
-                    {/* {customer.re} */}
-                    Lyons
-                  </p>
-                </div>
-                <div>
-                  <p
-                    className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
-                  >
-                    City:
-                  </p>
-                  <p
-                    className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
-                  >
-                    Paris
-                  </p>
-                </div>
-                <div>
-                  <p
-                    className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
-                  >
-                    Postal code:
-                  </p>
-                  <p
-                    className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
-                  >
-                    098031
-                  </p>
-                </div>
-              </div>}
+              )}
             </div>
           </div>
+          <LicensePop />
         </div>
       )}
     ></Dialog>

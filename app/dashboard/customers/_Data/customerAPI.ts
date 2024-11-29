@@ -19,13 +19,13 @@ const BenefitApi = AccountProtectedAPI.injectEndpoints({
 
     getOneCustomer: build.query<customerResponse, customerIDInputType>({
       query: ({ ...id }) => ({
-        url: `/`,
+        url: `/${id.id}`,
         method: "Get",
-        params: id,
+        // params: id,
       }),
     }),
   }),
 });
 
-export const { useGetAllCustomersQuery, useGetOneCustomerQuery } = BenefitApi;
+export const { useGetAllCustomersQuery, useLazyGetOneCustomerQuery, useGetOneCustomerQuery } = BenefitApi;
 export const { getAllCustomers, getOneCustomer } = BenefitApi.endpoints;

@@ -59,7 +59,6 @@ export default function Home() {
           dispatch(setEmail(values.email));
           setVisible(true);
         });
-      console.log(values);
     },
   });
 

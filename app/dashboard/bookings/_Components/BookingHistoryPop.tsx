@@ -4,23 +4,31 @@ import { Dialog } from "primereact/dialog";
 import React from "react";
 import UserInfo from "./UserInfo";
 import CarInfo from "./CarInfo";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { showBookingPop } from "../_Data/BookingSlice";
 
 const BookingHistoryPop = ({
-  visible,
-  setVisible,
+  GetOneCustomer,
+  GetACarById,
+  GetAllCarFeature
 }: {
-  visible: boolean;
-  setVisible: (e: boolean) => void;
+  GetACarById: boolean;
+  GetOneCustomer: boolean;
+  GetAllCarFeature:boolean
 }) => {
+  const visible = useAppSelector(state => state.bookings.showBookingPop);
+  const dispatch = useAppDispatch()
+  // showBookingHistory
+  // showBookingPop
   return (
     <Dialog
-      visible={false}
+      visible={visible}
       // visible
       className={`rounded-[20px] max-h-lvh h-full mb-10 mt-10 max-w-[790px] w-full`}
       modal
       onHide={() => {
         if (!visible) return;
-        setVisible(false);
+        dispatch(showBookingPop({show: false}))
       }}
       content={({ hide }) => (
         <div
@@ -42,8 +50,8 @@ const BookingHistoryPop = ({
           <div
             className={`flex gap-[40px] flex-grow flex-1 overflow-y-scroll noScroll`}
           >
-            <CarInfo />
-            <UserInfo />
+            <CarInfo GetAllCarFeature={GetAllCarFeature} GetACarById={GetACarById} />
+            <UserInfo GetOneCustomer={GetOneCustomer} />
           </div>
         </div>
       )}

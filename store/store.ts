@@ -20,6 +20,7 @@ import { AccountProtectedAPI } from "./AccountProtected";
 import CustomerSlice from "@/app/dashboard/customers/_Data/customerSlice";
 import CarSlice from "@/app/dashboard/car-listing/_Data/CarSlice";
 import FormikSlice from "@/store/FormikSlice";
+import BookingSlice from "@/app/dashboard/bookings/_Data/BookingSlice";
 
 const persistConfig = {
   key: "MOBR",
@@ -29,7 +30,8 @@ const persistConfig = {
     AccountAPI.reducerPath,
     CarAPI.reducerPath,
     AccountProtectedAPI.reducerPath,
-    "Formik"
+    "Formik",
+    "bookings"
   ],
 };
 
@@ -39,6 +41,7 @@ const rootReducer = combineReducers({
   customers: CustomerSlice,
   cars: CarSlice,
   Formik:FormikSlice,
+  bookings:BookingSlice,
   [AccountAPI.reducerPath]: AccountAPI.reducer,
   [CarAPI.reducerPath]: CarAPI.reducer,
   [AccountProtectedAPI.reducerPath]: AccountProtectedAPI.reducer,
@@ -63,7 +66,6 @@ export const store = configureStore({
 setupListeners(store.dispatch);
 
 export const persistor = persistStore(store);
-console.log(persistor, "persist");
 
 export type AppStore = typeof store;
 export type RootState = ReturnType<AppStore["getState"]>;

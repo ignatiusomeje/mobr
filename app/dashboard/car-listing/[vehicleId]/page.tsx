@@ -53,7 +53,6 @@ const Page = () => {
 
   // const [filesToUpload, setFilesToUpload] = useState<FileWithPreview[]>([]);
   // const [createCarImagesMutation] = useCreateCarImagesMutation();
-  console.log("you see the error now", vehicleId, vehicleId.vehicleId);
   useGetACarByIdQuery({ vehicleId: vehicleId?.vehicleId });
   const [updateCreateCarImagesMutation] = useUpdateCreateCarImagesMutation();
   const [deleteACarImageMutation] = useDeleteACarImageMutation();
@@ -150,7 +149,6 @@ const Page = () => {
     enableReinitialize: true,
     // validationSchema: validate,
     onSubmit: (values) => {
-      console.log(values);
       if (values.vehicleFeatures.length > 0) {
         return addCarFeatureToVehicleMutation({
           carId: values.vehicleId,
@@ -177,8 +175,6 @@ const Page = () => {
         )
         .catch((err) => showError(err));
 
-      // console.log(values, "see me here");
-      // console.log(values);
       // createBenefitMutation(values)
       //   .unwrap()
       //   .then(() => {
@@ -332,7 +328,6 @@ const Page = () => {
     noClick: true,
   });
   // dispatch(clearLoading());
-  console.log(carFetchedById, "here");
   return (
     <div className={`flex flex-col h-screen p-[20px]`}>
       <Toast ref={toast} />

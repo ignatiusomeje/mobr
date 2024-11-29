@@ -2,8 +2,10 @@ import { InputText } from "primereact/inputtext";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import React from "react";
+import { useAppSelector } from "@/store/hooks";
 
 const NavBar = ({ routeName }: { routeName: string }) => {
+  const user = useAppSelector(state => state.login.admin.fullName)
   return (
     <div
       className={`bg-[#F9F9F9] w-full pt-[24px] pb-[16px] border .border-[0.4px] px-[20px] flex items-center justify-between`}
@@ -31,9 +33,9 @@ const NavBar = ({ routeName }: { routeName: string }) => {
             </form>
           )}
         <span
-          className={`bg-[#1B2E35] w-[40px] h-[40px] flex items-center justify-center rounded-full text-[22px] font-[600] font-inter text-[#C6C6C6]`}
+          className={`bg-[#1B2E35] w-[40px] h-[40px] flex items-center justify-center rounded-full text-[22px] font-[600] capitalize font-inter text-[#C6C6C6]`}
         >
-          A
+          {user.charAt(0)}
         </span>
       </div>
     </div>

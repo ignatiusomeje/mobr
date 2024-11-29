@@ -1,14 +1,22 @@
-import { ArrowRight, CircleGauge, Fuel } from "lucide-react";
-import Image from "next/image";
+import { ArrowRight } from "lucide-react";
+// import Image from "next/image";
 import { Button } from "primereact/button";
 import React from "react";
+import { bookingResponseType } from "../_Types/BookingTypes";
+import moment from "moment";
+import StatusCard from "./StatusCard";
+import { useAppDispatch } from "@/store/hooks";
+import { useLazyGetACarByIdQuery } from "../../car-listing/_Data/CarAPI";
+import { setCurrentBooking, showBookingHistory, showBookingPop } from "../_Data/BookingSlice";
 
-const CarUsedListVehicleCard = () => {
+const CarUsedListVehicleCard = ({booking}:{booking:bookingResponseType}) => {
+  const dispatch = useAppDispatch();
+  const [GetACarByIdTrigger] = useLazyGetACarByIdQuery();
   return (
     <div
-      className={`max-w-[200px] flex flex-col gap-[12px] bg-[#F9F9F9] border border-[#E2E2E2] rounded-[8px] w-full p-[8px]`}
+      className={`max-w-[300px] flex flex-col gap-[12px] bg-[#F9F9F9] border border-[#E2E2E2] rounded-[8px] w-full h-max p-[12px]`}
     >
-      <div className="h-[140px] w-[180px] relative rounded-[6px] mb-2">
+      {/* <div className="h-[140px] w-[180px] relative rounded-[6px] mb-2">
         <Image
           src="/images/acura.jpg"
           alt="vehicle name"
@@ -19,10 +27,31 @@ const CarUsedListVehicleCard = () => {
         <span className="absolute flex items-center justify-center m-2 h-[22px] w-[49px] top-0 right-0 bg-[#E8E8E8] border border-[#C6C6C6] rounded-[16px] p-[6px] text-[8px] font-[400] font-inter">
           Compact
         </span>
-      </div>
+      </div> */}
 
-      <div className={`flex flex-col gap-[16px]`}>
-        <div className="flex justify-between">
+      <div className={`flex flex-col gap-[8px] w-full`}>
+        <div className={`flex w-full justify-between items-center gap-3`}>
+          <p className={`text-[#303030] font-square text-[10px] font-[600] leading-[16px] tracking-[0.4px] text-nowrap`}>Start Date:</p>
+          <p className={`text-[#303030] font-inter text-[10px] font-[600] leading-[16px] tracking-[0.4px] text-nowrap`}>{moment(booking?.startDate).format("MMM D, YYYY") }</p>
+        </div>
+        <div className={`flex w-full justify-between items-center gap-3`}>
+          <p className={`text-[#303030] font-square text-[10px] font-[600] leading-[16px] tracking-[0.4px] text-nowrap`}>Return Date:</p>
+          <p className={`text-[#303030] font-inter text-[10px] font-[600] leading-[16px] tracking-[0.4px] text-nowrap`}>{moment(booking?.returnDate).format("MMM D, YYYY") }</p>
+        </div>
+        <div className={`flex w-full justify-between items-center gap-3`}>
+          <p className={`text-[#303030] font-square text-[10px] font-[600] leading-[16px] tracking-[0.4px] text-nowrap`} >Total Distance:</p>
+          <p className={`text-[#303030] font-inter text-[10px] font-[600] leading-[16px] tracking-[0.4px] text-nowrap`}>{booking.totalDistance}km</p>
+        </div>
+        <div className={`flex w-full justify-between items-center gap-3`}>
+          <p className={`text-[#303030] font-square text-[10px] font-[600] leading-[16px] tracking-[0.4px] text-nowrap`}>Booking State:</p>
+          <StatusCard name={booking.bookingState} />
+          {/* <p className={`text-[#303030] font-inter text-[10px] font-[600] leading-[16px] tracking-[0.4px]`}>19 Aug, 2024</p> */}
+        </div>
+        <div className={`flex w-full justify-between items-center gap-3`}>
+          <p className={`text-[#303030] font-square text-[10px] font-[600] leading-[16px] tracking-[0.4px] text-nowrap`}>Amount Paid:</p>
+          <p className={`text-[#303030] font-inter text-[10px] font-[600] leading-[16px] tracking-[0.4px] text-nowrap`}>${booking.amountToPay} </p>
+        </div>
+        {/* <div className="flex justify-between">
           <div className={`max-w-[160px] w-full`}>
             <h3
               className={`text-[#303030] font-inter text-[10px] font-[600] leading-[16px] tracking-[0.4px] `}
@@ -51,11 +80,17 @@ const CarUsedListVehicleCard = () => {
           <p className={`font-square text-[12px] font-[400] text-[#222B2E]`}>
             <span className={`font-bold`}>$45</span>/day
           </p>
-        </div>
+        </div> */}
 
         <Button
+        onClick={()=>{
+          GetACarByIdTrigger({vehicleId: booking.vehichleId})
+          dispatch(showBookingPop({ show: true }));
+         dispatch(showBookingHistory({show: false}))
+          dispatch(setCurrentBooking(booking));
+        }}
           outlined
-          className={`bg-[#11975D] text-[#FFFFFF] py-[8px] px-[14px] rounded-[10px] text-[10px] font-[400] font-square w-full flex justify-center items-center gap-3`}
+          className={`bg-[#11975D] text-[#FFFFFF] py-[8px] px-[14px] rounded-[10px] text-[10px] font-[400] font-square focus:ring-0 w-full flex justify-center items-center gap-3`}
         >
           VIEW DETAILS <ArrowRight width={14} color="#FFFFFF" />
         </Button>

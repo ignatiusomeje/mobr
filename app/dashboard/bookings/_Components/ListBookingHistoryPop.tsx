@@ -1,21 +1,31 @@
-import React, { useState } from 'react'
+import React from "react";
 
 import { X } from "lucide-react";
 import { Dialog } from "primereact/dialog";
 import UserInfo from "./UserInfo";
-import CarUsedList from './CarUsedList';
+import CarUsedList from "./CarUsedList";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { showBookingHistory } from "../_Data/BookingSlice";
 
 const ListBookingHistoryPop = () => {
-  const [visible, setVisible]=useState<boolean>(false)
+  const dispatch = useAppDispatch();
+  const visible = useAppSelector((state) => state.bookings.showBookingHistory);
+  const getAllBookingsByAUser = useAppSelector(
+    (state) => state.bookings.getAllBookingsByAUser
+  );
+  const getAllBookingsByAUserLoading = useAppSelector(
+    (state) => state.bookings.getAllBookingsByAUserLoading
+  );
+  // const [visible, setVisible]=useState<boolean>(false)
   return (
     <Dialog
-      visible={false}
+      visible={visible}
       // visible
       className={`rounded-[20px] max-h-lvh h-full mb-10 mt-10 max-w-[790px] w-full`}
       modal
       onHide={() => {
         if (!visible) return;
-        setVisible(false);
+        dispatch(showBookingHistory({ show: false }));
       }}
       content={({ hide }) => (
         <div
@@ -34,14 +44,19 @@ const ListBookingHistoryPop = () => {
               onClick={(e) => hide(e)}
             />
           </div>
-          <div className={`flex gap-[40px] flex-grow flex-1 overflow-y-scroll noScroll`}>
-            <CarUsedList />
+          <div
+            className={`flex gap-[40px] flex-grow flex-1 overflow-y-scroll noScroll`}
+          >
+            <CarUsedList
+              getAllBookingsByAUserLoading={getAllBookingsByAUserLoading}
+              getAllBookingsByAUser={getAllBookingsByAUser}
+            />
             <UserInfo />
           </div>
         </div>
       )}
     ></Dialog>
-  )
-}
+  );
+};
 
-export default ListBookingHistoryPop
+export default ListBookingHistoryPop;

@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import moment from "moment";
 
 const VehicleCard = ({ vehicle }: VehiclesCardType) => {
-  console.log(vehicle, "here is the issue");
   const [visible, setVisible] = useState<boolean>(false);
   const [deleteACarMutation, deleteACar] = useDeleteACarMutation();
   const router = useRouter();
