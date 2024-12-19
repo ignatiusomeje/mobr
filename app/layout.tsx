@@ -8,7 +8,7 @@ import localFont from "next/font/local";
 import StoreProvider from "./StoreProvider";
 import { Suspense } from "react";
 import Loading from "./loading";
-import { useReportWebVitals } from "next/web-vitals";
+// import { useReportWebVitals } from "next/web-vitals";
 // import localFont from "next/font/local";
 
 // const squareFont = localFont({ src: "./fonts/SQR721B.ttf" });
@@ -38,7 +38,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  useReportWebVitals((metric) => console.log(metric, "see the metrics here"));
+  // useReportWebVitals((metric) => console.log(metric, "see the metrics here"));
   return (
     <html lang="en">
       <body

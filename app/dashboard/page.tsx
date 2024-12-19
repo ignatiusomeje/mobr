@@ -26,7 +26,7 @@ const Page = () => {
     (state) => state.dashBoard.getCustomerInfoError
   );
   const dispatch = useAppDispatch();
-  console.log(year, "see oooooo");
+  
   useGetAllBookingsQuery({});
   useGetBookingInfoQuery();
   useGetCustomerInfoQuery();

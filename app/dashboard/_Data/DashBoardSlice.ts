@@ -36,7 +36,6 @@ const DashBoardSlice = createSlice({
     },
 
     setYear: (state, action: PayloadAction<number>) => {
-      console.log(action.payload, "see me here");
       state.year = action.payload;
     },
   },
