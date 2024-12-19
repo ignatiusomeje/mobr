@@ -21,6 +21,7 @@ import CustomerSlice from "@/app/dashboard/customers/_Data/customerSlice";
 import CarSlice from "@/app/dashboard/car-listing/_Data/CarSlice";
 import FormikSlice from "@/store/FormikSlice";
 import BookingSlice from "@/app/dashboard/bookings/_Data/BookingSlice";
+import DashBoardSlice from "@/app/dashboard/_Data/DashBoardSlice";
 
 const persistConfig = {
   key: "MOBR",
@@ -31,7 +32,10 @@ const persistConfig = {
     CarAPI.reducerPath,
     AccountProtectedAPI.reducerPath,
     "Formik",
-    "bookings"
+    "bookings",
+    "customers",
+    "benefits",
+    "dashBoard",
   ],
 };
 
@@ -40,8 +44,9 @@ const rootReducer = combineReducers({
   benefits: BenefitSlice,
   customers: CustomerSlice,
   cars: CarSlice,
-  Formik:FormikSlice,
-  bookings:BookingSlice,
+  Formik: FormikSlice,
+  bookings: BookingSlice,
+  dashBoard: DashBoardSlice,
   [AccountAPI.reducerPath]: AccountAPI.reducer,
   [CarAPI.reducerPath]: CarAPI.reducer,
   [AccountProtectedAPI.reducerPath]: AccountProtectedAPI.reducer,

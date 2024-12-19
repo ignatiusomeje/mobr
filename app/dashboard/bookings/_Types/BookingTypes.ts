@@ -23,7 +23,13 @@ export type initialStateBookings = {
   showBookingPop: boolean;
   getAllBookingsByAUserLoading: boolean;
   getAllBookingsByAUserError: string;
+  changeBookingStateLoading: boolean;
+  getAVehicleDamageReportError: string;
+  getAVehicleDamageReportLoading: boolean;
+  showDamageReport: boolean;
+  changeBookingStateError: string;
   getAllBookingsByAUser: bookingResponseType[];
+  vehicleDamageReport: damageReportsResponse[];
   // createBenefitLoading: boolean;
 };
 
@@ -51,4 +57,30 @@ export type bookingResponseType = {
   customerId: number;
   amountToPay: number;
   totalDistance: number;
+};
+
+export type changeBookingStateInput = {
+  vehichleId: string;
+  bookingState: string;
+};
+
+export type damageReportsResponse = {
+  damageReportId: number;
+  damageReporComment: string;
+  damageAreas: string;
+  vehicleSides: string;
+  damageImages: damageImage[];
+  vehichleId: string;
+  accountId: number;
+  created: string;
+  updated: string;
+};
+
+export type damageImage = {
+  damageImageId: number;
+  damageImageUrl: string;
+};
+
+export type getDamageReportInput = {
+  vehicleId: string;
 };

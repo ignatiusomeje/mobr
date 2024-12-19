@@ -8,6 +8,7 @@ import { savedState } from "../car-listing/_types/CarType";
 import { Toast } from "primereact/toast";
 import { clearCarError } from "../car-listing/_Data/CarSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { clearBookingError } from "../bookings/_Data/BookingSlice";
 
 const Page = () => {
   const toast = useRef<Toast>(null);
@@ -17,12 +18,16 @@ const Page = () => {
   const getAllCarsLoading = useAppSelector(
     (state) => state.cars.getAllCarsLoading
   );
+  const getACarByIdError = useAppSelector(
+    (state) => state.bookings.getACarByIdError
+  );
+  const featuresError = useAppSelector((state) => state.bookings.featuresError);
 
   useGetAllCarsQuery({
     savedState: savedState.Draft,
   });
 
-const showError = (message: string) => {
+  const showError = (message: string) => {
     toast.current?.show({
       severity: "error",
       summary: "Error",
@@ -34,6 +39,12 @@ const showError = (message: string) => {
   if (getAllCarsError) {
     showError(getAllCarsError);
     dispatch(clearCarError());
+  } else if (getACarByIdError) {
+    showError(getACarByIdError);
+    dispatch(clearBookingError());
+  } else if (featuresError) {
+    showError(featuresError);
+    dispatch(clearBookingError());
   }
 
   return (
@@ -41,8 +52,7 @@ const showError = (message: string) => {
       <Toast ref={toast} />
       <NavBar routeName="Drafts" />
       <div className={`px-[20px] overflow-hidden mb-9`}>
-        <DraftTemp cars={cars}
-getAllCarsLoading={getAllCarsLoading} />
+        <DraftTemp cars={cars} getAllCarsLoading={getAllCarsLoading} />
       </div>
     </DashboardWrapper>
   );

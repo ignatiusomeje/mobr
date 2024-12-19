@@ -1,5 +1,10 @@
 import { CarAPI } from "@/store/CarAPI";
-import { bookingResponseType } from "../_Types/BookingTypes";
+import {
+  bookingResponseType,
+  changeBookingStateInput,
+  damageReportsResponse,
+  getDamageReportInput,
+} from "../_Types/BookingTypes";
 
 const BookingApi = CarAPI.injectEndpoints({
   endpoints: (build) => ({
@@ -10,6 +15,7 @@ const BookingApi = CarAPI.injectEndpoints({
         method: "Get",
         params: name,
       }),
+      providesTags: ["bookings"],
     }),
 
     getAllBookingsByAUser: build.query<
@@ -24,61 +30,39 @@ const BookingApi = CarAPI.injectEndpoints({
       }),
     }),
 
-    /* get the car by ID  */
-    // getACarById: build.query<getByIdResponse, deleteCarInputType>({
-    //   query: ({ ...carId }) => ({
-    //     url: `/vehicle/`,
-    //     method: "Get",
-    //     params: carId,
-    //   }),
-    // }),
+    changeBookingState: build.mutation<void, changeBookingStateInput>({
+      query: ({ ...booking }) => ({
+        url: `/booking/`,
+        method: "Put",
+        body: booking,
+      }),
+      invalidatesTags: ["bookings"],
+    }),
 
-    // getAUser: build.query<bookingResponseType[], Record<string, string> >({
-    //   // bookingInputType
-    //   query: ({ ...name }) => ({
-    //     url: `/booking/get-all-booking`,
-    //     method: "Get",
-    //     params: name,
-    //   }),
-    // }),
-
-    // editBenefit: build.mutation<benefitResponseType, editBenefitInputType>({
-    //   query: ({ ...benefit }) => ({
-    //     url: `/benefit`,
-    //     method: "Put",
-    //     body: benefit,
-    //   }),
-    // }),
-
-    // getAllBenefits: build.query<getAllBenefitsResponseType, void>({
-    //   query: () => ({
-    //     url: `/benefit/get-all-benefits`,
-    //     method: "Get",
-    //   }),
-    //   providesTags:["benefits"]
-    // }),
-
-    // getOneBenefit: build.query<benefitResponseType, benefitIDInputType>({
-    //   query: ({ ...benefit }) => ({
-    //     url: `/benefit/${benefit.benefitId}`,
-    //     method: "Get",
-    //   }),
-    // }),
-
-    // deleteBenefit: build.mutation<void, benefitIDInputType>({
-    //   query: ({ ...benefit }) => ({
-    //     url: `/benefit`,
-    //     method: "Delete",
-    //     body: benefit,
-    //   }),
-    //   invalidatesTags: ["benefits"],
-    // }),
+    getAVehicleDamageReport: build.query<
+    damageReportsResponse[],
+      getDamageReportInput
+    >({
+      query: ({ ...report }) => ({
+        url: `/damageReport/get-all-report`,
+        method: "Get",
+        params: report,
+      }),
+    }),
   }),
 });
 
 export const {
   useGetAllBookingsQuery,
   useLazyGetAllBookingsByAUserQuery,
+  useChangeBookingStateMutation,
+  useGetAVehicleDamageReportQuery,
+  useLazyGetAVehicleDamageReportQuery,
   // useLazyGetACarByIdQuery,
 } = BookingApi;
-export const { getAllBookings, getAllBookingsByAUser } = BookingApi.endpoints;
+export const {
+  getAllBookings,
+  getAllBookingsByAUser,
+  changeBookingState,
+  getAVehicleDamageReport,
+} = BookingApi.endpoints;

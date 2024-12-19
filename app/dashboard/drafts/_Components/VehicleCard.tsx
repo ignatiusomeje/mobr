@@ -5,12 +5,21 @@ import React, { useState } from "react";
 import CarImageShow from "./CarImageShow";
 import { useRouter } from "next/navigation";
 import { VehiclesCardType } from "../../car-listing/_types/CarType";
-import { useDeleteACarMutation } from "../../car-listing/_Data/CarAPI";
+import {
+  useDeleteACarMutation,
+  useLazyGetACarByIdQuery,
+  useLazyGetAllCarFeatureQuery,
+} from "../../car-listing/_Data/CarAPI";
 import moment from "moment";
+import CarViewPop from "../../car-listing/_Components/carViewPop";
 
 const VehicleCard = ({ vehicle }: VehiclesCardType) => {
   const [visible, setVisible] = useState<boolean>(false);
+  const [showVehicle, setShowVehicle] = useState<boolean>(false);
   const [deleteACarMutation, deleteACar] = useDeleteACarMutation();
+  const [GetACarByIdTrigger, GetACarById] = useLazyGetACarByIdQuery();
+  const [GetAllCarFeatureTrigger, GetAllCarFeature] =
+    useLazyGetAllCarFeatureQuery();
   const router = useRouter();
   return (
     <div
@@ -50,6 +59,16 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
             {moment(vehicle.vehicleAvaliableDate).format("MMM D, YYYY")}
             {/* {new Date(vehicle.vehicleAvaliableDate).toLocaleDateString()} */}
           </p>
+          <Button
+            onClick={() => {
+              setShowVehicle(true);
+              GetACarByIdTrigger({ vehicleId: vehicle.vehicleId });
+              GetAllCarFeatureTrigger({ vehicleId: vehicle.vehicleId });
+            }}
+            className={`font-square focus:ring-0 p-1 px-2 mt-2 text-[12px] font-[400] text-[#222B2E]`}
+          >
+            View Vehicle
+          </Button>
         </div>
         <p className={`font-square text-[12px] font-[400] text-[#222B2E]`}>
           <span className={`font-bold`}>${vehicle.vehicleRentalPrice}</span>/day
@@ -81,6 +100,12 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
         visible={visible}
         setVisible={setVisible}
         images={vehicle.vehicleImages.map((image) => image.vehicleImageUrl)}
+      />
+      <CarViewPop
+        showVehicle={showVehicle}
+        setShowVehicle={() => setShowVehicle(false)}
+        GetACarById={GetACarById.isFetching}
+        GetAllCarFeature={GetAllCarFeature.isFetching}
       />
     </div>
   );

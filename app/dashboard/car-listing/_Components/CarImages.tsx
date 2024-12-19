@@ -15,13 +15,13 @@ const CarImages = ({
 }) => {
   const slideTemplate = (items: string) => {
     return (
-      <div className="h-[240px] w-full overflow-hidden rounded-[20px] .mb-2">
+      <div className="h-[240px] w-full overflow-hidden rounded-[10px] .mb-2">
         <Image
           src={items}
           alt="vehicle name"
           height={300}
           width={500}
-          className="w-full object-cover"
+          className="w-full aspect-video .object-cover"
         />
         <span className="absolute flex items-center justify-center m-2 h-[22px] w-[49px] top-0 right-0 bg-[#E8E8E8] border border-[#C6C6C6] rounded-[16px] p-[6px] text-[8px] font-[400] font-inter">
           Compact

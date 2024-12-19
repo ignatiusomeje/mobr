@@ -7,7 +7,7 @@ import CarUsedList from "./CarUsedList";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { showBookingHistory } from "../_Data/BookingSlice";
 
-const ListBookingHistoryPop = () => {
+const ListBookingHistoryPop = ({GetOneCustomerTrigger}:{GetOneCustomerTrigger:(e:number) => void}) => {
   const dispatch = useAppDispatch();
   const visible = useAppSelector((state) => state.bookings.showBookingHistory);
   const getAllBookingsByAUser = useAppSelector(
@@ -51,7 +51,7 @@ const ListBookingHistoryPop = () => {
               getAllBookingsByAUserLoading={getAllBookingsByAUserLoading}
               getAllBookingsByAUser={getAllBookingsByAUser}
             />
-            <UserInfo />
+            <UserInfo GetOneCustomerTrigger={GetOneCustomerTrigger} />
           </div>
         </div>
       )}

@@ -1,3 +1,4 @@
+import { useAppDispatch } from "@/store/hooks";
 import { links } from "@/types/sideBar";
 import {
   Bookmark,
@@ -14,6 +15,7 @@ import React from "react";
 
 const SideBar = () => {
   const pathname = usePathname();
+  const dispatch = useAppDispatch();
   const links: links = [
     {
       name: "Dashboard",
@@ -47,7 +49,7 @@ const SideBar = () => {
     },
   ];
 
-  const linksTwo:links = [
+  const linksTwo: links = [
     {
       name: "Settings",
       icon: <Settings width={16} />,
@@ -56,9 +58,10 @@ const SideBar = () => {
     {
       name: "Log out",
       icon: <LogOut width={16} color="#FFAC98" />,
-      url: "/dashboard/logout",
+      // url: "",
+      // url: "/dashboard/logout",
     },
-  ]
+  ];
   return (
     <div className={`max-w-[185px] w-full bg-[#222B2E] h-screen`}>
       <h1
@@ -71,7 +74,7 @@ const SideBar = () => {
           <li
             key={link.name}
             className={`text-[#FFFFFF] ${
-              pathname ===link.url && "bg-[#DDE4E6] text-[#222B2E]"
+              pathname === link.url && "bg-[#DDE4E6] text-[#222B2E]"
             }`}
           >
             <a
@@ -91,7 +94,7 @@ const SideBar = () => {
           <li
             key={link.name}
             className={`text-[#FFFFFF] ${
-              pathname.includes(link.url) && "bg-[#DDE4E6] text-[#222B2E]"
+              link?.url && pathname.includes(link?.url) && "bg-[#DDE4E6] text-[#222B2E]"
             }`}
           >
             <a
@@ -99,7 +102,14 @@ const SideBar = () => {
               className="flex gap-3 py-[16px] px-[20px]"
             >
               {link.icon}
-              <p className={`font-[400] text-[16px] font-square ${link.name === 'Log out' && 'text-[#FFAC98]'}`}>
+              <p
+                onClick={() =>
+                  link.name === "Log out" && dispatch({ type: "logout" })
+                }
+                className={`font-[400] text-[16px] font-square ${
+                  link.name === "Log out" && "text-[#FFAC98]"
+                }`}
+              >
                 {link.name}
               </p>
             </a>

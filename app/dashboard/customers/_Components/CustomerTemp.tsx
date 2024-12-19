@@ -4,6 +4,7 @@ import Customers from "./Customers";
 import CustomersLoader from "./CustomersLoader";
 import { Skeleton } from "primereact/skeleton";
 import { customerType } from "../_types/CustomerTypes";
+import { useAppSelector } from "@/store/hooks";
 
 const CustomerTemp = ({
   customers,
@@ -15,11 +16,13 @@ const CustomerTemp = ({
   closeShowOneCustomer,
   showPopUp
 }: customerType) => {
+  const blockOneCustomerLoading = useAppSelector(state => state.customers.blockOneCustomerLoading)
+  const validateOneCustomerLoading = useAppSelector(state => state.customers.validateOneCustomerLoading)
   return (
     <div
       className={`h-full flex-grow flex-1 overflow-y-scroll noScroll py-[18px] px-[20px]`}
     >
-      {getAllCustomersLoading ? (
+      {getAllCustomersLoading || blockOneCustomerLoading ||validateOneCustomerLoading ? (
         <div className="flex gap-5">
           {[1, 2, 3].map((btn) => (
             <Skeleton width="100px" height="37px" key={btn} />
@@ -37,7 +40,7 @@ const CustomerTemp = ({
         </div>
       )}
       <div className={`flex flex-col gap-[24px] mt-5`}>
-        {getAllCustomersLoading ? (
+        {getAllCustomersLoading || blockOneCustomerLoading || validateOneCustomerLoading ? (
           <CustomersLoader />
         ) : (
           <Customers

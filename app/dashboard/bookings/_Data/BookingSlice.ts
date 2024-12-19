@@ -1,8 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getAllBookings, getAllBookingsByAUser } from "./BookingAPI";
+import {
+  getAllBookings,
+  getAllBookingsByAUser,
+  getAVehicleDamageReport,
+} from "./BookingAPI";
 import {
   bookingResponseType,
   bookingState,
+  damageReportsResponse,
   initialStateBookings,
 } from "../_Types/BookingTypes";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
@@ -62,6 +67,7 @@ const initialState: initialStateBookings = {
     frontDriverLisencePublicId: "",
     profileImagePublicId: "",
     profileImageUrl: "",
+    isActive: true,
   },
   // getOneCustomerLoading: false,
   getOneCustomerError: "",
@@ -88,7 +94,13 @@ const initialState: initialStateBookings = {
   showBookingPop: false,
   getAllBookingsByAUserLoading: false,
   getAllBookingsByAUserError: "",
+  changeBookingStateLoading: false,
+  changeBookingStateError: "",
+  getAVehicleDamageReportLoading: false,
+  getAVehicleDamageReportError: "",
+  vehicleDamageReport: [],
   getAllBookingsByAUser: [],
+  showDamageReport: false,
 };
 const BookingSlice = createSlice({
   name: "bookings",
@@ -97,6 +109,7 @@ const BookingSlice = createSlice({
     setCurrentBooking: (state, action: PayloadAction<bookingResponseType>) => {
       state.currentBooking = action.payload;
     },
+
     showLicense: (
       state,
       action: PayloadAction<{ show: boolean; url?: string }>
@@ -104,13 +117,20 @@ const BookingSlice = createSlice({
       state.showLicense = action.payload.show;
       if (action.payload.url) state.licenseURL = action.payload.url;
     },
+
     showBookingHistory: (state, action: PayloadAction<{ show: boolean }>) => {
       state.showBookingHistory = action.payload.show;
       // state.showBookingPop=false
     },
+
     showBookingPop: (state, action: PayloadAction<{ show: boolean }>) => {
       state.showBookingPop = action.payload.show;
     },
+
+    showDamageReportPop: (state, action: PayloadAction<{ show: boolean }>) => {
+      state.showDamageReport = action.payload.show;
+    },
+
     clearBookingError: (state) => {
       state.getAllBookingsError = initialState.getAllBookingsError;
       state.getACarByIdError = initialState.getACarByIdError;
@@ -118,9 +138,16 @@ const BookingSlice = createSlice({
       state.getAllBookingsByAUserError =
         initialState.getAllBookingsByAUserError;
       state.getOneCustomerError = initialState.getOneCustomerError;
+      state.getAVehicleDamageReportError =
+        initialState.getAVehicleDamageReportError;
     },
   },
   extraReducers: (builder) => {
+    /* clear everything on logout */
+    builder.addCase("logout", () => {
+      return initialState;
+    });
+
     builder.addMatcher(getAllBookings.matchPending, (state) => {
       state.getAllBookingsLoading = true;
     });
@@ -142,9 +169,11 @@ const BookingSlice = createSlice({
         >
       ) => {
         state.getAllBookingsLoading = false;
+        state.bookings = initialState.bookings;
         state.getAllBookingsError = returnError(action);
       }
     );
+
     /* handles fetching a particular User's booking history */
     builder.addMatcher(getAllBookingsByAUser.matchPending, (state) => {
       state.getAllBookingsByAUserLoading = true;
@@ -167,6 +196,7 @@ const BookingSlice = createSlice({
         >
       ) => {
         state.getAllBookingsByAUserLoading = false;
+        state.getAllBookingsByAUser = initialState.getAllBookingsByAUser;
         state.getAllBookingsByAUserError = returnError(action);
       }
     );
@@ -198,6 +228,7 @@ const BookingSlice = createSlice({
         >
       ) => {
         state.getACarByIdLoading = false;
+        state.carFetchedById = initialState.carFetchedById;
         state.getACarByIdError = returnError(action);
       }
     );
@@ -224,7 +255,35 @@ const BookingSlice = createSlice({
         >
       ) => {
         // state.getOneCustomerLoading = false;
+        state.customer = initialState.customer;
         state.getOneCustomerError = returnError(action);
+      }
+    );
+
+    /* get DamageReports of a vehicle */
+    builder.addMatcher(getAVehicleDamageReport.matchPending, (state) => {
+      state.getAVehicleDamageReportLoading = true;
+    });
+
+    builder.addMatcher(
+      getAVehicleDamageReport.matchFulfilled,
+      (state, action: PayloadAction<damageReportsResponse[]>) => {
+        state.getAVehicleDamageReportLoading = false;
+        state.vehicleDamageReport = action.payload;
+      }
+    );
+
+    builder.addMatcher(
+      getAVehicleDamageReport.matchRejected,
+      (
+        state,
+        action: PayloadAction<
+          (FetchBaseQueryError & { data?: unknown }) | undefined
+        >
+      ) => {
+        state.getAVehicleDamageReportLoading = false;
+        state.vehicleDamageReport = initialState.vehicleDamageReport;
+        state.getAVehicleDamageReportError = returnError(action);
       }
     );
 
@@ -246,128 +305,9 @@ const BookingSlice = createSlice({
         >
       ) => {
         state.featuresError = returnError(action);
+        state.features = initialState.features
       }
     );
-
-    // builder.addMatcher(
-    //   deleteBenefit.matchRejected,
-    //   (
-    //     state,
-    //     action: PayloadAction<
-    //       (FetchBaseQueryError & { data?: unknown }) | undefined
-    //     >
-    //   ) => {
-    //     state.benefitsError = returnError(action);
-    //   }
-    // );
-
-    // builder.addMatcher(
-    //   editBenefit.matchFulfilled,
-    //   (state, action: PayloadAction<benefitResponseType>) => {
-    //     const indexofEdit = state.benefits.findIndex(
-    //       (benefit) => benefit.benefitId === action.payload.benefitId
-    //     );
-    //     const notUpdatedOnes = state.benefits.filter(
-    //       (val) => val.benefitId !== action.payload.benefitId
-    //     );
-    //     notUpdatedOnes.splice(indexofEdit, 0, action.payload);
-    //     state.benefits = [...notUpdatedOnes];
-    //   }
-    // );
-
-    // builder.addMatcher(
-    //   editBenefit.matchRejected,
-    //   (
-    //     state,
-    //     action: PayloadAction<
-    //       (FetchBaseQueryError & { data?: unknown }) | undefined
-    //     >
-    //   ) => {
-    //     state.benefitsError = returnError(action);
-    //   }
-    // );
-
-    // builder.addMatcher(editBenefit.matchPending, (state) => {
-    //   state.benefitsLoading = true;
-    // });
-
-    // builder.addMatcher(
-    //   editBenefit.matchFulfilled,
-    //   (state, action: PayloadAction<benefitResponseType>) => {
-    //     state.benefitsLoading = false;
-    //     const indexofEdit = state.benefits.findIndex(
-    //       (benefit) => benefit.benefitId === action.payload.benefitId
-    //     );
-    //     const notUpdatedOnes = state.benefits.filter(
-    //       (val) => val.benefitId !== action.payload.benefitId
-    //     );
-    //     notUpdatedOnes.splice(indexofEdit, 0, action.payload);
-    //     state.benefits = [...notUpdatedOnes];
-    //   }
-    // );
-
-    // builder.addMatcher(
-    //   editBenefit.matchRejected,
-    //   (
-    //     state,
-    //     action: PayloadAction<
-    //       (FetchBaseQueryError & { data?: unknown }) | undefined
-    //     >
-    //   ) => {
-    //     state.benefitsLoading = false;
-    //     state.benefitsError = returnError(action);
-    //   }
-    // );
-
-    // builder.addMatcher(getAllBenefits.matchPending, (state) => {
-    //   state.benefitsLoading = true;
-    // });
-
-    // builder.addMatcher(
-    //   getAllBenefits.matchFulfilled,
-    //   (state, action: PayloadAction<benefitResponseType[]>) => {
-    //     state.benefitsLoading = false;
-    //     state.benefits = action.payload;
-    //   }
-    // );
-
-    // builder.addMatcher(
-    //   getAllBenefits.matchRejected,
-    //   (
-    //     state,
-    //     action: PayloadAction<
-    //       (FetchBaseQueryError & { data?: unknown }) | undefined
-    //     >
-    //   ) => {
-    //     state.benefitsLoading = false;
-    //     state.benefitsError = returnError(action);
-    //   }
-    // );
-
-    // builder.addMatcher(getOneBenefit.matchPending, (state) => {
-    //   state.benefitsLoading = true;
-    // });
-
-    // builder.addMatcher(
-    //   getOneBenefit.matchFulfilled,
-    //   (state, action: PayloadAction<benefitResponseType>) => {
-    //     state.benefitsLoading = false;
-    //     // state.benefits = action.payload;
-    //   }
-    // );
-
-    // builder.addMatcher(
-    //   getOneBenefit.matchRejected,
-    //   (
-    //     state,
-    //     action: PayloadAction<
-    //       (FetchBaseQueryError & { data?: unknown }) | undefined
-    //     >
-    //   ) => {
-    //     state.benefitsLoading = false;
-    //     state.benefitsError = returnError(action);
-    //   }
-    // );
   },
 });
 
@@ -377,6 +317,7 @@ export const {
   showBookingHistory,
   showBookingPop,
   clearBookingError,
+  showDamageReportPop,
 } = BookingSlice.actions;
 
 export default BookingSlice.reducer;

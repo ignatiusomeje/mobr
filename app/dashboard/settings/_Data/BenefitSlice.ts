@@ -33,7 +33,13 @@ const BenefitSlice = createSlice({
       state.benefitsError = "";
     },
   },
+
   extraReducers: (builder) => {
+     /* clear everything on logout */
+     builder.addCase("logout", () => {
+      return initialState;
+    });
+    
     builder.addMatcher(createBenefit.matchPending, (state) => {
       state.createBenefitLoading = true;
     });
@@ -118,34 +124,10 @@ const BenefitSlice = createSlice({
         >
       ) => {
         state.benefitsLoading = false;
+        state.benefits = initialState.benefits
         state.benefitsError = returnError(action);
       }
     );
-
-    // builder.addMatcher(getOneBenefit.matchPending, (state) => {
-    //   state.benefitsLoading = true;
-    // });
-
-    // builder.addMatcher(
-    //   getOneBenefit.matchFulfilled,
-    //   (state, action: PayloadAction<benefitResponseType>) => {
-    //     state.benefitsLoading = false;
-    //     // state.benefits = action.payload;
-    //   }
-    // );
-
-    // builder.addMatcher(
-    //   getOneBenefit.matchRejected,
-    //   (
-    //     state,
-    //     action: PayloadAction<
-    //       (FetchBaseQueryError & { data?: unknown }) | undefined
-    //     >
-    //   ) => {
-    //     state.benefitsLoading = false;
-    //     state.benefitsError = returnError(action);
-    //   }
-    // );
   },
 });
 

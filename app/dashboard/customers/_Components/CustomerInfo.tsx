@@ -65,13 +65,13 @@ const CustomerInfo = ({
                   <p
                     className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
                   >
-                    Full name:
+                    Full Name:
                     {/* First name: */}
                   </p>
                   <p
-                    className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
+                    className={`font-inter break-words font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                   >
-                    {customer.fullName}
+                    {customer.fullName ? customer.fullName : `N/A`}
                   </p>
                 </div>
                 {/* <div>
@@ -98,7 +98,7 @@ const CustomerInfo = ({
                     Sample
                   </p>
                 </div> */}
-                <div>
+                {/* <div>
                   <p
                     className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
                   >
@@ -108,19 +108,19 @@ const CustomerInfo = ({
                     className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                   >
                     {customer.countryCode}
-                    {/* Nigeria (+234) */}
+                    Nigeria (+234)
                   </p>
-                </div>
+                </div> */}
                 <div>
                   <p
                     className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
                   >
-                    Phone number:
+                    Phone Number:
                   </p>
                   <p
-                    className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
+                    className={`font-inter break-words font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                   >
-                    {customer.phoneNumber}
+                    {customer.phoneNumber ? customer.phoneNumber : `N/A`}
                   </p>
                 </div>
                 <div>
@@ -130,9 +130,9 @@ const CustomerInfo = ({
                     Email:
                   </p>
                   <p
-                    className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
+                    className={`font-inter break-words font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                   >
-                    {customer.email}
+                    {customer.email ? customer.email : `N/A`}
                   </p>
                 </div>
               </div>
@@ -148,13 +148,13 @@ const CustomerInfo = ({
                   <p
                     className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
                   >
-                    Date of birth:
+                    Date of Birth:
                   </p>
                   <p
                     className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                   >
-                    {customer.dob !== null &&
-                      moment(customer.dob).format("MMM D, YYYY")}
+                    {customer.dob !== null ?
+                      moment(customer.dob).format("MMM D, YYYY") : `N/A`}
                     {/* {customer.dob?} */}
                   </p>
                 </div>
@@ -164,7 +164,7 @@ const CustomerInfo = ({
                   >
                     License Front:
                   </p>
-                  {customer.frontDriverLisenceImageUrl && (
+                  {customer.frontDriverLisenceImageUrl ? (
                     <p
                       className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                     >
@@ -184,7 +184,7 @@ const CustomerInfo = ({
                         </Button>
                       )}
                     </p>
-                  )}
+                  ): <span className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}>N/A</span>}
                 </div>
                 <div>
                   <p
@@ -192,7 +192,7 @@ const CustomerInfo = ({
                   >
                     License Back:
                   </p>
-                  {customer.backDriverLisenceImageUrl  && (
+                  {customer.backDriverLisenceImageUrl  ? (
                     <p
                       className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                     >
@@ -212,7 +212,7 @@ const CustomerInfo = ({
                         </Button>
                       )}
                     </p>
-                  )}
+                  ): <span className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}>N/A</span> }
                 </div>
               </div>
             </div>
@@ -222,59 +222,59 @@ const CustomerInfo = ({
               >
                 BILLING ADDRESS:
               </h5>
-              {false && (
                 <div className={`grid grid-cols-3 gap-[18px]`}>
                   <div>
                     <p
                       className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
-                    >
-                      Street address:
+                      >
+                      Street Address:
                     </p>
+                      
                     <p
-                      className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
+                      className={`font-inter break-words font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                     >
-                      {customer.streetAddress}
+                      {customer.streetAddress ?customer.streetAddress:`N/A` }
                     </p>
                   </div>
-                  <div>
-                    <p
+                  {/* <div> */}
+                    {/* <p
                       className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
                     >
                       Region:
-                    </p>
+                    </p> */}
                     {/* <p
-                      className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
+                      className={`font-inter break-words font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                     >
                      
                       Lyons
                     </p> */}
-                  </div>
-                  <div>
-                    <p
+                  {/* </div> */}
+                  {/* <div> */}
+                    {/* <p
                       className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
                     >
                       City:
-                    </p>
+                    </p> */}
                     {/* <p
-                      className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
+                      className={`font-inter break-words font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                     >
                       Paris
                     </p> */}
-                  </div>
-                  <div>
-                    <p
+                  {/* </div> */}
+                  {/* <div> */}
+                    {/* <p
                       className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
                     >
                       Postal code:
-                    </p>
+                    </p> */}
                     {/* <p
                       className={`font-inter font-[500] text-[14px] leading-[22px] tracking-[0.25px] text-[#1B1B1B]`}
                     >
                       098031
                     </p> */}
-                  </div>
+                  {/* </div> */}
                 </div>
-              )}
+              
             </div>
           </div>
           <LicensePop />

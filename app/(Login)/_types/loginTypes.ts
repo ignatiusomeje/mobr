@@ -65,3 +65,8 @@ export type adminInitialState = {
 export type customerIDInputType = {
   id: number;
 };
+
+export type blockCustomerInputType = {
+  id: number;
+  blockState: boolean;
+};

@@ -57,6 +57,11 @@ const LoginAdminSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+     /* clear everything on logout */
+     builder.addCase("logout", () => {
+      return initialState;
+    });
+    
     builder.addMatcher(loginAdmin.matchPending, (state) => {
       state.loginAdminLoading = true;
     });

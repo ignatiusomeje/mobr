@@ -33,6 +33,7 @@ const CarImageShow = ({
       } else {
         if (nextState + 1 === images.length - 1) {
           setNextEnd(true);
+          setPrevEnd(false);
         } else {
           setNextEnd(false);
           setPrevEnd(false);
@@ -49,6 +50,7 @@ const CarImageShow = ({
       } else {
         if (prevState - 1 === 0) {
           setPrevEnd(true);
+          setNextEnd(false);
         } else {
           setPrevEnd(false);
           setNextEnd(false);

@@ -30,6 +30,8 @@ export type initialStateCar = {
   carFetchedById: getByIdFormikFormat;
   getACarByIdLoading: boolean;
   getACarByIdError: string;
+  deleteACarFeatureLoading: boolean;
+  deleteACarFeatureError: string;
 };
 
 export type updateCarInputType = {
@@ -162,6 +164,10 @@ export type deleteCarInputType = {
   vehicleId: string;
 };
 
+export type deleteFeatureInputType = {
+  featureId: string;
+};
+
 export type deleteCarResponseImageType = {
   benefitTitle: string;
   benefitWriteUp: string;
@@ -263,7 +269,7 @@ export type HeaderTemplateType = {
 export type uploadDetailsPopType = {
   // setVisible: (e: boolean) => void;
   newCarFormik: FormikProps<updateCarFormikInputType>;
-  submit: (draft:boolean) => void;
+  submit: (draft: boolean) => void;
   publishLoading: boolean;
   addFeatureLoading: boolean;
   visible: boolean;

@@ -58,6 +58,7 @@ const refreshToken: BaseQueryFn<
     );
 
     if (refreshResult.error && refreshResult.error.status === 500) {
+      api.dispatch(clearToken());
       return refreshResult;
     }
 
@@ -81,6 +82,6 @@ export const AccountProtectedAPI = createApi({
   baseQuery: refreshToken,
   refetchOnMountOrArgChange: true,
   refetchOnReconnect: true,
-  // tagTypes: ["encounters"],
+  tagTypes: ["customers"],
   endpoints: () => ({}),
 });

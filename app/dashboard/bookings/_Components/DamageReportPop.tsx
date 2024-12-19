@@ -1,19 +1,31 @@
-import { X } from 'lucide-react';
-import { Dialog } from 'primereact/dialog';
-import React, { useState } from 'react'
-import DamageReportCard from './DamageReportCard';
+import { Loader, X } from "lucide-react";
+import { Dialog } from "primereact/dialog";
+import React from "react";
+import DamageReportCard from "./DamageReportCard";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { showDamageReportPop } from "../_Data/BookingSlice";
 
 const DamageReportPop = () => {
-  const [visible, setVisible] = useState<boolean>(false)
+  const showDamageReport = useAppSelector(
+    (state) => state.bookings.showDamageReport
+  );
+  const vehicleDamageReport = useAppSelector(
+    (state) => state.bookings.vehicleDamageReport
+  );
+  const getAVehicleDamageReportLoading = useAppSelector(
+    (state) => state.bookings.getAVehicleDamageReportLoading
+  );
+
+  const dispatch = useAppDispatch();
   return (
     <Dialog
-      visible={false}
+      visible={showDamageReport}
       // visible
       className={`rounded-[20px] max-h-lvh h-full mb-10 mt-10 max-w-[790px] w-full`}
       modal
       onHide={() => {
-        if (!visible) return;
-        setVisible(false);
+        if (!showDamageReport) return;
+        dispatch(showDamageReportPop({ show: false }));
       }}
       content={({ hide }) => (
         <div
@@ -32,13 +44,27 @@ const DamageReportPop = () => {
               onClick={(e) => hide(e)}
             />
           </div>
-          <div className={`flex gap-[40px] flex-col flex-grow flex-1 overflow-y-scroll noScroll`}>
-            {[1,2,3,4,5,6,7,8,9,10].map(index => <DamageReportCard key={index} />)}
-          </div>
+          {getAVehicleDamageReportLoading ? (
+            <div
+              className={`w-full h-full flex justify-center items-center`}
+            >
+              <Loader className={`animate-spin w-[50px] h-[50px]`} />
+            </div>
+          ) : vehicleDamageReport.length > 0 ? (
+            <div
+              className={`flex gap-[40px] flex-col flex-grow flex-1 overflow-y-scroll noScroll`}
+            >
+              {vehicleDamageReport.map((report) => (
+                <DamageReportCard report={report} key={report.damageReportId} />
+              ))}
+            </div>
+          ) : (
+            <div>No Damage Report for this Booking</div>
+          )}
         </div>
       )}
     ></Dialog>
-  )
-}
+  );
+};
 
-export default DamageReportPop
+export default DamageReportPop;

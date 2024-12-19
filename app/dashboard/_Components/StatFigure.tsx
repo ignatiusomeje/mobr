@@ -1,10 +1,23 @@
-import { dashboardType } from "@/types/Dashboard";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import Card from "./Card";
+import {
+  getBookingInfoResponseType,
+  getCustomerInfoResponseType,
+} from "../_Types/DashboardTypes";
 
-const StatFigure = ({ name, box, url, Totalbooking }: dashboardType) => {
+const StatFigure = ({
+  name,
+  box,
+  url,
+  totalbooking,
+}: {
+  name: string;
+  box: getCustomerInfoResponseType[] | getBookingInfoResponseType[];
+  url: string;
+  totalbooking: number;
+}) => {
   return (
     <div
       className={`p-[12px] rounded-[16px] mt-9 min-w-[597px] w-full bg-[#F1F1F1]`}
@@ -27,24 +40,22 @@ const StatFigure = ({ name, box, url, Totalbooking }: dashboardType) => {
           <p
             className={`text-[#474747] font-inter text-[12px] font-[400] leading-[20px] tracking-[0.30000001192092896px]`}
           >
-            Total bookings
+            {name.toLowerCase() === "customers statistic"
+              ? `Total Customers`
+              : `Total Bookings`}
           </p>
           <p
             className={`text-[#222B2E] font-square text-[24px] font-[700] leading-[28.91px] tracking-[0.25px]`}
           >
-            {Totalbooking}
+            {totalbooking}
           </p>
         </div>
       </div>
-        <div className={`flex gap-2`}>
-          {box.map((bx) => (
-            <Card
-              name={bx.name}
-              total={bx.total}
-              key={bx.name}
-            />
-          ))}
-        </div>
+      <div className={`flex gap-2`}>
+        {box.map((bx) => (
+          <Card name={bx.state} total={bx.totalCount} key={bx.state} />
+        ))}
+      </div>
     </div>
   );
 };

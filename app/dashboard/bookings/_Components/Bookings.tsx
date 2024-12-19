@@ -15,6 +15,7 @@ import {
 import { useLazyGetOneCustomerQuery } from "../../customers/_Data/customerAPI";
 import { useAppDispatch } from "@/store/hooks";
 import { setCurrentBooking, showBookingPop } from "../_Data/BookingSlice";
+import ListBookingHistoryPop from "./ListBookingHistoryPop";
 
 const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
   const [GetACarByIdTrigger, GetACarById] = useLazyGetACarByIdQuery();
@@ -56,7 +57,7 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
     </span>
   );
 
-  const actionSketch = (value:bookingResponseType) => (
+  const actionSketch = (value: bookingResponseType) => (
     <div className="relative">
       <Button
         className={`focus:ring-0`}
@@ -67,25 +68,36 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
         ref={options}
         closeOnEscape
         dismissable={true}
-        className={` bg-[#F1F1F1]v max-w-[131px] w-full`}
+        className={` bg-[#F1F1F1] max-w-[131px] w-full`}
       >
         <Button
-        onClick={()=>{
-          dispatch(showBookingPop({ show: true }));
-          dispatch(setCurrentBooking(value));
-          GetACarByIdTrigger({ vehicleId: value.vehichleId });
-          GetOneCustomerTrigger({ id: value.customerId });
-          GetAllCarFeatureTrigger({ vehicleId: value.vehichleId });
-        }}
+          onClick={() => {
+            dispatch(showBookingPop({ show: true }));
+            dispatch(setCurrentBooking(value));
+            GetACarByIdTrigger({ vehicleId: value.vehichleId });
+            GetOneCustomerTrigger({ id: value.customerId });
+            GetAllCarFeatureTrigger({ vehicleId: value.vehichleId });
+          }}
           className={`text-[#222B2E] w-full hover:bg-[#DDE4E6] hover:cursor-pointer block font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
         >
           View
         </Button>
-        <Button
-          className={`text-[#8D1510] w-full block hover:bg-[#DDE4E6] hover:cursor-pointer font-square text-[16px] font-[400] py-[10px] px-[12px]`}
-        >
-          Block
-        </Button>
+        {value.isPaid && value.bookingState !== bookingState.Booked && (
+          <Button
+            className={`text-[#222B2E] w-full hover:bg-[#DDE4E6] hover:cursor-pointer block font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
+          >
+            Approve
+          </Button>
+        )}
+        {value.isPaid &&
+          value.bookingState !== bookingState.Cancelled &&
+          value.bookingState !== bookingState.Booked && (
+            <Button
+              className={`text-[#8D1510] w-full block hover:bg-[#DDE4E6] hover:cursor-pointer font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
+            >
+              Cancel
+            </Button>
+          )}
       </OverlayPanel>
     </div>
   );
@@ -136,7 +148,11 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
           header="CUSTOMERS"
           style={{ width: "11%" }}
         ></Column>
-        <Column field="phoneNumber" header="PHONE" style={{ width: "11%" }}></Column>
+        <Column
+          field="phoneNumber"
+          header="PHONE"
+          style={{ width: "11%" }}
+        ></Column>
         <Column field="email" header="EMAIL" style={{ width: "11%" }}></Column>
         <Column
           field="bookingState"
@@ -156,7 +172,9 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
         GetACarById={GetACarById.isFetching}
         GetOneCustomer={GetOneCustomer.isFetching}
         GetAllCarFeature={GetAllCarFeature.isFetching}
+        GetOneCustomerTrigger={(id)=> GetOneCustomerTrigger({id: id })}
       />
+      <ListBookingHistoryPop GetOneCustomerTrigger={(id)=> GetOneCustomerTrigger({id: id })}/>
     </div>
   );
 };

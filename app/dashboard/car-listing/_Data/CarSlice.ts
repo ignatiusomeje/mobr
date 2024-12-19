@@ -5,6 +5,7 @@ import {
   createACarFeature,
   createCarImages,
   deleteACar,
+  deleteACarFeature,
   deleteACarImage,
   getACarById,
   getACarImages,
@@ -87,14 +88,17 @@ const initialState: initialStateCar = {
   },
   getACarByIdLoading: false,
   getACarByIdError: "",
+  deleteACarFeatureLoading: false,
+  deleteACarFeatureError: "",
 };
 const CarSlice = createSlice({
   name: "cars",
   initialState,
   reducers: {
-    setMoreInfoPop:(state)=>{
-      state.moreInfoPop = true
+    setMoreInfoPop: (state) => {
+      state.moreInfoPop = true;
     },
+
     clearCarError: (state) => {
       state.createACarImageError = "";
       state.getACarImageError = "";
@@ -108,12 +112,15 @@ const CarSlice = createSlice({
       state.deleteACarObjectError = "";
       state.getACarByIdError = "";
     },
+
     setFetched: (state) => {
       state.fetched = true;
     },
+
     clearMoreInfoPop: (state) => {
       state.moreInfoPop = false;
     },
+
     updateCarFeature: (
       state,
       action: PayloadAction<createACarFeatureResponseTypes>
@@ -123,6 +130,7 @@ const CarSlice = createSlice({
       );
       if (Oldfeature) Object.assign(Oldfeature, action.payload);
     },
+
     addCarFeature: (
       state,
       action: PayloadAction<createACarFeatureResponseTypes>
@@ -143,71 +151,21 @@ const CarSlice = createSlice({
       //   };
       // }
     },
+
     removeImage: (state, action: PayloadAction<number>) => {
       state.vehicle.vehicleImages = state.vehicle.vehicleImages.filter(
         (carImage) => carImage.vehicleImageId !== action.payload
       );
     },
-    clearLoading: (state) => {
-      state.getAllCarsLoading = false;
-      state.getAllCarsError = "";
-      state.getAllCarFeatureLoading = false;
-      state.getAllCarFeatureError = "";
-      state.deleteACarLoading = false;
-      state.deleteACarError = "";
-      state.createACarImageLoading = false;
-      state.createACarImageError = "";
-      state.createACarFeatureLoading = false;
-      state.createACarFeatureError = "";
-      state.updateCarFeatureLoading = false;
-      state.updateCarFeatureError = "";
-      state.getACarImageError = "";
-      state.vehicle = {
-        vehicleId: "",
-        vehicleName: "",
-        vehicleLocation: "",
-        vehicleCondition: "",
-        vehicleYear: 0,
-        transmissionType: TransmissionType.Manual,
-        energyType: EnergyType.Petrol,
-        vehicleDescription: "",
-        vehicleRentalPrice: 0,
-        vehicleAvaliableDate: undefined,
-        vehicleFeatures: [],
-        vehicleImages: [],
-      };
-      state.cars = [];
-      state.showPopUp = false;
-      state.carFeatures = [];
-      state.featureTitle = "";
-      state.fetchedFeatures = [];
-      state.fetched = false;
-      state.carFeaturesForDisplay = [];
-      state.carFeaturesForDisplayLoading = false;
-      state.carFeaturesForDisplayError = "";
-      state.deleteACarObjectLoading = false;
-      state.deleteACarObjectError = "";
-      state.moreInfoPop = false;
-      state.carFetchedById = {
-        averageVehicleRating: 0,
-        carBookingState: carBookingState.Available,
-        energyType: EnergyType.Petrol,
-        reviewCount: 0,
-        savedState: savedState.Active,
-        transmissionType: TransmissionType.Auto,
-        vehicleAvaliableDate: new Date().toISOString(),
-        vehicleCondition: "",
-        vehicleDescription: "",
-        vehicleId: "",
-        vehicleImages: [],
-        vehicleLocation: "",
-        vehicleName: "",
-        vehicleRentalPrice: 0,
-        vehicleYear: 0,
-      };
-    },
+
+    clearLoading: () => initialState,
   },
   extraReducers: (builder) => {
+    /* clear everything on logout */
+    builder.addCase("logout", () => {
+      return initialState;
+    });
+
     builder.addMatcher(getAllCars.matchPending, (state) => {
       state.getAllCarsLoading = true;
     });
@@ -229,9 +187,11 @@ const CarSlice = createSlice({
         >
       ) => {
         state.getAllCarsLoading = false;
+        state.cars = initialState.cars;
         state.getAllCarsError = returnError(action);
       }
     );
+
     /* create an image for a car first time section */
     builder.addMatcher(createCarImages.matchPending, (state) => {
       state.createACarImageLoading = true;
@@ -325,6 +285,7 @@ const CarSlice = createSlice({
         >
       ) => {
         state.createACarImageLoading = false;
+        state.vehicle.vehicleImages = initialState.vehicle.vehicleImages;
         state.getACarImageError = returnError(action);
       }
     );
@@ -351,6 +312,7 @@ const CarSlice = createSlice({
         >
       ) => {
         state.getAllCarFeatureLoading = false;
+        state.fetchedFeatures = initialState.fetchedFeatures;
         state.getAllCarFeatureError = returnError(action);
       }
     );
@@ -382,6 +344,7 @@ const CarSlice = createSlice({
         >
       ) => {
         state.carFeaturesForDisplayLoading = false;
+        state.carFeaturesForDisplay = initialState.carFeaturesForDisplay;
         state.carFeaturesForDisplayError = returnError(action);
       }
     );
@@ -476,8 +439,9 @@ const CarSlice = createSlice({
         state.getACarByIdLoading = false;
         state.carFetchedById = {
           ...action.payload,
-          vehicleAvaliableDate:
-            new Date(action.payload.vehicleAvaliableDate).toISOString(),
+          vehicleAvaliableDate: new Date(
+            action.payload.vehicleAvaliableDate
+          ).toISOString(),
         };
       }
     );
@@ -491,7 +455,30 @@ const CarSlice = createSlice({
         >
       ) => {
         state.getACarByIdLoading = false;
+        state.carFetchedById = initialState.carFetchedById
         state.getACarByIdError = returnError(action);
+      }
+    );
+
+    /* delete a car feature by Id */
+    builder.addMatcher(deleteACarFeature.matchPending, (state) => {
+      state.deleteACarFeatureLoading = true;
+    });
+
+    builder.addMatcher(deleteACarFeature.matchFulfilled, (state) => {
+      state.deleteACarFeatureLoading = false;
+    });
+
+    builder.addMatcher(
+      deleteACarFeature.matchRejected,
+      (
+        state,
+        action: PayloadAction<
+          (FetchBaseQueryError & { data?: unknown }) | undefined
+        >
+      ) => {
+        state.deleteACarFeatureLoading = false;
+        state.deleteACarFeatureError = returnError(action);
       }
     );
   },
@@ -505,7 +492,7 @@ export const {
   setFetched,
   clearMoreInfoPop,
   addCarFeature,
-  setMoreInfoPop
+  setMoreInfoPop,
 } = CarSlice.actions;
 
 export default CarSlice.reducer;

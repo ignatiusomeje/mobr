@@ -40,7 +40,7 @@ const CarUsedListVehicleCard = ({booking}:{booking:bookingResponseType}) => {
         </div>
         <div className={`flex w-full justify-between items-center gap-3`}>
           <p className={`text-[#303030] font-square text-[10px] font-[600] leading-[16px] tracking-[0.4px] text-nowrap`} >Total Distance:</p>
-          <p className={`text-[#303030] font-inter text-[10px] font-[600] leading-[16px] tracking-[0.4px] text-nowrap`}>{booking.totalDistance}km</p>
+          <p className={`text-[#303030] font-inter text-[10px] overflow-hidden font-[600] leading-[16px] tracking-[0.4px] text-nowrap`}>{booking.totalDistance.toFixed(2)}km</p>
         </div>
         <div className={`flex w-full justify-between items-center gap-3`}>
           <p className={`text-[#303030] font-square text-[10px] font-[600] leading-[16px] tracking-[0.4px] text-nowrap`}>Booking State:</p>

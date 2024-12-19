@@ -8,12 +8,17 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { clearCarError } from "./_Data/CarSlice";
 import { Toast } from "primereact/toast";
 import { carBookingState, savedState } from "./_types/CarType";
+import { clearBookingError } from "../bookings/_Data/BookingSlice";
 
 const Page = () => {
   const toast = useRef<Toast>(null);
   const cars = useAppSelector((state) => state.cars.cars);
   const dispatch = useAppDispatch();
   const getAllCarsError = useAppSelector((state) => state.cars.getAllCarsError);
+  const getACarByIdError = useAppSelector(
+    (state) => state.bookings.getACarByIdError
+  );
+  const featuresError = useAppSelector((state) => state.bookings.featuresError);
   const getAllCarsLoading = useAppSelector(
     (state) => state.cars.getAllCarsLoading
   );
@@ -40,6 +45,12 @@ const Page = () => {
   if (getAllCarsError) {
     showError(getAllCarsError);
     dispatch(clearCarError());
+  } else if (getACarByIdError) {
+    showError(getACarByIdError);
+    dispatch(clearBookingError());
+  } else if (featuresError) {
+    showError(featuresError);
+    dispatch(clearBookingError());
   }
 
   return (

@@ -1,8 +1,10 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import DamageImageShow from "./DamageImageShow";
+import { damageReportsResponse } from "../_Types/BookingTypes";
 
-const DamageReportCard = () => {
+const DamageReportCard = ({ report }: { report: damageReportsResponse }) => {
+  const [visible, setVisible] = useState<boolean>(false);
   return (
     <div className={`flex gap-[16px] flex-col`}>
       <div className={`flex gap-[12px] flex-col`}>
@@ -11,18 +13,27 @@ const DamageReportCard = () => {
         >
           Images
         </h5>
-        <div className={`gap-[4px] flex`}>
-          {[1, 2, 3, 4, 5].map((index) => (
-            <Image
-              src={`/images/acura.jpg`}
-              alt="Image of a car"
-              width={128}
-              height={108}
-              className={`rounded-[8px]`}
-              key={index}
-            />
-          ))}
-        </div>
+        {report.damageImages.length > 0 ? (
+          <div className={`gap-[4px] flex`}>
+            {report.damageImages.map((image) => (
+              <Image
+                src={image.damageImageUrl || `/images/acura.jpg`}
+                alt={`${report.damageAreas} images`}
+                width={128}
+                height={108}
+                className={`rounded-[8px] cursor-pointer`}
+                key={image.damageImageId}
+                onClick={()=>setVisible(true)}
+              />
+            ))}
+          </div>
+        ) : (
+          <div
+            className={`text-[#303030] font-inter text-[16px] font-[400] leading-[24px] tracking-[0.25px]`}
+          >
+            No Image for this Damage Report
+          </div>
+        )}
       </div>
       <div className={`flex gap-[6px] flex-col`}>
         <h5
@@ -33,7 +44,7 @@ const DamageReportCard = () => {
         <p
           className={`text-[#303030] font-inter text-[16px] font-[400] leading-[24px] tracking-[0.25px]`}
         >
-          Driver seat
+          {report.vehicleSides ? report.vehicleSides : `N/A`}
         </p>
       </div>
       <div className={`flex gap-[6px] flex-col`}>
@@ -45,7 +56,7 @@ const DamageReportCard = () => {
         <p
           className={`text-[#303030] font-inter text-[16px] font-[400] leading-[24px] tracking-[0.25px]`}
         >
-          Inverter
+          {report.damageAreas ? report.damageAreas : `N/A`}
         </p>
       </div>
       <div className={`flex gap-[6px] flex-col`}>
@@ -57,10 +68,10 @@ const DamageReportCard = () => {
         <p
           className={`text-[#303030] font-inter text-[16px] font-[400] leading-[24px] tracking-[0.25px]`}
         >
-          Morem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Morem ipsum dolor sit amet, consectetur adipiscing elit. Morem ipsum dolor sit amet, consectetur adipiscing elit.  
+          {report.damageReporComment ? report.damageReporComment :`N/A`}
         </p>
       </div>
-      <DamageImageShow />
+      <DamageImageShow reportImages={report.damageImages} visible={visible} setVisible={(e)=> setVisible(e)} />
     </div>
   );
 };

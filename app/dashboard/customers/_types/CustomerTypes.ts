@@ -2,9 +2,13 @@ export type initialStateCustomers = {
   customers: customerResponse[];
   getAllCustomersLoading: boolean;
   getOneCustomerLoading: boolean;
+  blockOneCustomerLoading: boolean;
+  validateOneCustomerLoading: boolean;
   customer: customerResponse;
   getAllCustomersError: string;
   getOneCustomerError: string;
+  validateOneCustomerError: string;
+  blockOneCustomerError: string;
   showPopUp: boolean;
 };
 
@@ -15,9 +19,9 @@ export type customerResponse = {
   email: string;
   role: string;
   isVerified: boolean;
-  dob: string ;
+  dob: string;
   isValidated: boolean;
-  dateValidated: string ;
+  dateValidated: string;
   streetAddress: string;
   // verificationToken: string;
   countryCode: string;
@@ -28,7 +32,8 @@ export type customerResponse = {
   frontDriverLisencePublicId: string;
   backDriverLisenceImageUrl: string;
   backDriverLisenceImagePublicId: string;
-  created:string
+  created: string;
+  isActive: boolean;
 };
 
 export type customerInput = {
@@ -42,20 +47,20 @@ export type customerType = {
   tab: string;
   setTab: (tab: string) => void;
   closeShowOneCustomer: () => void;
-  showOneCustomer: (id:number) => void;
-  showPopUp:boolean
+  showOneCustomer: (id: number) => void;
+  showPopUp: boolean;
 };
 
 export type customerType2 = {
   customers: customerResponse[];
   customer: customerResponse;
   closeShowOneCustomer: () => void;
-  showOneCustomer: (id:number) => void;
-  showPopUp:boolean
+  showOneCustomer: (id: number) => void;
+  showPopUp: boolean;
 };
 
 export type CustomerInfoTypes = {
-  showPopUp:boolean
+  showPopUp: boolean;
   customer: customerResponse;
   closeShowOneCustomer: () => void;
 };

@@ -7,27 +7,68 @@ import Chart from "./Chart";
 import Link from "next/link";
 import DashboardLoader from "./DashboardLoader";
 import { dashboardTempType } from "@/types/Dashboard";
+import { useAppSelector } from "@/store/hooks";
 
-const DashboardTemp = ({loading, data}:dashboardTempType) => {
+const DashboardTemp = ({ loading }: dashboardTempType) => {
+  const getBookingInfo = useAppSelector(
+    (state) => state.dashBoard.getBookingInfo
+  );
+  const getBookingInfoLoading = useAppSelector(
+    (state) => state.dashBoard.getBookingInfoLoading
+  );
+  const getBookingStatsLoading = useAppSelector(
+    (state) => state.dashBoard.getBookingStatsLoading
+  );
+  const getCustomerInfo = useAppSelector(
+    (state) => state.dashBoard.getCustomerInfo
+  );
+  const getCustomerInfoLoading = useAppSelector(
+    (state) => state.dashBoard.getCustomerInfoLoading
+  );
   return (
     <>
-      {loading ? (
+      {loading ||
+      getBookingInfoLoading ||
+      getBookingStatsLoading ||
+      getCustomerInfoLoading ? (
         <DashboardLoader />
       ) : (
         <div className="flex flex-col mb-9 flex-grow flex-1 gap-9 px-[20px]">
           <div className="flex gap-4 w-full">
-            {data.map((card) => (
-              <StatFigure
-                name={card.name}
-                url={card.url}
-                Totalbooking={card.Totalbooking}
-                box={card.box}
-                key={card.name}
-              />
-            ))}
+            {/* {data.map((card) => ( */}
+            <StatFigure
+              name={`CUSTOMERS STATISTIC`}
+              url={`/dashboard/customers`}
+              totalbooking={
+                getCustomerInfo.length > 0
+                  ? getCustomerInfo.reduce(
+                      (prev, current) => prev + current.totalCount,
+                      0
+                    )
+                  : 0
+              }
+              box={getCustomerInfo}
+            />
+            <StatFigure
+              name={`CAR BOOKINGS STATISTIC`}
+              url={`/dashboard/bookings`}
+              totalbooking={
+                getBookingInfo.length > 0
+                  ? getBookingInfo.reduce(
+                      (prev, current) => prev + current.totalCount,
+                      0
+                    )
+                  : 0
+              }
+              box={getBookingInfo}
+              // key={card.name}
+            />
+
+            {/* ))} */}
           </div>
           <div className="flex justify-between items-center gap-4">
-            {["booking statistics", "payment statistics"].map((chart) => (
+          {/* "payment statistics" */}
+            {["booking statistics"].map((chart) => (
               <Chart key={chart} name={chart} />
             ))}
           </div>

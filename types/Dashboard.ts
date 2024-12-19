@@ -7,14 +7,6 @@ export type dashboardType = {
 
 export type dashboardTempType = {
   loading: boolean;
-  data: data[];
-};
-
-type data = {
-  name: string;
-  url: string;
-  Totalbooking: number;
-  box: Box[];
 };
 
 type Box = {

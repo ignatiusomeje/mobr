@@ -22,6 +22,12 @@ const Page = () => {
   const getAllCustomersError = useAppSelector(
     (state) => state.customers.getAllCustomersError
   );
+  const blockOneCustomerError = useAppSelector(
+    (state) => state.customers.blockOneCustomerError
+  );
+  const validateOneCustomerError = useAppSelector(
+    (state) => state.customers.validateOneCustomerError
+  );
   const getAllCustomersLoading = useAppSelector(
     (state) => state.customers.getAllCustomersLoading
   );
@@ -41,6 +47,12 @@ const Page = () => {
 
   if (getAllCustomersError) {
     showError(getAllCustomersError);
+    dispatch(clearCustomerError());
+  } else if (validateOneCustomerError) {
+    showError(validateOneCustomerError);
+    dispatch(clearCustomerError());
+  } else if (blockOneCustomerError) {
+    showError(blockOneCustomerError);
     dispatch(clearCustomerError());
   }
   useGetAllCustomersQuery(

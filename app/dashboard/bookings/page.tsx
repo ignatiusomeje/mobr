@@ -3,7 +3,6 @@ import DashboardWrapper from "@/Components/DashboardWrapper";
 import React, { useRef, useState } from "react";
 import BookingTemp from "./_Components/BookingTemp";
 import NavBar from "@/Components/NavBar";
-import ListBookingHistoryPop from "./_Components/ListBookingHistoryPop";
 import DamageReport from "./_Components/DamageReportPop";
 import { useGetAllBookingsQuery } from "./_Data/BookingAPI";
 import { bookingState } from "./_Types/BookingTypes";
@@ -26,6 +25,9 @@ const Page = () => {
   );
   const getOneCustomerError = useAppSelector(
     (state) => state.bookings.getOneCustomerError
+  );
+  const getAVehicleDamageReportError = useAppSelector(
+    (state) => state.bookings.getAVehicleDamageReportError
   );
   const [selected, setSelected] = useState<string>("All");
   let query = {};
@@ -61,6 +63,9 @@ const Page = () => {
   } else if (getOneCustomerError) {
     showError(getOneCustomerError);
     dispatch(clearBookingError());
+  } else if (getAVehicleDamageReportError) {
+    showError(getAVehicleDamageReportError);
+    dispatch(clearBookingError());
   }
   useGetAllBookingsQuery(query);
   return (
@@ -72,7 +77,6 @@ const Page = () => {
           selected={selected}
           setSelected={(text) => setSelected(text)}
         />
-        <ListBookingHistoryPop />
         <DamageReport />
       </div>
     </DashboardWrapper>

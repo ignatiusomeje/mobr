@@ -91,6 +91,9 @@ const Page = () => {
   const deleteACarObjectError = useAppSelector(
     (state) => state.cars.deleteACarObjectError
   );
+  const deleteACarFeatureError = useAppSelector(
+    (state) => state.cars.deleteACarFeatureError
+  );
 
   const vehicleImages = useAppSelector(
     (state) => state.cars.vehicle.vehicleImages
@@ -276,6 +279,9 @@ const Page = () => {
     dispatch(clearCarError());
   } else if (deleteACarObjectError) {
     showError(deleteACarObjectError);
+    dispatch(clearCarError());
+  } else if (deleteACarFeatureError) {
+    showError(deleteACarFeatureError);
     dispatch(clearCarError());
   }
 

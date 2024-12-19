@@ -23,6 +23,7 @@ import {
   updateCarFeature,
 } from "@/app/dashboard/car-listing/_Data/CarSlice";
 import titleCase from "@/utils/MakeTitleCase";
+import OptionButtons from "@/app/dashboard/car-listing/upload/_Components/OptionButtons";
 
 const FeaturePop = ({
   name,
@@ -36,6 +37,9 @@ const FeaturePop = ({
   const [updateACarFeatureMutation, updateACar] =
     useUpdateACarFeatureMutation();
   const fetchedFeatures = useAppSelector((state) => state.cars.fetchedFeatures);
+  const deleteACarFeatureLoading = useAppSelector(
+    (state) => state.cars.deleteACarFeatureLoading
+  );
   const carFeatures = useAppSelector((state) => state.cars.carFeatures);
 
   const handleChange = (
@@ -154,55 +158,54 @@ const FeaturePop = ({
                 onChange={(e) => handleChange(e.value, "energyType")}
                 onBlur={newCarFormik.handleBlur}
               />
-            ) : getAllCar ? (
+            ) : getAllCar || deleteACarFeatureLoading ? (
               <div className="flex justify-center items-center">
                 <Loader2 className={`animate-spin`} width={24} />
               </div>
             ) : invalid ? (
-              <SelectButton
-                // multiple={name.toLowerCase() === "other features" && true}
-                pt={{
-                  root: { className: `flex flex-wrap gap-[4px]` },
-                  button: {
-                    className: `rounded-[16px] focus:ring-0 border border-[#C6C6C6] py-[7px] capitalize my-[4px] px-[12px] bg-[#E8E8E8]`,
-                  },
-                }}
-                options={fetchedFeatures[0]?.features}
-                optionLabel={`featureName`}
-                value={
-                  carFeatures.find(
-                    (feat) =>
-                      feat?.featureTitle === fetchedFeatures[0]?.featureTitle
-                  )?.featureName
-                }
-                onChange={(e) => dispatch(addCarFeature(e.value))}
-              />
-            ) : getAllCar ? (
+              <div className={`flex flex-wrap gap-[9px]`}>
+                {fetchedFeatures[0].features.map((feature) => (
+                  <OptionButtons
+                    key={feature.featureId}
+                    feature={feature}
+                    selected={
+                      carFeatures.find(
+                        (feat) =>
+                          feat?.featureTitle ===
+                          fetchedFeatures[0]?.featureTitle
+                      )?.featureName === feature.featureName
+                    }
+                    onValueChangeEvent={async (e) => {
+                      await dispatch(addCarFeature(e));
+                      await setVisible({ name: "", active: false });
+                    }}
+                  />
+                ))}
+              </div>
+            ) : getAllCar || deleteACarFeatureLoading ? (
               <div className="flex justify-center items-center">
                 <Loader2 className={`animate-spin`} width={24} />
               </div>
             ) : (
-              <SelectButton
-                // multiple={name.toLowerCase() === "other features" && true}
-                pt={{
-                  root: { className: `flex flex-wrap gap-[4px]` },
-                  button: {
-                    className: `rounded-[16px] focus:ring-0 border border-[#C6C6C6] py-[7px] capitalize my-[4px] px-[12px] bg-[#E8E8E8]`,
-                  },
-                }}
-                options={fetchedFeatures[0]?.features}
-                optionLabel={`featureName`}
-                value={
-                  carFeatures.find(
-                    (feat) =>
-                      feat?.featureTitle === fetchedFeatures[0]?.featureTitle
-                  )?.featureName
-                }
-                onChange={async (e) => {
-                  await dispatch(updateCarFeature(e.value));
-                  await setVisible({ name: "", active: false });
-                }}
-              />
+              <div className={`flex flex-wrap gap-[9px]`}>
+                {fetchedFeatures[0].features.map((feature) => (
+                  <OptionButtons
+                    key={feature.featureId}
+                    feature={feature}
+                    selected={
+                      carFeatures.find(
+                        (feat) =>
+                          feat?.featureTitle ===
+                          fetchedFeatures[0]?.featureTitle
+                      )?.featureName === feature.featureName
+                    }
+                    onValueChangeEvent={async (e) => {
+                      await dispatch(updateCarFeature(e));
+                      await setVisible({ name: "", active: false });
+                    }}
+                  />
+                ))}
+              </div>
             )}
 
             {!getAllCar &&

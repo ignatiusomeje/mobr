@@ -9,6 +9,7 @@ import {
   createCarResponseImageType,
   deleteACarImageType,
   deleteCarInputType,
+  deleteFeatureInputType,
   getACarImagesInputTypes,
   getACarImagesResponseTypes,
   getAllCarFeatureInputTypes,
@@ -172,6 +173,16 @@ const CarApi = CarAPI.injectEndpoints({
         params: cars,
       }),
     }),
+
+    /* delete a car feature by ID  */
+    deleteACarFeature: build.mutation<void, deleteFeatureInputType>({
+      query: ({ ...featureId }) => ({
+        url: `/vehicleFeature/`,
+        method: "Delete",
+        params: featureId,
+      }),
+      invalidatesTags: ["carFeature"],
+    }),
   }),
 });
 
@@ -191,6 +202,7 @@ export const {
   useDeleteACarMutation,
   useGetACarByIdQuery,
   useLazyGetACarByIdQuery,
+  useDeleteACarFeatureMutation,
 } = CarApi;
 export const {
   createCarImages,
@@ -205,5 +217,6 @@ export const {
   getAllCarFeatureForDisplay,
   publishACar,
   deleteACar,
-  getACarById
+  getACarById,
+  deleteACarFeature,
 } = CarApi.endpoints;

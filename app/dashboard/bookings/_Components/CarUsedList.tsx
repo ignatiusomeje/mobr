@@ -17,7 +17,7 @@ const CarUsedList = ({
       <Loader className={`animate-spin w-[50px] h-[50px]`} />
     </div>
   ) : (
-    <div className="className={`max-w-[430px] gap-[8px] w-full`} grid grid-cols-2">
+    <div className="max-w-[430px] gap-[8px] w-full h-min grid grid-cols-2">
       {getAllBookingsByAUser.length > 0 &&
         getAllBookingsByAUser.map((booking) => (
           <CarUsedListVehicleCard key={booking.bookingId} booking={booking} />

@@ -64,6 +64,7 @@ const refreshToken: BaseQueryFn<
     );
 
     if (refreshResult.error && refreshResult.error.status === 500) {
+      api.dispatch(clearToken());
       return refreshResult;
     }
 
@@ -87,6 +88,6 @@ export const CarAPI = createApi({
   baseQuery: refreshToken,
   refetchOnMountOrArgChange: true,
   refetchOnReconnect: true,
-  tagTypes: ["cars", "benefits", "carImages", "carFeature"],
+  tagTypes: ["cars", "benefits", "carImages", "carFeature", "bookings"],
   endpoints: () => ({}),
 });

@@ -2,35 +2,38 @@
 import { X } from "lucide-react";
 import { Dialog } from "primereact/dialog";
 import React from "react";
-import UserInfo from "./UserInfo";
+// import UserInfo from "./UserInfo";
+// import CarInfo from "./CarInfo";
 import CarInfo from "./CarInfo";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { showBookingPop } from "../_Data/BookingSlice";
+// import CarInfo from "../../bookings/_Components/CarInfo";
+// import { showBookingPop } from "../_Data/BookingSlice";
 
-const BookingHistoryPop = ({
-  GetOneCustomer,
+const CarViewPop = ({
+  // GetOneCustomer,
+  showVehicle,
   GetACarById,
   GetAllCarFeature,
-  GetOneCustomerTrigger
+  setShowVehicle,
 }: {
+  showVehicle: boolean;
   GetACarById: boolean;
-  GetOneCustomer: boolean;
-  GetAllCarFeature:boolean
-  GetOneCustomerTrigger:(e:number) => void
+  // GetOneCustomer: boolean;
+  GetAllCarFeature: boolean;
+  setShowVehicle: () => void;
 }) => {
-  const visible = useAppSelector(state => state.bookings.showBookingPop);
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
   // showBookingHistory
   // showBookingPop
   return (
     <Dialog
-      visible={visible}
+      visible={showVehicle}
       // visible
-      className={`rounded-[20px] max-h-lvh h-full mb-10 mt-10 max-w-[790px] w-full`}
+      className={`rounded-[20px] .max-h-lvh .h-full mb-10 mt-10 max-w-[790px] w-full`}
       modal
       onHide={() => {
-        if (!visible) return;
-        dispatch(showBookingPop({show: false}))
+        if (!showVehicle) return;
+        setShowVehicle();
+        // dispatch(showBookingPop({show: false}))
       }}
       content={({ hide }) => (
         <div
@@ -40,7 +43,7 @@ const BookingHistoryPop = ({
             <h4
               className={`font-square font-[700] text-[14px] leading-[22px] tracking-[0.25px] text-[#11975D]`}
             >
-              BOOKING HISTORY
+              {/* BOOKING HISTORY */}
             </h4>
             <X
               className={`cursor-pointer`}
@@ -52,8 +55,11 @@ const BookingHistoryPop = ({
           <div
             className={`flex gap-[40px] flex-grow flex-1 overflow-y-scroll noScroll`}
           >
-            <CarInfo GetAllCarFeature={GetAllCarFeature} GetACarById={GetACarById} />
-            <UserInfo GetOneCustomerTrigger={GetOneCustomerTrigger} GetOneCustomer={GetOneCustomer} />
+            <CarInfo
+              GetAllCarFeature={GetAllCarFeature}
+              GetACarById={GetACarById}
+            />
+            {/* <UserInfo GetOneCustomer={GetOneCustomer} /> */}
           </div>
         </div>
       )}
@@ -61,4 +67,4 @@ const BookingHistoryPop = ({
   );
 };
 
-export default BookingHistoryPop;
+export default CarViewPop;
