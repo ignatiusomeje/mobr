@@ -12,6 +12,7 @@ import {
   getAllCarFeature,
   getAllCarFeatureForDisplay,
   getAllCars,
+  getAllFeaturesOfAcar,
   updateACarFeature,
   updateCreateCarImages,
 } from "./CarAPI";
@@ -90,6 +91,8 @@ const initialState: initialStateCar = {
   getACarByIdError: "",
   deleteACarFeatureLoading: false,
   deleteACarFeatureError: "",
+  getAllFeaturesOfAcarLoading: false,
+  getAllFeaturesOfAcarError: "",
 };
 const CarSlice = createSlice({
   name: "cars",
@@ -111,6 +114,7 @@ const CarSlice = createSlice({
       state.updateCarFeatureError = "";
       state.deleteACarObjectError = "";
       state.getACarByIdError = "";
+      state.getAllFeaturesOfAcarError = "";
     },
 
     setFetched: (state) => {
@@ -317,6 +321,36 @@ const CarSlice = createSlice({
       }
     );
 
+    /* get a car's saved features */
+    builder.addMatcher(getAllFeaturesOfAcar.matchPending, (state) => {
+      state.getAllFeaturesOfAcarLoading = true;
+    });
+
+    builder.addMatcher(
+      getAllFeaturesOfAcar.matchFulfilled,
+      (state, action: PayloadAction<getAllCarFeatureResonseTypes[]>) => {
+        state.getAllFeaturesOfAcarLoading = false;
+        const fetchedFeatures = action.payload
+          .map((feature) => feature.features)
+          .flat();
+        state.carFeatures = fetchedFeatures;
+      }
+    );
+
+    builder.addMatcher(
+      getAllFeaturesOfAcar.matchRejected,
+      (
+        state,
+        action: PayloadAction<
+          (FetchBaseQueryError & { data?: unknown }) | undefined
+        >
+      ) => {
+        state.getAllFeaturesOfAcarLoading = false;
+        state.carFeatures = initialState.carFeatures;
+        state.getAllFeaturesOfAcarError = returnError(action);
+      }
+    );
+
     /* get all car features for display section */
     builder.addMatcher(getAllCarFeatureForDisplay.matchPending, (state) => {
       state.carFeaturesForDisplayLoading = true;
@@ -455,7 +489,7 @@ const CarSlice = createSlice({
         >
       ) => {
         state.getACarByIdLoading = false;
-        state.carFetchedById = initialState.carFetchedById
+        state.carFetchedById = initialState.carFetchedById;
         state.getACarByIdError = returnError(action);
       }
     );

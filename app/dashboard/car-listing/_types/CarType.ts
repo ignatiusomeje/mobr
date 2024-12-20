@@ -32,6 +32,8 @@ export type initialStateCar = {
   getACarByIdError: string;
   deleteACarFeatureLoading: boolean;
   deleteACarFeatureError: string;
+  getAllFeaturesOfAcarLoading: boolean;
+  getAllFeaturesOfAcarError: string;
 };
 
 export type updateCarInputType = {

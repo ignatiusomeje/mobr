@@ -29,19 +29,25 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
   const statusSketch = (value: bookingResponseType) =>
     value.bookingState === bookingState.Booked ? (
       <span
-        className={`bg-[#C6EBD7] flex items-center justify-center w-[100px] text-[#00552E] rounded-[20px] p-[6px] font-inter font-[400] capitalize text-[12px] `}
+        className={`bg-[#C6EBD7] flex items-center justify-center w-[100px] text-[#00552E] rounded-[10px] p-[6px] font-inter font-[400] capitalize text-[12px] `}
       >
         {value.bookingState}
       </span>
     ) : value.bookingState === bookingState.Cancelled ? (
       <span
-        className={`bg-[#FFD5C9] flex items-center justify-center w-[100px] text-[#8D1510] rounded-[20px] p-[6px] font-inter font-[400] capitalize text-[12px]`}
+        className={`bg-[#FFD5C9] flex items-center justify-center w-[100px] text-[#8D1510] rounded-[10px] p-[6px] font-inter font-[400] capitalize text-[12px]`}
       >
         {value.bookingState}
       </span>
+    ) : value.bookingState === bookingState.AwaitingApproval ? (
+      <span
+        className={`bg-[gold] flex items-center justify-center whitespace-nowrap .w-[100px] text-[#000] rounded-[10px] p-[6px] font-inter font-[400] capitalize text-[12px]`}
+      >
+        Awaiting Approval
+      </span>
     ) : (
       <span
-        className={`bg-[#E2E2E2] flex items-center justify-center w-[100px] text-[#475960] rounded-[20px] p-[6px] font-inter font-[400]- capitalize text-[12px]`}
+        className={`bg-[#E2E2E2] flex items-center justify-center w-[100px] text-[#475960] rounded-[10px] p-[6px] font-inter font-[400]- capitalize text-[12px]`}
       >
         {value.bookingState}
       </span>
@@ -125,7 +131,7 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
           </p>
         }
       >
-        <Column field="bookingId" header="#" style={{ width: "5%" }}></Column>
+        <Column header="#" style={{ width: "5%" }} body={(data, options) => options.rowIndex + 1}></Column>
         <Column
           field="startDate"
           header="START DATE"

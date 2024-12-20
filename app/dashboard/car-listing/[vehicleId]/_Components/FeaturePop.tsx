@@ -179,7 +179,7 @@ const FeaturePop = ({
               </div>
             ) : (
               <div className={`flex flex-wrap gap-[9px]`}>
-                {fetchedFeatures[0].features.map((feature) => (
+                {fetchedFeatures[0]?.features.map((feature) => (
                   <OptionButtons
                     key={feature.featureId}
                     feature={feature}

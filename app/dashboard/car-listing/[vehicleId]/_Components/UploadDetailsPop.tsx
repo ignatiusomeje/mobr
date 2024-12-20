@@ -57,7 +57,7 @@ const UploadDetailsPop = ({
                 width={16}
                 className={`cursor-pointer`}
               />{" "}
-              ADD NEW CAR
+              UPDATE CAR
             </p>
             <div className={`flex gap-[40px] items-center`}>
               <p
@@ -132,7 +132,7 @@ const UploadDetailsPop = ({
             visible={internalVisible}
             setVisible={(e) => setInternalVisible(e)}
             router={async () => {
-              await newCarFormik.submitForm();
+              await submit(true);
               await dispatch(clearMoreInfoPop());
               await dispatch(clearLoading());
               await router.push("/dashboard/drafts");

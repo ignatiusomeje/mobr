@@ -162,7 +162,7 @@ const VehicleInfo = ({
             <h6
               className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px]`}
             >
-              Jeu Maloches
+              {carFetched.vehicleLocation}
             </h6>
             <p className={`flex items-center gap-1`}>
               <CarFront width={10} />{" "}

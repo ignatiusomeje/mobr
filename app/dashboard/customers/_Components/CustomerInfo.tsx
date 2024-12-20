@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Dialog } from "primereact/dialog";
 import React from "react";
 import { CustomerInfoTypes } from "../_types/CustomerTypes";
-import moment from "moment";
+// import moment from "moment";
 import { Button } from "primereact/button";
 import { showLicense } from "../../bookings/_Data/BookingSlice";
 import { useAppDispatch } from "@/store/hooks";
@@ -144,7 +144,7 @@ const CustomerInfo = ({
                 LICENSE DETAILS:
               </h5>
               <div className={`grid grid-cols-3 gap-[18px]`}>
-                <div>
+                {/* <div>
                   <p
                     className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
                   >
@@ -155,9 +155,9 @@ const CustomerInfo = ({
                   >
                     {customer.dob !== null ?
                       moment(customer.dob).format("MMM D, YYYY") : `N/A`}
-                    {/* {customer.dob?} */}
+                    {customer.dob?}
                   </p>
-                </div>
+                </div> */}
                 <div>
                   <p
                     className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
@@ -178,9 +178,9 @@ const CustomerInfo = ({
                               })
                             )
                           }
-                          className={`font-square focus:ring-0  mt-2 text-[14px] font-[400] leading-[22px] tracking-[0.25px]`}
+                          className={`font-square focus:ring-0  .px-3  mt-2 text-[14px] font-[400] leading-[22px] tracking-[0.25px] text-[#11975D]`}
                         >
-                          view front License
+                          view
                         </Button>
                       )}
                     </p>
@@ -206,9 +206,9 @@ const CustomerInfo = ({
                               })
                             )
                           }
-                          className={`font-square focus:ring-0 mt-2 text-[14px] font-[400] leading-[22px] tracking-[0.25px]`}
+                          className={`font-square text-[#11975D] .border .px-3 focus:ring-0 mt-2 text-[14px] font-[400] leading-[22px] tracking-[0.25px]`}
                         >
-                          view back License
+                          view
                         </Button>
                       )}
                     </p>

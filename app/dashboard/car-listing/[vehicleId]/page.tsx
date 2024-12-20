@@ -22,6 +22,7 @@ import {
   // useCreateCarImagesMutation,
   useDeleteACarImageMutation,
   useGetACarByIdQuery,
+  useGetAllFeaturesOfAcarQuery,
   useLazyGetACarImagesQuery,
   usePublishACarMutation,
   useUpdateCreateCarImagesMutation,
@@ -101,14 +102,17 @@ const Page = () => {
   const carFeaturesForDisplayError = useAppSelector(
     (state) => state.cars.carFeaturesForDisplayError
   );
+  const getAllFeaturesOfAcarError = useAppSelector(
+    (state) => state.cars.getAllFeaturesOfAcarError
+  );
   const deleteACarObjectError = useAppSelector(
     (state) => state.cars.deleteACarObjectError
   );
-
+  // getAllFeaturesOfAcarError
   const vehicleImages = useAppSelector(
     (state) => state.cars.vehicle.vehicleImages
   );
-
+useGetAllFeaturesOfAcarQuery({ vehicleId: vehicleId?.vehicleId });
   // const vehicleId = useAppSelector((state) => state.cars.vehicle.vehicleId);
   // const fetched = useAppSelector((state) => state.cars.fetched);
 
@@ -266,6 +270,9 @@ const Page = () => {
     dispatch(clearCarError());
   } else if (getACarByIdError) {
     showError(getACarByIdError);
+    dispatch(clearCarError());
+  } else if (getAllFeaturesOfAcarError) {
+    showError(getAllFeaturesOfAcarError);
     dispatch(clearCarError());
   }
 

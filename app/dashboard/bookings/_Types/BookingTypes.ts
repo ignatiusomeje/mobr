@@ -40,6 +40,7 @@ export type bookingInputType = {
 export enum bookingState {
   Pending = "Pending",
   Booked = "Booked",
+  AwaitingApproval = "AwaitingApproval",
   Cancelled = "Cancelled",
 }
 

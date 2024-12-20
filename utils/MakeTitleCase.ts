@@ -1,5 +1,6 @@
 export default function titleCase(str: string) {
-  str = str?.toLowerCase();
+    
+  // str = str?.toLowerCase();
   let strArray: string[] = [];
   strArray = str?.split(" ");
   for (let i = 0; i < strArray?.length; i++) {

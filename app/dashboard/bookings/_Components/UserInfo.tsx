@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Loader } from "lucide-react";
-import moment from "moment";
+// import moment from "moment";
 import Image from "next/image";
 import { Button } from "primereact/button";
 import React from "react";
@@ -130,7 +130,7 @@ const UserInfo = ({
               LICENSE DETAILS:
             </h5>
             <div className={`grid grid-cols-1 gap-[18px]`}>
-              <div>
+              {/* <div>
                 <p
                   className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
                 >
@@ -142,9 +142,9 @@ const UserInfo = ({
                   {customer.dob !== null
                     ? moment(customer.dob).format("MMM D, YYYY")
                     : `N/A`}
-                  {/* 12-02-2000 */}
+                  12-02-2000
                 </p>
-              </div>
+              </div> */}
               <div>
                 <p
                   className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px] text-[#777777]`}
@@ -165,9 +165,9 @@ const UserInfo = ({
                             })
                           )
                         }
-                        className={`font-square focus:ring-0  mt-2 text-[14px] font-[400] leading-[22px] tracking-[0.25px]`}
+                        className={`font-square text-[#11975D] focus:ring-0  mt-2 text-[14px] font-[400] leading-[22px] tracking-[0.25px]`}
                       >
-                        view front License
+                        view
                       </Button>
                     )}
                   </p>
@@ -199,9 +199,9 @@ const UserInfo = ({
                             })
                           )
                         }
-                        className={`font-square focus:ring-0 mt-2 text-[14px] font-[400] leading-[22px] tracking-[0.25px]`}
+                        className={`font-square text-[#11975D] focus:ring-0 mt-2 text-[14px] font-[400] leading-[22px] tracking-[0.25px]`}
                       >
-                        view back License
+                        view
                       </Button>
                     )}
                   </p>

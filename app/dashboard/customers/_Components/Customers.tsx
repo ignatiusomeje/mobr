@@ -172,7 +172,7 @@ const Customers = ({
           </p>
         }
       >
-        <Column field="id" header="#" style={{ width: "5%" }}></Column>
+        <Column header="#" style={{ width: "5%" }} body={(data, options) => options.rowIndex + 1}></Column>
         <Column
           field="created"
           header="START DATE"

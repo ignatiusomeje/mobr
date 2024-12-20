@@ -123,6 +123,19 @@ const CarApi = CarAPI.injectEndpoints({
       providesTags: ["carFeature"],
     }),
 
+    /* get all features of a particular car */
+    getAllFeaturesOfAcar: build.query<
+      getAllCarFeatureResonseTypes[],
+      getAllCarFeatureInputTypes
+    >({
+      query: ({ ...feature }) => ({
+        url: `/vehicleFeature/get-all-vehicleFeature`,
+        method: "Get",
+        params: feature,
+      }),
+      providesTags: ["carFeature"],
+    }),
+
     /* get all features for display */
     getAllCarFeatureForDisplay: build.query<
       getAllCarFeatureResonseTypes[],
@@ -203,6 +216,7 @@ export const {
   useGetACarByIdQuery,
   useLazyGetACarByIdQuery,
   useDeleteACarFeatureMutation,
+  useGetAllFeaturesOfAcarQuery,
 } = CarApi;
 export const {
   createCarImages,
@@ -213,10 +227,12 @@ export const {
   updateACarFeature,
   addCarFeatureToVehicle,
   getAllCarFeature,
+
   getAllCars,
   getAllCarFeatureForDisplay,
   publishACar,
   deleteACar,
   getACarById,
   deleteACarFeature,
+  getAllFeaturesOfAcar,
 } = CarApi.endpoints;

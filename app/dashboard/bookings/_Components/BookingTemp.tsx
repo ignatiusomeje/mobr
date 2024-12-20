@@ -22,7 +22,7 @@ const BookingTemp = ({
     >
       {getAllBookingLoading ? (
         <div className="flex gap-5">
-          {[1, 2, 3, 4].map((btn) => (
+          {[1, 2, 3, 4,5].map((btn) => (
             <Skeleton width="100px" height="37px" key={btn} />
           ))}
         </div>
@@ -30,8 +30,9 @@ const BookingTemp = ({
         <div className="flex gap-5">
           {[
             { name: "All" },
-            { name: "Booked" },
             { name: "Pending" },
+            { name: "Awaiting Approval" },
+            { name: "Booked" },
             { name: "Cancelled" },
             // { name: "Booked", number: 50 },
             // { name: "Pending", number: 30 },

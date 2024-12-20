@@ -14,7 +14,7 @@ const OptionButtons = ({
 }) => {
   const [DeleteACarFeatureMutation] = useDeleteACarFeatureMutation();
   return (
-    <div className={`w-min h-min relative`}>
+    <div className={`w-max h-min relative`}>
       <span
         onClick={() => onValueChangeEvent(feature)}
         className={`rounded-[10px] focus:ring-0 border ${

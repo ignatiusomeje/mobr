@@ -12,6 +12,8 @@ import {
 } from "../../car-listing/_Data/CarAPI";
 import moment from "moment";
 import CarViewPop from "../../car-listing/_Components/carViewPop";
+import { useAppDispatch } from "@/store/hooks";
+import { clearMoreInfoPop } from "../../car-listing/_Data/CarSlice";
 
 const VehicleCard = ({ vehicle }: VehiclesCardType) => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -21,6 +23,7 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
   const [GetAllCarFeatureTrigger, GetAllCarFeature] =
     useLazyGetAllCarFeatureQuery();
   const router = useRouter();
+  const dispatch = useAppDispatch();
   return (
     <div
       className={`.max-w-[300px] hover:border-2 hover:border-[#C6C6C6] bg-[#F9F9F9] border-2 border-[#E2E2E2] rounded-[12px] flex flex-col w-full py-[16px] px-[18px] vehicleCard`}
@@ -44,19 +47,21 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
       <div className="flex justify-between">
         <div className={`.max-w-[160px] w-full`}>
           <h3 className={`text-[#303030] font-inter text-[14px] font-[600] `}>
-            {vehicle.vehicleName}
+            {vehicle.vehicleName ? vehicle.vehicleName : `N/A`}
           </h3>
           <p className={`flex items-center gap-2`}>
             <CircleGauge width={14} />{" "}
             <span
               className={`text-[#303030] font-inter text-[12px] font-[400]`}
             >
-              {vehicle.transmissionType}
+              {vehicle.transmissionType ? vehicle.transmissionType : `N/A`}
             </span>
           </p>
           <p className="text-[#777777] text-[14px] font-[400] font-inter">
             Available from{" "}
-            {moment(vehicle.vehicleAvaliableDate).format("MMM D, YYYY")}
+            {vehicle.vehicleAvaliableDate
+              ? moment(vehicle.vehicleAvaliableDate).format("MMM D, YYYY")
+              : `N/A`}
             {/* {new Date(vehicle.vehicleAvaliableDate).toLocaleDateString()} */}
           </p>
           <Button
@@ -88,8 +93,10 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
         <Button
           disabled={deleteACar.isLoading}
           className={`btnChange border bg-[#11975D] text-white w-full .w-[125px] py-[8px] px-[14px] rounded-[12px] focus:ring-0 text-[10px] font-[400] font-square flex justify-center items-center gap-3`}
-          onClick={() =>
+          onClick={() =>{
+            dispatch(clearMoreInfoPop())
             router.push(`/dashboard/car-listing/${vehicle?.vehicleId}/`)
+          }
           }
         >
           EDIT

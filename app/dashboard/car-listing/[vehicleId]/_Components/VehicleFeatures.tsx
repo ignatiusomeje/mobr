@@ -79,6 +79,7 @@ const VehicleFeatures = ({
       ) : ( */}
       <div className={`flex flex-col gap-[16px]`}>
         <Feature
+          key={"vehicleAvaliableDate"}
           title={"Availability"}
           value={newCarFormik.values.vehicleAvaliableDate}
           getAllCarFeatureTrigger={(value) =>
@@ -89,6 +90,7 @@ const VehicleFeatures = ({
         />
 
         <Feature
+          key={"transmissionType"}
           title={"transmissionType"}
           value={newCarFormik.values.transmissionType}
           getAllCarFeatureTrigger={(value) =>
@@ -98,6 +100,7 @@ const VehicleFeatures = ({
           newCarFormik={newCarFormik}
         />
         <Feature
+          key={"energyType"}
           title={"energyType"}
           value={newCarFormik.values.energyType}
           getAllCarFeatureTrigger={(value) =>
@@ -119,7 +122,10 @@ const VehicleFeatures = ({
               newCarFormik={newCarFormik}
             />
           ))}
-        {carFeaturesForDisplayLoading ? <Loader2 className={`animate-spin mx-auto my-9`} width={24} /> : carFeaturesForDisplay?.length > 0 &&
+        {carFeaturesForDisplayLoading ? (
+          <Loader2 className={`animate-spin mx-auto my-9`} width={24} />
+        ) : (
+          carFeaturesForDisplay?.length > 0 &&
           carFeaturesForDisplay.map((feature) => (
             <Feature
               key={feature.featureTitle}
@@ -131,7 +137,8 @@ const VehicleFeatures = ({
                 getAllCarFeatureTrigger({ featureTitle: feature.featureTitle })
               }
             />
-          ))}
+          ))
+        )}
       </div>
       {/* )} */}
       <NewFeaturePop

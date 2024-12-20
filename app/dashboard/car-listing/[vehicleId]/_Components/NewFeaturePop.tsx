@@ -44,8 +44,8 @@ const NewFeaturePop = ({
     validationSchema: newFeatureSchema,
     // enableReinitialize: true,
     onSubmit: (values) => {
-      values.featureTitle.toUpperCase();
-      createACarFeatureMutation(values)
+      const {featureName, featureTitle} = values
+      createACarFeatureMutation({featureName, featureTitle: featureTitle.toUpperCase()})
         .unwrap()
         .then(() => {
           setCreateFeature(false);

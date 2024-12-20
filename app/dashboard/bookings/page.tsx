@@ -37,6 +37,8 @@ const Page = () => {
     query = { BookingState: bookingState.Pending };
   } else if (selected === "Cancelled") {
     query = { BookingState: bookingState.Cancelled };
+  }else if (selected === "Awaiting Approval") {
+    query = { BookingState: bookingState.AwaitingApproval };
   }
 
   const showError = (message: string) => {

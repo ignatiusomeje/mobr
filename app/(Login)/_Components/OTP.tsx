@@ -52,7 +52,7 @@ const OTP = ({
                   onValueChange={otpFormik?.handleChange}
                   type="text"
                   variant="outlined"
-                  inputClassName={`w-full py-[5px] focus:ring-0 ${
+                  inputClassName={`w-full py-[5px] focus-within:ring-0 focus:ring-0 ${
                     otpFormik.values.otp &&
                     otpFormik.touched.otp &&
                     !otpFormik.errors.otp &&
@@ -71,7 +71,7 @@ const OTP = ({
                     ((otpFormik?.touched.otp && otpFormik?.errors.otp) ||
                       loginOtpError) &&
                     `bg-[#FFD5C9]`
-                  } hover:border hover:border-[#474747] focus:border focus:border-[#474747] p-inputtext-sm py-[8px] focus:ring-0 px-[14px] rounded-[20px] border border-[#C6C6C6]`}
+                  } hover:border hover:border-[#474747] focus-within:ring-0 focus:border focus:border-[#474747] p-inputtext-sm py-[8px] focus:ring-0 px-[14px] rounded-[20px] border border-[#C6C6C6]`}
                   placeholder="Enter code"
                 />
               </div>
