@@ -7,7 +7,7 @@ import VehicleFeatures from "./VehicleFeatures";
 import { uploadDetailsPopType } from "../../_types/CarType";
 import { Button } from "primereact/button";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { clearLoading, clearMoreInfoPop } from "../../_Data/CarSlice";
+import {clearMoreInfoPop } from "../../_Data/CarSlice";
 import BackDialog from "./BackDialog";
 import { useRouter } from "next/navigation";
 import { useGetAllCarFeatureForDisplayQuery } from "../../_Data/CarAPI";
@@ -134,7 +134,7 @@ const UploadDetailsPop = ({
             router={async () => {
               await submit(true);
               await dispatch(clearMoreInfoPop());
-              await dispatch(clearLoading());
+              // await dispatch(clearLoading());
               await router.push("/dashboard/drafts");
             }}
           />

@@ -210,6 +210,7 @@ export const {
   useGetACarImagesQuery,
   usePublishACarMutation,
   useGetAllCarFeatureForDisplayQuery,
+  useLazyGetAllCarFeatureForDisplayQuery,
   useLazyGetAllCarFeatureQuery,
   useUpdateACarFeatureMutation,
   useDeleteACarMutation,
@@ -217,6 +218,7 @@ export const {
   useLazyGetACarByIdQuery,
   useDeleteACarFeatureMutation,
   useGetAllFeaturesOfAcarQuery,
+  useLazyGetAllFeaturesOfAcarQuery
 } = CarApi;
 export const {
   createCarImages,

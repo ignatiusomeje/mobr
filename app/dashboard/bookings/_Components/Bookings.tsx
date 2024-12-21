@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
+import React from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 // import { Booking } from "@/types/Bookings";
-import { OverlayPanel } from "primereact/overlaypanel";
-import { Button } from "primereact/button";
+// import { OverlayPanel } from "primereact/overlaypanel";
+// import { Button } from "primereact/button";
 // import { dataSet } from "@/utils/data";
 import BookingHistoryPop from "./BookingHistoryPop";
 import { bookingResponseType, bookingState } from "../_Types/BookingTypes";
@@ -16,6 +16,7 @@ import { useLazyGetOneCustomerQuery } from "../../customers/_Data/customerAPI";
 import { useAppDispatch } from "@/store/hooks";
 import { setCurrentBooking, showBookingPop } from "../_Data/BookingSlice";
 import ListBookingHistoryPop from "./ListBookingHistoryPop";
+import OverlayButton from "./OverlayButton";
 
 const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
   const [GetACarByIdTrigger, GetACarById] = useLazyGetACarByIdQuery();
@@ -23,7 +24,7 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
   const [GetAllCarFeatureTrigger, GetAllCarFeature] =
     useLazyGetAllCarFeatureQuery();
   const dispatch = useAppDispatch();
-  const options = useRef<OverlayPanel>(null);
+  // const options = useRef<OverlayPanel>(null);
   const data = bookings;
 
   const statusSketch = (value: bookingResponseType) =>
@@ -63,50 +64,50 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
     </span>
   );
 
-  const actionSketch = (value: bookingResponseType) => (
-    <div className="relative">
-      <Button
-        className={`focus:ring-0`}
-        icon="pi pi-ellipsis-v"
-        onClick={(e) => options?.current?.toggle(e)}
-      />
-      <OverlayPanel
-        ref={options}
-        closeOnEscape
-        dismissable={true}
-        className={` bg-[#F1F1F1] max-w-[131px] w-full`}
-      >
-        <Button
-          onClick={() => {
-            dispatch(showBookingPop({ show: true }));
-            dispatch(setCurrentBooking(value));
-            GetACarByIdTrigger({ vehicleId: value.vehichleId });
-            GetOneCustomerTrigger({ id: value.customerId });
-            GetAllCarFeatureTrigger({ vehicleId: value.vehichleId });
-          }}
-          className={`text-[#222B2E] w-full hover:bg-[#DDE4E6] hover:cursor-pointer block font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
-        >
-          View
-        </Button>
-        {value.isPaid && value.bookingState !== bookingState.Booked && (
-          <Button
-            className={`text-[#222B2E] w-full hover:bg-[#DDE4E6] hover:cursor-pointer block font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
-          >
-            Approve
-          </Button>
-        )}
-        {value.isPaid &&
-          value.bookingState !== bookingState.Cancelled &&
-          value.bookingState !== bookingState.Booked && (
-            <Button
-              className={`text-[#8D1510] w-full block hover:bg-[#DDE4E6] hover:cursor-pointer font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
-            >
-              Cancel
-            </Button>
-          )}
-      </OverlayPanel>
-    </div>
-  );
+  // const actionSketch = (value: bookingResponseType) => (
+  //   <div className="relative">
+  //     <Button
+  //       className={`focus:ring-0`}
+  //       icon="pi pi-ellipsis-v"
+  //       onClick={(e) => options?.current?.toggle(e)}
+  //     />
+  //     <OverlayPanel
+  //       ref={options}
+  //       closeOnEscape
+  //       dismissable={true}
+  //       className={` bg-[#F1F1F1] max-w-[131px] w-full`}
+  //     >
+  //       <Button
+  //         onClick={() => {
+  //           dispatch(showBookingPop({ show: true }));
+  //           dispatch(setCurrentBooking(value));
+  //           GetACarByIdTrigger({ vehicleId: value.vehichleId });
+  //           GetOneCustomerTrigger({ id: value.customerId });
+  //           GetAllCarFeatureTrigger({ vehicleId: value.vehichleId });
+  //         }}
+  //         className={`text-[#222B2E] w-full hover:bg-[#DDE4E6] hover:cursor-pointer block font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
+  //       >
+  //         View
+  //       </Button>
+  //       {value.isPaid && value.bookingState !== bookingState.Booked && (
+  //         <Button
+  //           className={`text-[#222B2E] w-full hover:bg-[#DDE4E6] hover:cursor-pointer block font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
+  //         >
+  //           Approve
+  //         </Button>
+  //       )}
+  //       {value.isPaid &&
+  //         value.bookingState !== bookingState.Cancelled &&
+  //         value.bookingState !== bookingState.Booked && (
+  //           <Button
+  //             className={`text-[#8D1510] w-full block hover:bg-[#DDE4E6] hover:cursor-pointer font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
+  //           >
+  //             Cancel
+  //           </Button>
+  //         )}
+  //     </OverlayPanel>
+  //   </div>
+  // );
 
   return (
     <div className={`gap-[12px]`}>
@@ -131,7 +132,11 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
           </p>
         }
       >
-        <Column header="#" style={{ width: "5%" }} body={(data, options) => options.rowIndex + 1}></Column>
+        <Column
+          header="#"
+          style={{ width: "5%" }}
+          body={(data, options) => options.rowIndex + 1}
+        ></Column>
         <Column
           field="startDate"
           header="START DATE"
@@ -171,16 +176,25 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
           // field="representative.name"
           header="ACTION"
           style={{ width: "5%" }}
-          body={actionSketch}
+          body={(data) => (
+            <OverlayButton
+              value={data}
+              GetACarByIdTrigger={(info) => GetACarByIdTrigger(info)}
+              GetOneCustomerTrigger={(info) => GetOneCustomerTrigger(info)}
+              GetAllCarFeatureTrigger={(info) => GetAllCarFeatureTrigger(info)}
+            />
+          )}
         ></Column>
       </DataTable>
       <BookingHistoryPop
         GetACarById={GetACarById.isFetching}
         GetOneCustomer={GetOneCustomer.isFetching}
         GetAllCarFeature={GetAllCarFeature.isFetching}
-        GetOneCustomerTrigger={(id)=> GetOneCustomerTrigger({id: id })}
+        GetOneCustomerTrigger={(id) => GetOneCustomerTrigger({ id: id })}
       />
-      <ListBookingHistoryPop GetOneCustomerTrigger={(id)=> GetOneCustomerTrigger({id: id })}/>
+      <ListBookingHistoryPop
+        GetOneCustomerTrigger={(id) => GetOneCustomerTrigger({ id: id })}
+      />
     </div>
   );
 };

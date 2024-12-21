@@ -7,6 +7,8 @@ import React from "react";
 import { updateCarFormikInputType } from "../../_types/CarType";
 import { InputNumber } from "primereact/inputnumber";
 import titleCase from "@/utils/MakeTitleCase";
+import { useAppDispatch } from "@/store/hooks";
+import { setFormikValue } from "@/store/FormikSlice";
 // import { Calendar } from "primereact/calendar";
 
 const VehicleInformation = ({
@@ -14,6 +16,7 @@ const VehicleInformation = ({
 }: {
   newCarFormik: FormikProps<updateCarFormikInputType>;
 }) => {
+  const dispatch = useAppDispatch();
   return (
     <div className={`w-full flex flex-col gap-[20px]`}>
       <h3
@@ -32,7 +35,12 @@ const VehicleInformation = ({
               name="vehicleName"
               id="vehicleName"
               value={newCarFormik.values.vehicleName?.toUpperCase()}
-              onChange={newCarFormik.handleChange}
+              onChange={(e) => {
+                newCarFormik.handleChange(e);
+                dispatch(
+                  setFormikValue({ vehicleName: e.target.value.toUpperCase() })
+                );
+              }}
               onBlur={newCarFormik.handleBlur}
               variant="outlined"
               className={`p-inputtext-sm py-[12px] 
@@ -63,9 +71,10 @@ const VehicleInformation = ({
                 name="vehicleRentalPrice"
                 id="vehicleRentalPrice"
                 value={newCarFormik.values.vehicleRentalPrice}
-                onChange={(e) =>
-                  newCarFormik.setFieldValue("vehicleRentalPrice", e.value)
-                }
+                onChange={(e) => {
+                  newCarFormik.setFieldValue("vehicleRentalPrice", e.value);
+                  dispatch(setFormikValue({ vehicleRentalPrice: e.value }));
+                }}
                 onBlur={newCarFormik.handleBlur}
                 variant="outlined"
                 className={`p-inputtext-sm .py-[12px] 
@@ -87,7 +96,10 @@ const VehicleInformation = ({
               name="vehicleLocation"
               id="vehicleLocation"
               value={titleCase(newCarFormik.values.vehicleLocation)}
-              onChange={newCarFormik.handleChange}
+              onChange={(e) => {
+                newCarFormik.handleChange(e);
+                dispatch(setFormikValue({ vehicleLocation: e.target.value }));
+              }}
               onBlur={newCarFormik.handleBlur}
               variant="outlined"
               className={`p-inputtext-sm py-[12px] 
@@ -116,7 +128,10 @@ const VehicleInformation = ({
               name="vehicleID"
               id="vehicleID"
               value={newCarFormik.values.vehicleId}
-              onChange={newCarFormik.handleChange}
+              onChange={(e) => {
+                newCarFormik.handleChange(e);
+                dispatch(setFormikValue({ vehicleID: e.target.value }));
+              }}
               onBlur={newCarFormik.handleBlur}
               variant="outlined"
               disabled
@@ -138,9 +153,10 @@ const VehicleInformation = ({
               name="vehicleYear"
               id="vehicleYear"
               value={newCarFormik.values.vehicleYear}
-              onChange={(e) =>
-                newCarFormik.setFieldValue("vehicleYear", e.value)
-              }
+              onChange={(e) => {
+                newCarFormik.setFieldValue("vehicleYear", e.value);
+                dispatch(setFormikValue({ vehicleYear: e.value }));
+              }}
               onBlur={newCarFormik.handleBlur}
               variant="outlined"
               className={`p-inputtext-sm .py-[12px] 
@@ -179,7 +195,10 @@ const VehicleInformation = ({
             </label>
             <Dropdown
               value={newCarFormik.values.vehicleCondition}
-              onChange={newCarFormik.handleChange}
+              onChange={(e) => {
+                newCarFormik.handleChange(e);
+                dispatch(setFormikValue({ vehicleCondition: e.value }));
+              }}
               onBlur={newCarFormik.handleBlur}
               options={["Good", "Bad"]}
               optionLabel="Select vehicle condition"
@@ -201,7 +220,12 @@ const VehicleInformation = ({
               id="vehicleDescription"
               rows={8}
               value={titleCase(newCarFormik.values.vehicleDescription)}
-              onChange={newCarFormik.handleChange}
+              onChange={(e) => {
+                newCarFormik.handleChange(e);
+                dispatch(
+                  setFormikValue({ vehicleDescription: e.target.value })
+                );
+              }}
               onBlur={newCarFormik.handleBlur}
               variant="outlined"
               className={`p-inputtext-sm py-[12px] 

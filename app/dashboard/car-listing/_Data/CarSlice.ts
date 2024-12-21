@@ -334,6 +334,12 @@ const CarSlice = createSlice({
           .map((feature) => feature.features)
           .flat();
         state.carFeatures = fetchedFeatures;
+        state.carFeaturesForDisplay = state.carFeaturesForDisplay.filter(
+          (item1) =>
+            !fetchedFeatures.some(
+              (item2) => item1.featureTitle === item2.featureTitle
+            )
+        );
       }
     );
 

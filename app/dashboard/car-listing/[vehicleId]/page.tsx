@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import EmptyTemplate from "./_Components/EmptyTemplate";
 import HeaderTemplate from "./_Components/HeaderTemplate";
 import { Button } from "primereact/button";
@@ -33,6 +33,7 @@ import { useFormik } from "formik";
 import { savedState } from "../_types/CarType";
 import SuccessPop from "./_Components/SuccessPop";
 import UploadDetailsPop from "./_Components/UploadDetailsPop";
+import { loadFormikValue } from "@/store/FormikSlice";
 
 type FileWithPreview = File & {
   preview: string;
@@ -51,10 +52,11 @@ const Page = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const vehicleId = useParams<{ vehicleId: string }>();
+  const fetched = useRef<boolean>(false);
 
   // const [filesToUpload, setFilesToUpload] = useState<FileWithPreview[]>([]);
   // const [createCarImagesMutation] = useCreateCarImagesMutation();
-  useGetACarByIdQuery({ vehicleId: vehicleId?.vehicleId });
+  const { data } = useGetACarByIdQuery({ vehicleId: vehicleId?.vehicleId });
   const [updateCreateCarImagesMutation] = useUpdateCreateCarImagesMutation();
   const [deleteACarImageMutation] = useDeleteACarImageMutation();
   const [addCarFeatureToVehicleMutation, addCarFeature] =
@@ -112,7 +114,17 @@ const Page = () => {
   const vehicleImages = useAppSelector(
     (state) => state.cars.vehicle.vehicleImages
   );
-useGetAllFeaturesOfAcarQuery({ vehicleId: vehicleId?.vehicleId });
+  const FormikValue = useAppSelector((state) => state.Formik.vehicle);
+  useGetAllFeaturesOfAcarQuery({ vehicleId: vehicleId?.vehicleId });
+
+  useEffect(() => {
+    if (fetched.current) return;
+    if (data) {
+      dispatch(loadFormikValue(data));
+      fetched.current = true;
+    }
+  }, [data]);
+
   // const vehicleId = useAppSelector((state) => state.cars.vehicle.vehicleId);
   // const fetched = useAppSelector((state) => state.cars.fetched);
 
@@ -137,17 +149,17 @@ useGetAllFeaturesOfAcarQuery({ vehicleId: vehicleId?.vehicleId });
 
   const newCarFormik = useFormik({
     initialValues: {
-      vehicleId: carFetchedById?.vehicleId,
-      vehicleName: carFetchedById?.vehicleName,
-      vehicleLocation: carFetchedById?.vehicleLocation,
-      vehicleCondition: carFetchedById?.vehicleCondition,
-      vehicleYear: carFetchedById?.vehicleYear,
-      transmissionType: carFetchedById?.transmissionType,
-      energyType: carFetchedById?.energyType,
-      vehicleDescription: carFetchedById?.vehicleDescription,
-      vehicleRentalPrice: carFetchedById?.vehicleRentalPrice,
+      vehicleId: carFetchedById.vehicleId,
+      vehicleName: FormikValue?.vehicleName,
+      vehicleLocation: FormikValue?.vehicleLocation,
+      vehicleCondition: FormikValue?.vehicleCondition,
+      vehicleYear: FormikValue?.vehicleYear,
+      transmissionType: FormikValue?.transmissionType,
+      energyType: FormikValue?.energyType,
+      vehicleDescription: FormikValue?.vehicleDescription,
+      vehicleRentalPrice: FormikValue?.vehicleRentalPrice,
       savedState: isDraft ? savedState.Draft : savedState.Active,
-      vehicleAvaliableDate: new Date(carFetchedById?.vehicleAvaliableDate),
+      vehicleAvaliableDate: new Date(FormikValue?.vehicleAvaliableDate),
       vehicleFeatures: carFeatures?.map((feature) => feature.featureId),
     },
     enableReinitialize: true,
@@ -288,8 +300,10 @@ useGetAllFeaturesOfAcarQuery({ vehicleId: vehicleId?.vehicleId });
       // await acceptedImages.forEach((image) =>
       //   form.append("VehicleImages", image)
       // );
-      await carImageFormik.setFieldValue("preview", newImages);
-      await carImageFormik.setFieldValue("vehicleImages", acceptedImages);
+      const PreviewImages = [...carImageFormik.values.preview, ...newImages];
+      const newImagesRecieved = [...carImageFormik.values.vehicleImages, ...acceptedImages];
+      await carImageFormik.setFieldValue("preview", PreviewImages);
+      await carImageFormik.setFieldValue("vehicleImages", newImagesRecieved);
 
       // if (fetched) {
       //   await updateCreateCarImagesMutation({

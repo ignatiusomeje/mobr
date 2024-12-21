@@ -15,6 +15,7 @@ import { useUpdateACarFeatureMutation } from "../../_Data/CarAPI";
 import { Nullable } from "primereact/ts-helpers";
 import titleCase from "@/utils/MakeTitleCase";
 import OptionButtons from "../../upload/_Components/OptionButtons";
+import { setFormikValue } from "@/store/FormikSlice";
 
 const FeaturePop = ({
   name,
@@ -38,6 +39,7 @@ const FeaturePop = ({
     inputName: string
   ) => {
     newCarFormik.setFieldValue(inputName, inputValue);
+    dispatch(setFormikValue({ [inputName]: inputValue }));
     setVisible({ name: "", active: false });
   };
 

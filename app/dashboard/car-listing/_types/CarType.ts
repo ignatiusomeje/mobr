@@ -69,6 +69,30 @@ export type getByIdResponse = {
   updated: Date;
 };
 
+export type initialStateFormik = {
+  vehicle: formikResponse;
+};
+
+export type formikResponse = {
+  vehicleId: string;
+  vehicleCondition: string;
+  transmissionType: TransmissionType;
+  energyType: EnergyType;
+  // savedState: savedState;
+  vehicleYear: number;
+  // reviewCount: number;
+  vehicleName: string;
+  vehicleLocation: string;
+  vehicleDescription: string;
+  // carBookingState: carBookingState;
+  vehicleRentalPrice: number;
+  vehicleAvaliableDate: string;
+  // averageVehicleRating: number;
+  vehicleImages: vehicleImagesType[];
+  // created: Date;
+  // updated: Date;
+};
+
 export type getByIdFormik = {
   vehicleId: string;
   vehicleCondition: string;

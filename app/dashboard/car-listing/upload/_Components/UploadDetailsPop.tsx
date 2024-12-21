@@ -132,7 +132,7 @@ const UploadDetailsPop = ({
             visible={internalVisible}
             setVisible={(e) => setInternalVisible(e)}
             router={async () => {
-              await newCarFormik.submitForm();
+              await submit(true);
               await dispatch(clearMoreInfoPop());
               await dispatch(clearLoading());
               await router.push("/dashboard/drafts");

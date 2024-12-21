@@ -297,8 +297,10 @@ const Page = () => {
       // await acceptedImages.forEach((image) =>
       //   form.append("VehicleImages", image)
       // );
-      await carImageFormik.setFieldValue("preview", newImages);
-      await carImageFormik.setFieldValue("vehicleImages", acceptedImages);
+      const PreviewImages = [...carImageFormik.values.preview, ...newImages];
+      const newImagesRecieved = [...carImageFormik.values.vehicleImages, ...acceptedImages];
+      await carImageFormik.setFieldValue("preview", PreviewImages);
+      await carImageFormik.setFieldValue("vehicleImages", newImagesRecieved);
 
       // if (fetched) {
       //   await updateCreateCarImagesMutation({
