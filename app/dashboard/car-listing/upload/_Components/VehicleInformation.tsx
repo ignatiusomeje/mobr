@@ -1,14 +1,24 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { FormikProps } from "formik";
 import { Asterisk } from "lucide-react";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import React from "react";
-import { updateCarFormikInputType } from "../../_types/CarType";
+import {
+  googleFetchReponseType,
+  updateCarFormikInputType,
+} from "../../_types/CarType";
 import { InputNumber } from "primereact/inputnumber";
 import titleCase from "@/utils/MakeTitleCase";
 import { useAppDispatch } from "@/store/hooks";
 import { setFormikValue } from "@/store/FormikSlice";
+import {
+  AutoComplete,
+  AutoCompleteChangeEvent,
+  AutoCompleteCompleteEvent,
+} from "primereact/autocomplete";
+import axios from "axios";
 // import { Calendar } from "primereact/calendar";
 
 const VehicleInformation = ({
@@ -17,6 +27,32 @@ const VehicleInformation = ({
   newCarFormik: FormikProps<updateCarFormikInputType>;
 }) => {
   const dispatch = useAppDispatch();
+  const [locations, setLocations] = React.useState<string[]>([]);
+
+  async function handleFetch(event: AutoCompleteCompleteEvent) {
+    await axios
+      .post(
+        `https://places.googleapis.com/v1/places:searchText`,
+        {
+          textQuery: event.query,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-Goog-Api-Key": process.env.NEXT_PUBLIC_API_KEY,
+            "X-Goog-FieldMask": "places.formattedAddress",
+          },
+        }
+      )
+      .then((response: any) => {
+        setLocations(
+          response.data?.places?.map(
+            (place: googleFetchReponseType) => place.formattedAddress
+          )
+        );
+      });
+  }
+
   return (
     <div className={`w-full flex flex-col gap-[20px]`}>
       <h3
@@ -37,7 +73,9 @@ const VehicleInformation = ({
               value={newCarFormik.values.vehicleName?.toUpperCase()}
               onChange={(e) => {
                 newCarFormik.handleChange(e);
-                dispatch(setFormikValue({ vehicleName: e.target.value.toUpperCase() }));
+                dispatch(
+                  setFormikValue({ vehicleName: e.target.value.toUpperCase() })
+                );
               }}
               onBlur={newCarFormik.handleBlur}
               variant="outlined"
@@ -89,20 +127,30 @@ const VehicleInformation = ({
               Enter vehicle location
               <Asterisk color="red" width={8} />
             </label>
-            <InputText
-              type="text"
+            <AutoComplete
+              // type="text"
+              // field="formattedAddress"
+              delay={500}
+              completeMethod={handleFetch}
               name="vehicleLocation"
               id="vehicleLocation"
-              value={titleCase(newCarFormik.values.vehicleLocation)}
-              onChange={(e) => {
-                newCarFormik.handleChange(e);
-                dispatch(setFormikValue({ vehicleLocation: e.target.value }));
+              suggestions={locations}
+              value={newCarFormik.values.vehicleLocation}
+              onChange={(e: AutoCompleteChangeEvent) => {
+                newCarFormik.handleChange(e.value === null ? "" : e.value);
+                dispatch(
+                  setFormikValue({
+                    vehicleLocation: e.value === null ? "" : e.value,
+                  })
+                );
               }}
+              forceSelection
               onBlur={newCarFormik.handleBlur}
               variant="outlined"
-              className={`p-inputtext-sm py-[12px] 
-               
-              hover:border hover:border-[#474747] focus:border focus:border-[#474747] focus:ring-0 px-[14px] rounded-[20px] border border-[#C6C6C6]`}
+              className={`p-inputtext-sm .py-[12px] w-full
+              hover:border hover:border-[#474747] focus:border focus:border-[#474747] focus:ring-0 .px-[14px] rounded-[20px] border border-[#C6C6C6]`}
+              inputClassName={`p-inputtext-sm py-[12px] w-full
+              .hover:border .hover:border-[#474747] .focus:border .focus:border-[#474747] focus:ring-0 px-[14px] rounded-[20px] .border .border-[#C6C6C6]`}
               placeholder="Enter vehicle location"
             />
           </div>

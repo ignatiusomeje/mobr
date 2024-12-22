@@ -93,6 +93,10 @@ export type formikResponse = {
   // updated: Date;
 };
 
+export type googleFetchReponseType = {
+  formattedAddress: string;
+};
+
 export type getByIdFormik = {
   vehicleId: string;
   vehicleCondition: string;
