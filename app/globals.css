@@ -93,3 +93,7 @@ body {
  .p-rating .p-rating-item.p-focus {
   box-shadow: none;
  }
+
+ .p-autocomplete-items-wrapper{
+  @apply max-w-[500px] w-full
+ }
