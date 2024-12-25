@@ -12,6 +12,8 @@ import {
 import { useRouter } from "next/navigation";
 import moment from "moment";
 import CarViewPop from "./carViewPop";
+import { clearMoreInfoPop } from "../_Data/CarSlice";
+import { useAppDispatch } from "@/store/hooks";
 
 const VehicleCard = ({ vehicle }: VehiclesCardType) => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -21,6 +23,7 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
   const [GetAllCarFeatureTrigger, GetAllCarFeature] =
     useLazyGetAllCarFeatureQuery();
   const router = useRouter();
+  const dispatch = useAppDispatch();
   return (
     <div
       className={`.max-w-[300px] hover:border-2 hover:border-[#C6C6C6] bg-[#F9F9F9] border-2 border-[#E2E2E2] rounded-[12px] flex flex-col w-full py-[16px] px-[18px] vehicleCard`}
@@ -87,8 +90,11 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
         <Button
           disabled={deleteACar.isLoading}
           className={`btnChange border bg-[#11975D] text-white w-full .w-[125px] py-[8px] px-[14px] rounded-[12px] focus:ring-0 text-[10px] font-[400] font-square flex justify-center items-center gap-3`}
-          onClick={() =>
+          onClick={() =>{
+
+            dispatch(clearMoreInfoPop())
             router.push(`/dashboard/car-listing/${vehicle?.vehicleId}/`)
+          }
           }
         >
           EDIT
