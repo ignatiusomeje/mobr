@@ -29,6 +29,7 @@ const Page = () => {
         ? carBookingState.Available
         : activeTab.toLowerCase() === "booked"
         ? carBookingState.Booked
+        : activeTab.toLowerCase() === "awaiting approval"? carBookingState.AwaitingApproval
         : carBookingState.Cancelled,
     savedState: savedState.Active,
   });

@@ -13,7 +13,7 @@ const Card = ({ name, total }: cardType) => {
           ? `bg-[#C6EBD7]`
           : name.toLowerCase() === "unverified"
           ? "bg-[#FFD5C9]"
-          : name.toLowerCase() === "verified" && `bg-[#C6EBD7]`
+          : name.toLowerCase() === "verified" ? `bg-[#C6EBD7]`: name.toLowerCase() === "awaiting approval" && `bg-[gold]`
       } w-full mt-4 min-w-[132px] py-[10px] px-[20px] rounded-[8px]`}
     >
       <p

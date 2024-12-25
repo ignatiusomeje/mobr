@@ -277,6 +277,7 @@ export enum carBookingState {
   Available = "Available",
   Booked = "Booked",
   Cancelled = "Cancelled",
+  AwaitingApproval = "AwaitingApproval",
 }
 
 export enum EnergyType {

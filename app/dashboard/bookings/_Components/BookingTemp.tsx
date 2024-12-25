@@ -16,13 +16,16 @@ const BookingTemp = ({
     (state) => state.bookings.getAllBookingsLoading
   );
   const getAllBookings = useAppSelector((state) => state.bookings.bookings);
+  const changeBookingStateLoading = useAppSelector(
+    (state) => state.bookings.changeBookingStateLoading
+  );
   return (
     <div
       className={`h-full flex-grow flex-1 overflow-y-scroll noScroll py-[18px] px-[20px]`}
     >
-      {getAllBookingLoading ? (
+      {getAllBookingLoading || changeBookingStateLoading ? (
         <div className="flex gap-5">
-          {[1, 2, 3, 4,5].map((btn) => (
+          {[1, 2, 3, 4, 5].map((btn) => (
             <Skeleton width="100px" height="37px" key={btn} />
           ))}
         </div>
@@ -38,12 +41,17 @@ const BookingTemp = ({
             // { name: "Pending", number: 30 },
             // { name: "Cancelled", number: 20 },
           ].map((btn) => (
-            <Tab key={btn.name} name={btn.name} setSelected={setSelected} selected={selected === btn.name} />
+            <Tab
+              key={btn.name}
+              name={btn.name}
+              setSelected={setSelected}
+              selected={selected === btn.name}
+            />
           ))}
         </div>
       )}
       <div className={`flex flex-col gap-[24px] mt-5`}>
-        {getAllBookingLoading ? (
+        {getAllBookingLoading || changeBookingStateLoading ? (
           <BookingsLoader />
         ) : (
           <Bookings bookings={getAllBookings} />

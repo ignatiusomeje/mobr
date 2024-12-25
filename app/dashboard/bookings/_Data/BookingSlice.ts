@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
+  changeBookingState,
   getAllBookings,
   getAllBookingsByAUser,
   getAVehicleDamageReport,
@@ -287,6 +288,29 @@ const BookingSlice = createSlice({
       }
     );
 
+    /* change booking state of a vehicle */
+    builder.addMatcher(changeBookingState.matchPending, (state) => {
+      state.changeBookingStateLoading = true;
+    });
+
+    builder.addMatcher(changeBookingState.matchFulfilled, (state) => {
+      state.changeBookingStateLoading = false;
+    });
+
+    builder.addMatcher(
+      changeBookingState.matchRejected,
+      (
+        state,
+        action: PayloadAction<
+          (FetchBaseQueryError & { data?: unknown }) | undefined
+        >
+      ) => {
+        state.changeBookingStateLoading = false;
+        state.bookings = initialState.bookings;
+        state.changeBookingStateError = returnError(action);
+      }
+    );
+
     /* get all car features for a car section */
 
     builder.addMatcher(
@@ -305,7 +329,7 @@ const BookingSlice = createSlice({
         >
       ) => {
         state.featuresError = returnError(action);
-        state.features = initialState.features
+        state.features = initialState.features;
       }
     );
   },

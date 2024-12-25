@@ -63,6 +63,7 @@ export type bookingResponseType = {
 export type changeBookingStateInput = {
   vehichleId: string;
   bookingState: string;
+  bookingId: number;
 };
 
 export type damageReportsResponse = {

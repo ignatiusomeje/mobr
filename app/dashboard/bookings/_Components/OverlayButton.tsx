@@ -9,6 +9,7 @@ import {
   deleteCarInputType,
   getAllCarFeatureInputTypes,
 } from "../../car-listing/_types/CarType";
+import { useChangeBookingStateMutation } from "../_Data/BookingAPI";
 
 const OverlayButton = ({
   value,
@@ -22,6 +23,7 @@ const OverlayButton = ({
   GetAllCarFeatureTrigger: (info: getAllCarFeatureInputTypes) => void;
 }) => {
   const options = useRef<OverlayPanel>(null);
+  const [ChangeBookingStateMutation] = useChangeBookingStateMutation();
   const dispatch = useAppDispatch();
 
   return (
@@ -52,6 +54,13 @@ const OverlayButton = ({
         {value.isPaid && value.bookingState !== bookingState.Booked && (
           <Button
             className={`text-[#222B2E] w-full hover:bg-[#DDE4E6] hover:cursor-pointer block font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
+            onClick={() =>
+              ChangeBookingStateMutation({
+                bookingState: bookingState.Booked,
+                bookingId: value.bookingId,
+                vehichleId: value.vehichleId,
+              })
+            }
           >
             Approve
           </Button>
@@ -61,6 +70,13 @@ const OverlayButton = ({
           value.bookingState !== bookingState.Booked && (
             <Button
               className={`text-[#8D1510] w-full block hover:bg-[#DDE4E6] hover:cursor-pointer font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
+              onClick={() =>
+                ChangeBookingStateMutation({
+                  bookingState: bookingState.Cancelled,
+                  bookingId: value.bookingId,
+                  vehichleId: value.vehichleId,
+                })
+              }
             >
               Cancel
             </Button>

@@ -6,6 +6,7 @@ import {
   getBookingInfoResponseType,
   getCustomerInfoResponseType,
 } from "../_Types/DashboardTypes";
+import { bookingState } from "../bookings/_Types/BookingTypes";
 
 const StatFigure = ({
   name,
@@ -53,7 +54,15 @@ const StatFigure = ({
       </div>
       <div className={`flex gap-2`}>
         {box.map((bx) => (
-          <Card name={bx.state} total={bx.totalCount} key={bx.state} />
+          <Card
+            name={
+              bx.state !== bookingState.AwaitingApproval.toUpperCase()
+                ? bx.state
+                : "Awaiting Approval"
+            }
+            total={bx.totalCount}
+            key={bx.state}
+          />
         ))}
       </div>
     </div>

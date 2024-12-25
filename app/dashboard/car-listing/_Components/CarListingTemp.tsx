@@ -23,14 +23,16 @@ const CarListingTemp = ({
         </div>
       ) : (
         <div className="flex gap-5 pt-[24px] pb-[16px] px-[20px]">
-          {["Available", "Booked", "Cancelled"].map((btn) => (
-            <Tab
-              key={btn}
-              name={btn}
-              activeTab={activeTab}
-              selected={(tab) => setActiveTab(tab)}
-            />
-          ))}
+          {["Available", "Awaiting Approval", "Booked", "Cancelled"].map(
+            (btn) => (
+              <Tab
+                key={btn}
+                name={btn}
+                activeTab={activeTab}
+                selected={(tab) => setActiveTab(tab)}
+              />
+            )
+          )}
         </div>
       )}
       <div className={`flex flex-col gap-[24px]`}>
