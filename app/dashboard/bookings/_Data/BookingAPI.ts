@@ -32,15 +32,19 @@ const BookingApi = CarAPI.injectEndpoints({
 
     changeBookingState: build.mutation<void, changeBookingStateInput>({
       query: ({ ...booking }) => ({
-        url: `/booking/`,
+        url: `/booking/update_booking_State`,
         method: "Put",
-        body: booking,
+        params: { bookingId: booking.bookingId },
+        body: {
+          bookingState: booking.bookingState,
+          vehichleId: booking.vehichleId,
+        },
       }),
       invalidatesTags: ["bookings"],
     }),
 
     getAVehicleDamageReport: build.query<
-    damageReportsResponse[],
+      damageReportsResponse[],
       getDamageReportInput
     >({
       query: ({ ...report }) => ({

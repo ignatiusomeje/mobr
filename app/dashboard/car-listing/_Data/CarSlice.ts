@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { returnError } from "@/store/ErrorHandler";
 import {
+  changeCarBookingState,
   createACarFeature,
   createCarImages,
   deleteACar,
@@ -93,6 +94,8 @@ const initialState: initialStateCar = {
   deleteACarFeatureError: "",
   getAllFeaturesOfAcarLoading: false,
   getAllFeaturesOfAcarError: "",
+  changeCarBookingStateLoading: false,
+  changeCarBookingStateError: "",
 };
 const CarSlice = createSlice({
   name: "cars",
@@ -115,6 +118,9 @@ const CarSlice = createSlice({
       state.deleteACarObjectError = "";
       state.getACarByIdError = "";
       state.getAllFeaturesOfAcarError = "";
+      state.deleteACarFeatureError = "";
+      state.getAllFeaturesOfAcarError = "";
+      state.changeCarBookingStateError = "";
     },
 
     setFetched: (state) => {
@@ -497,6 +503,28 @@ const CarSlice = createSlice({
         state.getACarByIdLoading = false;
         state.carFetchedById = initialState.carFetchedById;
         state.getACarByIdError = returnError(action);
+      }
+    );
+
+    /* change a car booking state */
+    builder.addMatcher(changeCarBookingState.matchPending, (state) => {
+      state.changeCarBookingStateLoading = true;
+    });
+
+    builder.addMatcher(changeCarBookingState.matchFulfilled, (state) => {
+      state.changeCarBookingStateLoading = false;
+    });
+
+    builder.addMatcher(
+      changeCarBookingState.matchRejected,
+      (
+        state,
+        action: PayloadAction<
+          (FetchBaseQueryError & { data?: unknown }) | undefined
+        >
+      ) => {
+        state.changeCarBookingStateLoading = false;
+        state.changeCarBookingStateError = returnError(action);
       }
     );
 

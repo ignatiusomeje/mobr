@@ -34,6 +34,8 @@ export type initialStateCar = {
   deleteACarFeatureError: string;
   getAllFeaturesOfAcarLoading: boolean;
   getAllFeaturesOfAcarError: string;
+  changeCarBookingStateLoading: boolean;
+  changeCarBookingStateError: string;
 };
 
 export type updateCarInputType = {
@@ -196,6 +198,11 @@ export type deleteCarInputType = {
 
 export type deleteFeatureInputType = {
   featureId: string;
+};
+
+export type changeCarBookingStateInputType = {
+  vehicleId: string;
+  carBookingState: carBookingState;
 };
 
 export type deleteCarResponseImageType = {

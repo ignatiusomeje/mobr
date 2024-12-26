@@ -1,10 +1,11 @@
-import { CircleGauge, PencilLine, X } from "lucide-react";
+import { CircleGauge, Eye, EyeOff, PencilLine, X } from "lucide-react";
 import Image from "next/image";
 import { Button } from "primereact/button";
 import React, { useState } from "react";
-import { VehiclesCardType } from "../_types/CarType";
+import { carBookingState, VehiclesCardType } from "../_types/CarType";
 import CarImageShow from "./CarImageShow";
 import {
+  useChangeCarBookingStateMutation,
   useDeleteACarMutation,
   useLazyGetACarByIdQuery,
   useLazyGetAllCarFeatureQuery,
@@ -14,6 +15,7 @@ import moment from "moment";
 import CarViewPop from "./carViewPop";
 import { clearMoreInfoPop } from "../_Data/CarSlice";
 import { useAppDispatch } from "@/store/hooks";
+import { Tooltip } from "primereact/tooltip";
 
 const VehicleCard = ({ vehicle }: VehiclesCardType) => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -22,6 +24,7 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
   const [GetACarByIdTrigger, GetACarById] = useLazyGetACarByIdQuery();
   const [GetAllCarFeatureTrigger, GetAllCarFeature] =
     useLazyGetAllCarFeatureQuery();
+  const [ChangeCarBookingStateMutation] = useChangeCarBookingStateMutation();
   const router = useRouter();
   const dispatch = useAppDispatch();
   return (
@@ -61,20 +64,52 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
             Available from{" "}
             {moment(vehicle.vehicleAvaliableDate).format("MMM D, YYYY")}
           </p>
+
           <Button
             onClick={() => {
               setShowVehicle(true);
               GetACarByIdTrigger({ vehicleId: vehicle.vehicleId });
               GetAllCarFeatureTrigger({ vehicleId: vehicle.vehicleId });
             }}
-            className={`font-square focus:ring-0 p-1 px-2 mt-2 text-[12px] font-[400] text-[#222B2E]`}
+            className={`font-square focus:ring-0 text-[#11975D] uppercase .p-1 .px-2 mt-2 text-[12px] font-[400] .text-[#222B2E]`}
           >
             View Vehicle
           </Button>
         </div>
-        <p className={`font-square text-[12px] font-[400] text-[#222B2E]`}>
-          <span className={`font-bold`}>${vehicle.vehicleRentalPrice}</span>/day
-        </p>
+        <div>
+          <p className={`font-square text-[12px] font-[400] text-[#222B2E]`}>
+            <span className={`font-bold`}>${vehicle.vehicleRentalPrice}</span>
+            /day
+          </p>
+          <Tooltip target=".show" className={`max-w-[150px] text-[12px]`} />
+          {vehicle.carBookingState === carBookingState.Available ? (
+            <EyeOff
+              onClick={() =>
+                ChangeCarBookingStateMutation({
+                  vehicleId: vehicle.vehicleId,
+                  carBookingState: carBookingState.Cancelled,
+                })
+              }
+              data-pr-tooltip="Make Unavailable"
+              color="#8D1510"
+              className={`cursor-pointer ms-auto show`}
+              width={14}
+            />
+          ) : (
+            <Eye
+              onClick={() =>
+                ChangeCarBookingStateMutation({
+                  vehicleId: vehicle.vehicleId,
+                  carBookingState: carBookingState.Available,
+                })
+              }
+              data-pr-tooltip="Make Available"
+              color="#11975D"
+              className={`cursor-pointer ms-auto show`}
+              width={14}
+            />
+          )}
+        </div>
       </div>
 
       <div className={`flex gap-2 pt-[16px] mt-auto w-full justify-between`}>
@@ -90,12 +125,10 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
         <Button
           disabled={deleteACar.isLoading}
           className={`btnChange border bg-[#11975D] text-white w-full .w-[125px] py-[8px] px-[14px] rounded-[12px] focus:ring-0 text-[10px] font-[400] font-square flex justify-center items-center gap-3`}
-          onClick={() =>{
-
-            dispatch(clearMoreInfoPop())
-            router.push(`/dashboard/car-listing/${vehicle?.vehicleId}/`)
-          }
-          }
+          onClick={() => {
+            dispatch(clearMoreInfoPop());
+            router.push(`/dashboard/car-listing/${vehicle?.vehicleId}/`);
+          }}
         >
           EDIT
           <PencilLine width={14} />

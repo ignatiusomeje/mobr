@@ -3,6 +3,7 @@ import {
   addCarFeatureToVehicleInputTypes,
   allCarInputType,
   carResponseType,
+  changeCarBookingStateInputType,
   createACarFeatureInputTypes,
   createACarFeatureResponseTypes,
   createCarInputImageType,
@@ -196,6 +197,18 @@ const CarApi = CarAPI.injectEndpoints({
       }),
       invalidatesTags: ["carFeature"],
     }),
+
+    /* Change Car booking state  */
+    changeCarBookingState: build.mutation<void, changeCarBookingStateInputType>(
+      {
+        query: ({ ...carState }) => ({
+          url: `/vehicle`,
+          method: "Put",
+          body: carState,
+        }),
+        invalidatesTags: ["cars"],
+      }
+    ),
   }),
 });
 
@@ -218,7 +231,8 @@ export const {
   useLazyGetACarByIdQuery,
   useDeleteACarFeatureMutation,
   useGetAllFeaturesOfAcarQuery,
-  useLazyGetAllFeaturesOfAcarQuery
+  useLazyGetAllFeaturesOfAcarQuery,
+  useChangeCarBookingStateMutation,
 } = CarApi;
 export const {
   createCarImages,
@@ -229,7 +243,7 @@ export const {
   updateACarFeature,
   addCarFeatureToVehicle,
   getAllCarFeature,
-
+  changeCarBookingState,
   getAllCars,
   getAllCarFeatureForDisplay,
   publishACar,

@@ -19,6 +19,9 @@ const Page = () => {
     (state) => state.bookings.getACarByIdError
   );
   const featuresError = useAppSelector((state) => state.bookings.featuresError);
+  const changeCarBookingStateError = useAppSelector(
+    (state) => state.bookings.changeBookingStateError
+  );
   const getAllCarsLoading = useAppSelector(
     (state) => state.cars.getAllCarsLoading
   );
@@ -29,7 +32,8 @@ const Page = () => {
         ? carBookingState.Available
         : activeTab.toLowerCase() === "booked"
         ? carBookingState.Booked
-        : activeTab.toLowerCase() === "awaiting approval"? carBookingState.AwaitingApproval
+        : activeTab.toLowerCase() === "awaiting approval"
+        ? carBookingState.AwaitingApproval
         : carBookingState.Cancelled,
     savedState: savedState.Active,
   });
@@ -52,6 +56,9 @@ const Page = () => {
   } else if (featuresError) {
     showError(featuresError);
     dispatch(clearBookingError());
+  } else if (changeCarBookingStateError) {
+    showError(changeCarBookingStateError);
+    dispatch(clearCarError());
   }
 
   return (

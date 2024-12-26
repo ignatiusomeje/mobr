@@ -6,6 +6,7 @@ import Link from "next/link";
 import VehicleCardLoader from "./VehicleCardLoader";
 import { Skeleton } from "primereact/skeleton";
 import { carListingTempType } from "../_types/CarType";
+import { useAppSelector } from "@/store/hooks";
 
 const CarListingTemp = ({
   activeTab,
@@ -13,11 +14,14 @@ const CarListingTemp = ({
   cars,
   getAllCarsLoading,
 }: carListingTempType) => {
+  const changeCarBookingStateLoading = useAppSelector(
+    (state) => state.cars.changeCarBookingStateLoading
+  );
   return (
     <div className={`h-full flex-grow flex-1 overflow-y-scroll noScroll `}>
-      {getAllCarsLoading ? (
+      {getAllCarsLoading || changeCarBookingStateLoading ? (
         <div className="flex gap-5 pt-[24px] pb-[16px] px-[20px]">
-          {[1, 2, 3].map((btn) => (
+          {[1, 2, 3, 4].map((btn) => (
             <Skeleton width="100px" height="37px" key={btn} />
           ))}
         </div>
@@ -36,7 +40,7 @@ const CarListingTemp = ({
         </div>
       )}
       <div className={`flex flex-col gap-[24px]`}>
-        {getAllCarsLoading ? (
+        {getAllCarsLoading || changeCarBookingStateLoading ? (
           <div
             className={`py-[16px] flex items-center justify-between w-full border-b-[0.6px] border-[#C6C6C6]`}
           >
@@ -62,7 +66,7 @@ const CarListingTemp = ({
             )}
           </div>
         )}
-        {getAllCarsLoading ? (
+        {getAllCarsLoading || changeCarBookingStateLoading ? (
           <div className={`grid grid-cols-4 gap-[12px]`}>
             {[1, 2, 3, 4, 5, 6, 7, 8].map((car) => (
               <VehicleCardLoader key={car} />
