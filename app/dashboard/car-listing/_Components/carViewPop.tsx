@@ -37,7 +37,7 @@ const CarViewPop = ({
       }}
       content={({ hide }) => (
         <div
-          className={`rounded-[20px] px-[32px] h-full flex flex-col gap-[20px] bg-[#F9F9F9] pt-[32px] pb-[60px] border border-[#C6C6C6]`}
+          className={`rounded-[20px] px-[32px] h-full noScroll overflow-y-scroll flex flex-col gap-[20px] bg-[#F9F9F9] pt-[32px] pb-[60px] border border-[#C6C6C6]`}
         >
           <div className={`flex justify-between items-center`}>
             <h4

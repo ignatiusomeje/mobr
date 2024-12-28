@@ -94,6 +94,7 @@ const FeaturePop = ({
             {name.toLowerCase() === "availability" ? (
               <Calendar
                 dateFormat="dd/mm/yy"
+                minDate={new Date()}
                 // selectOtherMonths={true}
                 value={newCarFormik.values.vehicleAvaliableDate}
                 onChange={(e) => handleChange(e.value, "vehicleAvaliableDate")}

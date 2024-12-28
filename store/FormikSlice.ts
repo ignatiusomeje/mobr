@@ -18,7 +18,7 @@ const initialState: initialStateFormik = {
     energyType: EnergyType.Petrol,
     vehicleDescription: "",
     vehicleRentalPrice: 0,
-    vehicleAvaliableDate: new Date(0).toISOString(),
+    vehicleAvaliableDate: new Date().toISOString(),
     // vehicleFeatures: [],
     vehicleImages: [],
   },

@@ -65,9 +65,7 @@ const OverlayButton = ({
             Approve
           </Button>
         )}
-        {value.isPaid &&
-          value.bookingState !== bookingState.Cancelled &&
-          value.bookingState !== bookingState.Booked && (
+        {value.bookingState !== bookingState.Cancelled && (
             <Button
               className={`text-[#8D1510] w-full block hover:bg-[#DDE4E6] hover:cursor-pointer font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
               onClick={() =>
