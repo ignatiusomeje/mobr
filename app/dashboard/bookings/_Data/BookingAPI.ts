@@ -4,6 +4,8 @@ import {
   changeBookingStateInput,
   damageReportsResponse,
   getDamageReportInput,
+  getDestinationLocationInput,
+  locationResponseType,
 } from "../_Types/BookingTypes";
 
 const BookingApi = CarAPI.injectEndpoints({
@@ -53,6 +55,16 @@ const BookingApi = CarAPI.injectEndpoints({
         params: report,
       }),
     }),
+
+    getDestinationLocation: build.query<
+      locationResponseType,
+      getDestinationLocationInput
+    >({
+      query: ({ ...location }) => ({
+        url: `/Geolocation/${location.locationId}`,
+        method: "Get",
+      }),
+    }),
   }),
 });
 
@@ -62,6 +74,7 @@ export const {
   useChangeBookingStateMutation,
   useGetAVehicleDamageReportQuery,
   useLazyGetAVehicleDamageReportQuery,
+  useLazyGetDestinationLocationQuery,
   // useLazyGetACarByIdQuery,
 } = BookingApi;
 export const {
@@ -69,4 +82,5 @@ export const {
   getAllBookingsByAUser,
   changeBookingState,
   getAVehicleDamageReport,
+  getDestinationLocation,
 } = BookingApi.endpoints;

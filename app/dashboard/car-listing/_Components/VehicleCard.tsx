@@ -64,8 +64,47 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
             Available from{" "}
             {moment(vehicle.vehicleAvaliableDate).format("MMM D, YYYY")}
           </p>
-
-          <Button
+          {/* <div className={`flex gap-2 .justify-between mt-2 items-center`}>
+            <Tooltip target=".show" className={`max-w-[150px] text-[12px]`} />
+            {vehicle.carBookingState === carBookingState.Available ? (
+              <EyeOff
+                onClick={() =>
+                  ChangeCarBookingStateMutation({
+                    vehicleId: vehicle.vehicleId,
+                    carBookingState: carBookingState.Cancelled,
+                  })
+                }
+                data-pr-tooltip="Make Unavailable"
+                color="#8D1510"
+                className={`cursor-pointer .ms-auto show`}
+                width={14}
+              />
+            ) : (
+              <Eye
+                onClick={() =>
+                  ChangeCarBookingStateMutation({
+                    vehicleId: vehicle.vehicleId,
+                    carBookingState: carBookingState.Available,
+                  })
+                }
+                data-pr-tooltip="Make Available"
+                color="#11975D"
+                className={`cursor-pointer .ms-auto show`}
+                width={14}
+              />
+            )}
+            <Button
+              onClick={() => {
+                setShowVehicle(true);
+                GetACarByIdTrigger({ vehicleId: vehicle.vehicleId });
+                GetAllCarFeatureTrigger({ vehicleId: vehicle.vehicleId });
+              }}
+              className={`font-square focus:ring-0 text-[#11975D] uppercase .p-1 .px-2 .mt-2 text-[12px] font-[400] .text-[#222B2E]`}
+            >
+              View Vehicle
+            </Button>
+          </div> */}
+          {/* <Button
             onClick={() => {
               setShowVehicle(true);
               GetACarByIdTrigger({ vehicleId: vehicle.vehicleId });
@@ -74,45 +113,57 @@ const VehicleCard = ({ vehicle }: VehiclesCardType) => {
             className={`font-square focus:ring-0 text-[#11975D] uppercase .p-1 .px-2 mt-2 text-[12px] font-[400] .text-[#222B2E]`}
           >
             View Vehicle
-          </Button>
+          </Button> */}
         </div>
         <div>
           <p className={`font-square text-[12px] font-[400] text-[#222B2E]`}>
             <span className={`font-bold`}>${vehicle.vehicleRentalPrice}</span>
             /day
           </p>
-          <Tooltip target=".show" className={`max-w-[150px] text-[12px]`} />
-          {vehicle.carBookingState === carBookingState.Available ? (
-            <EyeOff
-              onClick={() =>
-                ChangeCarBookingStateMutation({
-                  vehicleId: vehicle.vehicleId,
-                  carBookingState: carBookingState.Cancelled,
-                })
-              }
-              data-pr-tooltip="Make Unavailable"
-              color="#8D1510"
-              className={`cursor-pointer ms-auto show`}
-              width={14}
-            />
-          ) : (
-            <Eye
-              onClick={() =>
-                ChangeCarBookingStateMutation({
-                  vehicleId: vehicle.vehicleId,
-                  carBookingState: carBookingState.Available,
-                })
-              }
-              data-pr-tooltip="Make Available"
-              color="#11975D"
-              className={`cursor-pointer ms-auto show`}
-              width={14}
-            />
-          )}
         </div>
       </div>
+      <div className={`flex gap-2 pt-2 .justify-between mt-auto items-center`}>
+            <Tooltip target=".show" className={`max-w-[150px] text-[12px]`} />
+            {vehicle.carBookingState === carBookingState.Available ? (
+              <EyeOff
+                onClick={() =>
+                  ChangeCarBookingStateMutation({
+                    vehicleId: vehicle.vehicleId,
+                    carBookingState: carBookingState.Cancelled,
+                  })
+                }
+                data-pr-tooltip="Make Unavailable"
+                color="#8D1510"
+                className={`cursor-pointer .ms-auto show`}
+                width={14}
+              />
+            ) : (
+              <Eye
+                onClick={() =>
+                  ChangeCarBookingStateMutation({
+                    vehicleId: vehicle.vehicleId,
+                    carBookingState: carBookingState.Available,
+                  })
+                }
+                data-pr-tooltip="Make Available"
+                color="#11975D"
+                className={`cursor-pointer .ms-auto show`}
+                width={14}
+              />
+            )}
+            <Button
+              onClick={() => {
+                setShowVehicle(true);
+                GetACarByIdTrigger({ vehicleId: vehicle.vehicleId });
+                GetAllCarFeatureTrigger({ vehicleId: vehicle.vehicleId });
+              }}
+              className={`font-square focus:ring-0 text-[#11975D] uppercase .p-1 .px-2 .mt-2 text-[12px] font-[400] .text-[#222B2E]`}
+            >
+              View Vehicle
+            </Button>
+          </div>
 
-      <div className={`flex gap-2 pt-[16px] mt-auto w-full justify-between`}>
+      <div className={`flex gap-2 pt-[16px] .mt-2 w-full justify-between`}>
         <Button
           disabled={deleteACar.isLoading}
           loading={deleteACar.isLoading}

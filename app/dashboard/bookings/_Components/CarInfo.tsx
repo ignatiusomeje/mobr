@@ -17,9 +17,11 @@ import {
 const CarInfo = ({
   GetACarById,
   GetAllCarFeature,
+  GetDestinationLocation,
 }: {
   GetACarById: boolean;
   GetAllCarFeature: boolean;
+  GetDestinationLocation: boolean;
 }) => {
   const carFetched = useAppSelector((state) => state.bookings.carFetchedById);
   const selectedBooking = useAppSelector(
@@ -34,7 +36,7 @@ const CarInfo = ({
   //   "/images/acura.jpg",
   //   "/images/acura.jpg",
   // ];
-  return GetACarById ? (
+  return GetACarById || GetDestinationLocation ? (
     <div
       className={`max-w-[430px] w-full h-full flex justify-center items-center`}
     >
@@ -52,7 +54,9 @@ const CarInfo = ({
       />
       <Button
         onClick={() => {
-          GetAVehicleDamageReportQuery({ vehicleId: carFetched.vehicleId });
+          GetAVehicleDamageReportQuery({
+            BookingId: selectedBooking.bookingId,
+          });
           dispatch(showDamageReportPop({ show: true }));
           dispatch(showBookingPop({ show: false }));
         }}

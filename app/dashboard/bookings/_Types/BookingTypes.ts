@@ -6,8 +6,11 @@ import { customerResponse } from "../../customers/_types/CustomerTypes";
 
 export type initialStateBookings = {
   bookings: bookingResponseType[];
+  location: locationResponseType;
   getAllBookingsLoading: boolean;
   getAllBookingsError: string;
+  getDestinationLocationLoading: boolean;
+  getDestinationLocationError: string;
   carFetchedById: getByIdFormikFormat;
   getACarByIdLoading: boolean;
   getACarByIdError: string;
@@ -37,6 +40,12 @@ export type bookingInputType = {
   name: string;
 };
 
+export type locationResponseType = {
+  locationId: number;
+  pickupLocationName: string;
+  destinationLocationName: string;
+};
+
 export enum bookingState {
   Pending = "Pending",
   Booked = "Booked",
@@ -57,6 +66,7 @@ export type bookingResponseType = {
   returnDate: string;
   customerId: number;
   amountToPay: number;
+  geolocationId: number;
   totalDistance: number;
 };
 
@@ -84,5 +94,9 @@ export type damageImage = {
 };
 
 export type getDamageReportInput = {
-  vehicleId: string;
+  BookingId: number;
+};
+
+export type getDestinationLocationInput = {
+  locationId: number;
 };

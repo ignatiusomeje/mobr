@@ -11,15 +11,17 @@ const BookingHistoryPop = ({
   GetOneCustomer,
   GetACarById,
   GetAllCarFeature,
-  GetOneCustomerTrigger
+  GetOneCustomerTrigger,
+  GetDestinationLocation,
 }: {
   GetACarById: boolean;
   GetOneCustomer: boolean;
-  GetAllCarFeature:boolean
-  GetOneCustomerTrigger:(e:number) => void
+  GetAllCarFeature: boolean;
+  GetDestinationLocation: boolean;
+  GetOneCustomerTrigger: (e: number) => void;
 }) => {
-  const visible = useAppSelector(state => state.bookings.showBookingPop);
-  const dispatch = useAppDispatch()
+  const visible = useAppSelector((state) => state.bookings.showBookingPop);
+  const dispatch = useAppDispatch();
   // showBookingHistory
   // showBookingPop
   return (
@@ -30,7 +32,7 @@ const BookingHistoryPop = ({
       modal
       onHide={() => {
         if (!visible) return;
-        dispatch(showBookingPop({show: false}))
+        dispatch(showBookingPop({ show: false }));
       }}
       content={({ hide }) => (
         <div
@@ -52,8 +54,15 @@ const BookingHistoryPop = ({
           <div
             className={`flex gap-[40px] flex-grow flex-1 overflow-y-scroll noScroll`}
           >
-            <CarInfo GetAllCarFeature={GetAllCarFeature} GetACarById={GetACarById} />
-            <UserInfo GetOneCustomerTrigger={GetOneCustomerTrigger} GetOneCustomer={GetOneCustomer} />
+            <CarInfo
+              GetAllCarFeature={GetAllCarFeature}
+              GetACarById={GetACarById}
+              GetDestinationLocation={GetDestinationLocation}
+            />
+            <UserInfo
+              GetOneCustomerTrigger={GetOneCustomerTrigger}
+              GetOneCustomer={GetOneCustomer}
+            />
           </div>
         </div>
       )}

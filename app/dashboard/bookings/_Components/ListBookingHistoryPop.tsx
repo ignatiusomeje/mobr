@@ -5,7 +5,7 @@ import { Dialog } from "primereact/dialog";
 import UserInfo from "./UserInfo";
 import CarUsedList from "./CarUsedList";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { showBookingHistory } from "../_Data/BookingSlice";
+import { showBookingHistory, showBookingPop } from "../_Data/BookingSlice";
 
 const ListBookingHistoryPop = ({GetOneCustomerTrigger}:{GetOneCustomerTrigger:(e:number) => void}) => {
   const dispatch = useAppDispatch();
@@ -26,6 +26,7 @@ const ListBookingHistoryPop = ({GetOneCustomerTrigger}:{GetOneCustomerTrigger:(e
       onHide={() => {
         if (!visible) return;
         dispatch(showBookingHistory({ show: false }));
+        dispatch(showBookingPop({ show: true }));
       }}
       content={({ hide }) => (
         <div

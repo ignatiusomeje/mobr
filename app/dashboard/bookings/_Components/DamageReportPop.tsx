@@ -3,7 +3,7 @@ import { Dialog } from "primereact/dialog";
 import React from "react";
 import DamageReportCard from "./DamageReportCard";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { showDamageReportPop } from "../_Data/BookingSlice";
+import { showBookingPop, showDamageReportPop } from "../_Data/BookingSlice";
 
 const DamageReportPop = () => {
   const showDamageReport = useAppSelector(
@@ -26,6 +26,7 @@ const DamageReportPop = () => {
       onHide={() => {
         if (!showDamageReport) return;
         dispatch(showDamageReportPop({ show: false }));
+        dispatch(showBookingPop({ show: true }));
       }}
       content={({ hide }) => (
         <div
@@ -45,9 +46,7 @@ const DamageReportPop = () => {
             />
           </div>
           {getAVehicleDamageReportLoading ? (
-            <div
-              className={`w-full h-full flex justify-center items-center`}
-            >
+            <div className={`w-full h-full flex justify-center items-center`}>
               <Loader className={`animate-spin w-[50px] h-[50px]`} />
             </div>
           ) : vehicleDamageReport.length > 0 ? (

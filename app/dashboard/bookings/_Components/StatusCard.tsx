@@ -11,7 +11,7 @@ const StatusCard = ({ name }: { name: string }) => {
           : name.toLowerCase() === "cancelled" ? `text-[#8D1510] bg-[#FFD5C9]`: name.toLowerCase() === "awaitingapproval" && `text-[#000] bg-[gold]`
       }`}
     >
-      {name.toLowerCase() === "awaitingapproval" ? `Awaiting Approval` :name}
+      {name.toLowerCase() === "awaitingapproval" ? `Awaiting` :name}
     </div>
   );
 };

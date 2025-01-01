@@ -17,12 +17,15 @@ import { useAppDispatch } from "@/store/hooks";
 import { setCurrentBooking, showBookingPop } from "../_Data/BookingSlice";
 import ListBookingHistoryPop from "./ListBookingHistoryPop";
 import OverlayButton from "./OverlayButton";
+import { useLazyGetDestinationLocationQuery } from "../_Data/BookingAPI";
 
 const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
   const [GetACarByIdTrigger, GetACarById] = useLazyGetACarByIdQuery();
   const [GetOneCustomerTrigger, GetOneCustomer] = useLazyGetOneCustomerQuery();
   const [GetAllCarFeatureTrigger, GetAllCarFeature] =
     useLazyGetAllCarFeatureQuery();
+  const [GetDestinationLocationQuery, GetDestinationLocation] =
+    useLazyGetDestinationLocationQuery();
   const dispatch = useAppDispatch();
   // const options = useRef<OverlayPanel>(null);
   const data = bookings;
@@ -121,6 +124,7 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
           GetACarByIdTrigger({ vehicleId: e.value.vehichleId });
           GetOneCustomerTrigger({ id: e.value.customerId });
           GetAllCarFeatureTrigger({ vehicleId: e.value.vehichleId });
+          GetDestinationLocationQuery({ locationId: e.value.geolocationId });
         }}
         rows={5}
         rowsPerPageOptions={[5, 10, 25, 50]}
@@ -182,6 +186,7 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
               GetACarByIdTrigger={(info) => GetACarByIdTrigger(info)}
               GetOneCustomerTrigger={(info) => GetOneCustomerTrigger(info)}
               GetAllCarFeatureTrigger={(info) => GetAllCarFeatureTrigger(info)}
+              GetDestinationLocationQuery={(info) => GetDestinationLocationQuery(info)}
             />
           )}
         ></Column>
@@ -190,6 +195,7 @@ const Bookings = ({ bookings }: { bookings: bookingResponseType[] }) => {
         GetACarById={GetACarById.isFetching}
         GetOneCustomer={GetOneCustomer.isFetching}
         GetAllCarFeature={GetAllCarFeature.isFetching}
+        GetDestinationLocation={GetDestinationLocation.isFetching}
         GetOneCustomerTrigger={(id) => GetOneCustomerTrigger({ id: id })}
       />
       <ListBookingHistoryPop

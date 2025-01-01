@@ -18,6 +18,7 @@ const VehicleInfo = ({
   const selectedBooking = useAppSelector(
     (state) => state.bookings.currentBooking
   );
+  const location = useAppSelector((state) => state.bookings.location);
   const [showFeatures, setShowFeatures] = useState<boolean>(false);
   const features = useAppSelector((state) => state.bookings.features);
   const [showMore, setShowMore] = useState<boolean>(false);
@@ -154,22 +155,35 @@ const VehicleInfo = ({
         <h5
           className={`font-inter text-[12px] font-[600] leading-[20px] tracking-[0.3px]`}
         >
-          PICKUP LOCATION
+          LOCATION
+          {/* PICKUP LOCATION */}
         </h5>
         <div className={`flex gap-[8px]`}>
           <MapPin width={14} color="#474747" />
           <div className={`flex flex-col gap-[12px]`}>
-            <h6
-              className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px]`}
-            >
-              {carFetched.vehicleLocation}
-            </h6>
+            <div className={`flex gap-2 items-center`}>
+              <h6
+                className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px]`}
+              >
+                {location?.pickupLocationName}
+              </h6>
+              <span
+                className={`font-inter text-[12px] font-[600] leading-[20px] tracking-[0.3px]`}
+              >
+                to
+              </span>
+              <h6
+                className={`font-inter font-[400] text-[14px] leading-[22px] tracking-[0.25px]`}
+              >
+                {location?.destinationLocationName}
+              </h6>
+            </div>
             <p className={`flex items-center gap-1`}>
               <CarFront width={10} />{" "}
               <span
                 className={`font-inter font-[400] text-[12px] tracking-[0.3px] leading-[20px]`}
               >
-                {selectedBooking.totalDistance}km
+                {selectedBooking.totalDistance.toFixed(2)}km
               </span>
             </p>
           </div>
@@ -178,28 +192,29 @@ const VehicleInfo = ({
       <div
         className={`py-[16px] text-[#303030] border-b border-b-[#E2E2E2] flex flex-col gap-[8px]`}
       >
-        <div className={`py-[16px] text-[#303030] border-b-[#E2E2E2] flex items-center justify-between gap-[8px]`}>
-
-        <h5
-          className={`font-inter text-[12px] font-[600] leading-[20px] tracking-[0.3px]`}
+        <div
+          className={`py-[16px] text-[#303030] border-b-[#E2E2E2] flex items-center justify-between gap-[8px]`}
         >
-          CAR FEATURES
-        </h5>
-        {!showFeatures ? (
-          <Button
-            onClick={() => setShowFeatures(true)}
-            className={`text-[#3A494F] font-inter focus:ring-0 text-[12px] font-[500] leading-[20px] tracking-[0.3px] `}
+          <h5
+            className={`font-inter text-[12px] font-[600] leading-[20px] tracking-[0.3px]`}
           >
-            View all
-          </Button>
-        ) : (
-          <Button
-            onClick={() => setShowFeatures(false)}
-            className={`text-[#3A494F] font-inter focus:ring-0 text-[12px] font-[500] leading-[20px] tracking-[0.3px] `}
-          >
-            View less
-          </Button>
-        )}
+            CAR FEATURES
+          </h5>
+          {!showFeatures ? (
+            <Button
+              onClick={() => setShowFeatures(true)}
+              className={`text-[#3A494F] font-inter focus:ring-0 text-[12px] font-[500] leading-[20px] tracking-[0.3px] `}
+            >
+              View all
+            </Button>
+          ) : (
+            <Button
+              onClick={() => setShowFeatures(false)}
+              className={`text-[#3A494F] font-inter focus:ring-0 text-[12px] font-[500] leading-[20px] tracking-[0.3px] `}
+            >
+              View less
+            </Button>
+          )}
         </div>
         {GetAllCarFeature ? (
           <div>
@@ -226,7 +241,6 @@ const VehicleInfo = ({
             </div>
           )
         )}
-        
       </div>
       <div
         className={`py-[16px] border-b border-b-[#E2E2E2] text-[#303030] flex flex-col gap-[8px]`}

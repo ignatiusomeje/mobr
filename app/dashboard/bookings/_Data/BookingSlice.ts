@@ -4,12 +4,14 @@ import {
   getAllBookings,
   getAllBookingsByAUser,
   getAVehicleDamageReport,
+  getDestinationLocation,
 } from "./BookingAPI";
 import {
   bookingResponseType,
   bookingState,
   damageReportsResponse,
   initialStateBookings,
+  locationResponseType,
 } from "../_Types/BookingTypes";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { returnError } from "@/store/ErrorHandler";
@@ -28,6 +30,11 @@ import { customerResponse } from "../../customers/_types/CustomerTypes";
 const initialState: initialStateBookings = {
   bookings: [],
   getAllBookingsLoading: false,
+  location: {
+    destinationLocationName: "",
+    locationId: 0,
+    pickupLocationName: "",
+  },
   getAllBookingsError: "",
   carFetchedById: {
     averageVehicleRating: 0,
@@ -86,6 +93,7 @@ const initialState: initialStateBookings = {
     customerId: 0,
     amountToPay: 0,
     totalDistance: 0,
+    geolocationId: 0,
   },
   showLicense: false,
   licenseURL: "",
@@ -95,6 +103,8 @@ const initialState: initialStateBookings = {
   showBookingPop: false,
   getAllBookingsByAUserLoading: false,
   getAllBookingsByAUserError: "",
+  getDestinationLocationLoading: false,
+  getDestinationLocationError: "",
   changeBookingStateLoading: false,
   changeBookingStateError: "",
   getAVehicleDamageReportLoading: false,
@@ -308,6 +318,36 @@ const BookingSlice = createSlice({
         state.changeBookingStateLoading = false;
         state.bookings = initialState.bookings;
         state.changeBookingStateError = returnError(action);
+      }
+    );
+
+    /* get the location of vehicle/bookings */
+    builder.addMatcher(getDestinationLocation.matchPending, (state) => {
+      state.getDestinationLocationLoading = true;
+    });
+
+    builder.addMatcher(
+      getDestinationLocation.matchFulfilled,
+      (state, action: PayloadAction<locationResponseType>) => {
+        state.getDestinationLocationLoading = false;
+        state.location.destinationLocationName =
+          action.payload.destinationLocationName;
+        state.location.locationId = action.payload.locationId;
+        state.location.pickupLocationName = action.payload.pickupLocationName;
+      }
+    );
+
+    builder.addMatcher(
+      getDestinationLocation.matchRejected,
+      (
+        state,
+        action: PayloadAction<
+          (FetchBaseQueryError & { data?: unknown }) | undefined
+        >
+      ) => {
+        state.getDestinationLocationLoading = false;
+        state.location = initialState.location;
+        state.getDestinationLocationError = returnError(action);
       }
     );
 

@@ -1,7 +1,11 @@
 import { Button } from "primereact/button";
 import { OverlayPanel } from "primereact/overlaypanel";
 import React, { useRef } from "react";
-import { bookingResponseType, bookingState } from "../_Types/BookingTypes";
+import {
+  bookingResponseType,
+  bookingState,
+  getDestinationLocationInput,
+} from "../_Types/BookingTypes";
 import { useAppDispatch } from "@/store/hooks";
 import { setCurrentBooking, showBookingPop } from "../_Data/BookingSlice";
 import { customerIDInputType } from "@/app/(Login)/_types/loginTypes";
@@ -16,11 +20,13 @@ const OverlayButton = ({
   GetACarByIdTrigger,
   GetOneCustomerTrigger,
   GetAllCarFeatureTrigger,
+  GetDestinationLocationQuery,
 }: {
   value: bookingResponseType;
   GetACarByIdTrigger: (info: deleteCarInputType) => void;
   GetOneCustomerTrigger: (info: customerIDInputType) => void;
   GetAllCarFeatureTrigger: (info: getAllCarFeatureInputTypes) => void;
+  GetDestinationLocationQuery: (info: getDestinationLocationInput) => void;
 }) => {
   const options = useRef<OverlayPanel>(null);
   const [ChangeBookingStateMutation] = useChangeBookingStateMutation();
@@ -46,6 +52,7 @@ const OverlayButton = ({
             GetACarByIdTrigger({ vehicleId: value.vehichleId });
             GetOneCustomerTrigger({ id: value.customerId });
             GetAllCarFeatureTrigger({ vehicleId: value.vehichleId });
+            GetDestinationLocationQuery({ locationId: value.geolocationId });
           }}
           className={`text-[#222B2E] w-full hover:bg-[#DDE4E6] hover:cursor-pointer block font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
         >
@@ -66,19 +73,19 @@ const OverlayButton = ({
           </Button>
         )}
         {value.bookingState !== bookingState.Cancelled && (
-            <Button
-              className={`text-[#8D1510] w-full block hover:bg-[#DDE4E6] hover:cursor-pointer font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
-              onClick={() =>
-                ChangeBookingStateMutation({
-                  bookingState: bookingState.Cancelled,
-                  bookingId: value.bookingId,
-                  vehichleId: value.vehichleId,
-                })
-              }
-            >
-              Cancel
-            </Button>
-          )}
+          <Button
+            className={`text-[#8D1510] w-full block hover:bg-[#DDE4E6] hover:cursor-pointer font-square focus:ring-0 text-[16px] font-[400] py-[10px] px-[12px]`}
+            onClick={() =>
+              ChangeBookingStateMutation({
+                bookingState: bookingState.Cancelled,
+                bookingId: value.bookingId,
+                vehichleId: value.vehichleId,
+              })
+            }
+          >
+            Cancel
+          </Button>
+        )}
       </OverlayPanel>
     </div>
   );
